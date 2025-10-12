@@ -1,17 +1,13 @@
 <template>
   <q-item
     clickable
-    tag="a"
-    target="_blank"
-    :href="link"
+    :to="!isExternal ? link : undefined"
+    @click="handleClick"
+    active-class="q-item--active"
   >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
+    <q-item-section avatar>
       <q-icon :name="icon" />
     </q-item-section>
-
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
       <q-item-label caption>{{ caption }}</q-item-label>
@@ -20,16 +16,25 @@
 </template>
 
 <script setup lang="ts">
-export interface EssentialLinkProps {
-  title: string;
-  caption?: string;
-  link?: string;
-  icon?: string;
-};
+import { useRouter } from 'vue-router'
 
-withDefaults(defineProps<EssentialLinkProps>(), {
-  caption: '',
-  link: '#',
-  icon: '',
-});
+export interface EssentialLinkProps {
+  title: string
+  caption: string
+  icon: string
+  link: string
+}
+
+const $router = useRouter()
+const props = defineProps<EssentialLinkProps>()
+
+const isExternal = props.link.startsWith('http')
+
+async function handleClick() {
+  if (isExternal) {
+    window.open(props.link, '_blank')
+  } else {
+    await $router.push(props.link)
+  }
+}
 </script>
