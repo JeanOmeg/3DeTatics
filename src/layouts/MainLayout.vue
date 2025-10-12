@@ -3,13 +3,12 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title>3D&Tatics Codex</q-toolbar-title>
-        <div>v{{ $q.version }}</div>
+        <q-toolbar-title>3D&Tatics</q-toolbar-title>
+        <div>v {{ '1.0.0' }}</div>
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Menu Principal </q-item-label>
         <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
@@ -21,14 +20,19 @@ import { ref } from 'vue'
 import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue'
 
 const linksList: EssentialLinkProps[] = [
-  { title: 'Aprenda o Jogo', caption: 'Regras e exemplos', icon: 'school', link: '/aprender' },
+  { title: 'Aprenda o Jogo', caption: 'Regras e exemplos', icon: 'school', link: '/regras' },
   {
     title: 'Vantagens & Desvantagens',
-    caption: 'Características dos personagens',
+    caption: 'Características especiais dos Heróis',
     icon: 'bolt',
     link: '/vantagens',
   },
-  { title: 'Codex', caption: 'Monte seu exército', icon: 'military_tech', link: '/codex' },
+  {
+    title: 'Criador de Grupo',
+    caption: 'Monte seu Grupo de Heróis',
+    icon: 'military_tech',
+    link: '/grupo',
+  },
   {
     title: 'Github',
     caption: 'Projeto no GitHub',

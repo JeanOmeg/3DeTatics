@@ -7,80 +7,83 @@ import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 export default defineConfigWithVueTs(
   {
-    /**
-     * Ignore the following files.
-     * Please note that pluginQuasar.configs.recommended() already ignores
-     * the "node_modules" folder for you (and all other Quasar project
-     * relevant folders and files).
-     *
-     * ESLint requires "ignores" key to be the only one in this object
-     */
-    // ignores: []
+    ignores: ['**/*.js', '!src/**/*.js'],
   },
 
   pluginQuasar.configs.recommended(),
   js.configs.recommended,
-
-  /**
-   * https://eslint.vuejs.org
-   *
-   * pluginVue.configs.base
-   *   -> Settings and rules to enable correct ESLint parsing.
-   * pluginVue.configs[ 'flat/essential']
-   *   -> base, plus rules to prevent errors or unintended behavior.
-   * pluginVue.configs["flat/strongly-recommended"]
-   *   -> Above, plus rules to considerably improve code readability and/or dev experience.
-   * pluginVue.configs["flat/recommended"]
-   *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
-   */
-  pluginVue.configs[ 'flat/essential' ],
+  pluginVue.configs['flat/essential'],
 
   {
     files: ['**/*.ts', '**/*.vue'],
+
+    languageOptions: {
+      parserOptions: {
+        project: 'tsconfig.json',
+        parser: '@typescript-eslint/parser',
+        projectFolderIgnoreList: [
+          '.github/**/*',
+          '.scannerwork/**/*',
+          '.sonar/**/*',
+          '.vscode/**/*',
+          '.yarn/**/*',
+          '_tests_/**/*',
+          '_utils_/**/*',
+          'eslint.config.js',
+          'dist/**/*',
+          'coverage/**/*',
+          'database/**/*',
+          'src/enum/**/*',
+          'library/**/*',
+          'lib/**/*',
+          'node_modules/**/*',
+          'public/**/*',
+          'utilitarios/**/*',
+          '**/*.test.ts',
+          '*.test.ts',
+        ],
+      },
+    },
+
     rules: {
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports' }
-      ],
-    }
+      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+    },
   },
-  // https://github.com/vuejs/eslint-config-typescript
+
   vueTsConfigs.recommendedTypeChecked,
 
   {
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-
       globals: {
         ...globals.browser,
-        ...globals.node, // SSR, Electron, config files
-        process: 'readonly', // process.env.*
-        ga: 'readonly', // Google Analytics
+        ...globals.node,
+        process: 'readonly',
+        ga: 'readonly',
         cordova: 'readonly',
         Capacitor: 'readonly',
-        chrome: 'readonly', // BEX related
-        browser: 'readonly' // BEX related
-      }
+        chrome: 'readonly',
+        browser: 'readonly',
+      },
     },
 
-    // add your custom rules here
+    // Regras globais
     rules: {
       'prefer-promise-reject-errors': 'off',
-
-      // allow debugger during development only
-      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-    }
+      'no-debugger': process.env.NODE_ENV === 'prod' ? 'error' : 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+    },
   },
 
   {
-    files: [ 'src-pwa/custom-service-worker.ts' ],
+    files: ['src-pwa/custom-service-worker.ts'],
     languageOptions: {
       globals: {
-        ...globals.serviceworker
-      }
-    }
+        ...globals.serviceworker,
+      },
+    },
   },
 
-  prettierSkipFormatting
+  prettierSkipFormatting,
 )

@@ -1,3 +1,8 @@
 {
-  "extends": "./.quasar/tsconfig.json"
+  "extends": "./.quasar/tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue" // ESSENCIAL para incluir os componentes Vue
+    // ... outros arquivos
+  ]
 }
