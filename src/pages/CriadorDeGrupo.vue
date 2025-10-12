@@ -6,6 +6,7 @@
     <div class="row q-gutter-x-md q-mb-lg print-hide">
       <q-btn color="primary" icon="add" label="Adicionar Herói" @click="addCharacter" />
       <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="printArmy" />
+      <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" />
     </div>
 
     <div class="row items-start q-gutter-md">
@@ -23,6 +24,7 @@
 import { ref } from 'vue'
 import type { IHeroi } from './CharacterCard.vue'
 import CharacterCard from './CharacterCard.vue'
+import { LocalStorage } from 'quasar'
 
 const newCharacterTemplate = (): IHeroi => ({
   name: '',
@@ -53,6 +55,10 @@ const addCharacter = () => {
 
 const removeCharacter = (index: number) => {
   armyList.value.splice(index, 1)
+}
+
+function salvarLista() {
+  LocalStorage.set('lista', armyList.value)
 }
 
 const printArmy = () => {
@@ -87,7 +93,7 @@ const printArmy = () => {
     display: flex !important;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 2px;
+    gap: 0;
   }
 
   .character-card {

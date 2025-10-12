@@ -1,143 +1,131 @@
 <template>
-  <q-card class="character-card q-ma-lg" flat bordered>
-    <q-card-section class="row col-12 print-hide" style="max-width: 320px">
-      <div class="row col-12 justify-center text-subtitle1 text-weight-bold">
-        Seletor de Vantagens
-      </div>
+  <div class="row col-3" style="min-width: 320px; max-width: 320px; margin: 0px; padding: 0px">
+    <q-card class="character-card print-hide" flat bordered>
+      <q-card-section>
+        <div class="row justify-center text-subtitle1 text-weight-bold">Seletor de Vantagens</div>
 
-      <div class="row col-12 q-gutter-y-sm">
-        <q-select
-          class="row col-12"
-          outlined
-          v-model="heroi.raca"
-          :options="lista_raca"
-          use-chips
-          stack-label
-          label="Raça"
-        />
-        <q-select
-          class="row col-12"
-          outlined
-          v-model="heroi.kit"
-          multiple
-          :options="lista_kit"
-          use-chips
-          stack-label
-          label="Kits"
-        />
-        <q-select
-          class="row col-12"
-          outlined
-          v-model="heroi.vantagem"
-          multiple
-          :options="lista_vantagem"
-          use-chips
-          stack-label
-          label="Vantagens"
-        />
-        <q-select
-          class="row col-12"
-          outlined
-          v-model="heroi.desvantagem"
-          multiple
-          :options="lista_desvantagem"
-          use-chips
-          stack-label
-          label="Desvantagens"
-        />
-      </div>
-    </q-card-section>
-
-    <q-separator class="print-hide" />
-
-    <q-card-section class="q-pa-sm">
-      <div class="row items-center q-pb-xs">
-        <div class="row col justify-center text-subtitle1 text-weight-bold">3D&Tatics</div>
-
-        <q-btn
-          flat
-          round
-          icon="close"
-          color="negative"
-          size="sm"
-          @click="emit('remove')"
-          class="row justify-end no-print"
-        />
-      </div>
-
-      <div class="row q-x-gutter-sm">
-        <q-input dense outlined v-model="heroi.name" label="Nome" class="col-12 q-mb-xs" />
-        <q-input
-          dense
-          outlined
-          v-model="heroi_construtor.kit"
-          readonly
-          label="Kit"
-          class="col-12 q-mb-xs"
-        />
-        <q-input
-          dense
-          outlined
-          v-model="heroi_construtor.raca"
-          label="Raça"
-          readonly
-          class="col-grow q-mr-xs"
-        />
-        <q-input dense outlined v-model="heroi.ponto" label="Pontos" style="max-width: 80px" />
-      </div>
-    </q-card-section>
-
-    <q-separator />
-
-    <q-card-section class="q-pa-sm">
-      <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
-        <div v-for="stat in caracteristicas" :key="stat.key" class="row col justify-center">
-          {{ stat.label }}
+        <div class="q-gutter-y-sm">
+          <q-select
+            v-model="heroi.raca"
+            outlined
+            use-chips
+            stack-label
+            label="Raça"
+            :options="lista_raca"
+          />
+          <q-select
+            v-model="heroi.kit"
+            outlined
+            multiple
+            use-chips
+            stack-label
+            label="Kits"
+            :options="lista_kit"
+          />
+          <q-select
+            v-model="heroi.vantagem"
+            outlined
+            multiple
+            use-chips
+            stack-label
+            label="Vantagens"
+            :options="lista_vantagem"
+          />
+          <q-select
+            v-model="heroi.desvantagem"
+            outlined
+            multiple
+            use-chips
+            stack-label
+            label="Desvantagens"
+            :options="lista_desvantagem"
+          />
         </div>
-      </div>
-      <div class="row text-center q-gutter-x-xs">
-        <div v-for="stat in caracteristicas" :key="stat.key" class="row col">
-          <q-input dense outlined v-model="heroi.stats[stat.key]" input-class="text-center" />
+      </q-card-section>
+    </q-card>
+
+    <q-card class="character-card q-pa-none q-ma-none" flat bordered>
+      <q-card-section class="q-pt-none q-mt-none">
+        <div class="row items-center q-pa-none q-ma-none">
+          <div class="row col justify-center text-subtitle1 text-weight-bold">3D&Tatics</div>
+
+          <q-btn
+            flat
+            round
+            icon="close"
+            color="negative"
+            size="sm"
+            class="row justify-end no-print"
+            @click="emit('remove')"
+          />
         </div>
-      </div>
-    </q-card-section>
 
-    <q-separator />
-
-    <q-card-section class="q-pa-sm">
-      <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
-        <div v-for="stat in status" :key="stat.key" class="row col justify-center">
-          {{ stat.label }}
+        <div class="row q-x-gutter-sm q-pb-none q-mb-none">
+          <q-input v-model="heroi.name" dense outlined label="Nome" class="col-12 q-mb-xs" />
+          <q-input
+            v-model="heroi_construtor.kit"
+            dense
+            outlined
+            label="Kit"
+            class="col-12 q-mb-xs"
+          />
+          <q-input
+            v-model="heroi_construtor.raca"
+            dense
+            outlined
+            label="Raça"
+            class="col-grow q-mr-xs"
+          />
+          <q-input dense outlined v-model="heroi.ponto" label="Pontos" style="max-width: 80px" />
         </div>
-      </div>
-      <div class="row text-center q-gutter-x-xs">
-        <div v-for="stat in status" :key="stat.key" class="row col">
-          <q-input dense outlined v-model="heroi.stats[stat.key]" input-class="text-center" />
+      </q-card-section>
+
+      <q-card-section class="q-py-none q-my-none">
+        <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
+          <div v-for="stat in caracteristicas" :key="stat.key" class="row col justify-center">
+            {{ stat.label }}
+          </div>
         </div>
-      </div>
-    </q-card-section>
+        <div class="row text-center q-gutter-x-xs">
+          <div v-for="stat in caracteristicas" :key="stat.key" class="row col q-pa-none">
+            <q-input dense outlined v-model="heroi.stats[stat.key]" input-class="text-center" />
+          </div>
+        </div>
+      </q-card-section>
 
-    <q-separator />
+      <q-card-section class="q-py-none q-my-none">
+        <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
+          <div v-for="stat in status" :key="stat.key" class="row col justify-center">
+            {{ stat.label }}
+          </div>
+        </div>
+        <div class="row text-center q-gutter-x-xs">
+          <div v-for="stat in status" :key="stat.key" class="row col">
+            <q-input dense outlined v-model="heroi.stats[stat.key]" input-class="text-center" />
+          </div>
+        </div>
+      </q-card-section>
 
-    <q-card-section class="q-pa-sm">
-      <div class="q-gutter-y-sm">
-        <q-input
-          v-model="heroi_construtor.vantagem"
-          outlined
-          type="textarea"
-          rows="2"
-          input-class="text-primary"
-        />
-        <q-input
-          v-model="heroi_construtor.desvantagem"
-          outlined
-          type="textarea"
-          rows="2"
-          input-class="text-negative"
-        />
-      </div>
-    </q-card-section>
-  </q-card>
+      <q-card-section class="q-pa-sm q-mx-sm">
+        <div class="q-gutter-y-sm">
+          <q-input
+            v-model="heroi_construtor.vantagem"
+            outlined
+            type="textarea"
+            rows="2"
+            input-class="text-primary"
+          />
+          <q-input
+            v-model="heroi_construtor.desvantagem"
+            outlined
+            type="textarea"
+            rows="2"
+            input-class="text-negative"
+          />
+        </div>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -231,13 +219,14 @@ const status: StatItem[] = [
 
 <style scoped>
 .character-card {
-  width: 320px;
+  width: 300px;
   max-width: 100%;
   margin: 5px;
   border-radius: 10px;
   border-color: black !important;
   border-width: 2px;
   background-color: #f7f7f7;
+  padding: 0px !important;
 }
 
 .q-input:deep(.q-field__native) {
@@ -246,7 +235,7 @@ const status: StatItem[] = [
 
 .q-textarea :deep(.q-field__native) {
   resize: none !important;
-  padding-top: 10px;
-  min-height: 50px !important;
+  padding: 2px 0px 2px 0px;
+  min-height: 76px !important;
 }
 </style>
