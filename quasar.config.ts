@@ -1,7 +1,9 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
-import { defineConfig } from '#q-app/wrappers';
+import { defineConfig } from '#q-app/wrappers'
+
+const isProd = process.env.NODE_ENV === 'prod'
 
 export default defineConfig((/* ctx */) => {
   return {
@@ -50,7 +52,7 @@ export default defineConfig((/* ctx */) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/3DeTatics/',
+      publicPath: isProd ? '/3DeTatics/' : '/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -213,5 +215,5 @@ export default defineConfig((/* ctx */) => {
        */
       extraScripts: [],
     },
-  };
-});
+  }
+})

@@ -2,7 +2,7 @@ import { execSync } from 'node:child_process'
 
 try {
   console.log('🔨 Buildando projeto Quasar...')
-  execSync('yarn quasar build -m spa', { stdio: 'inherit' })
+  execSync('cross-env NODE_ENV=production yarn quasar build -m spa', { stdio: 'inherit' })
 
   console.log('📤 Commitando build pra main/docs...')
   execSync('git add .', { stdio: 'inherit' })
