@@ -4,5 +4,6 @@
     "src/**/*.ts",
     "src/**/*.vue" // ESSENCIAL para incluir os componentes Vue
     // ... outros arquivos
-  ]
+  ],
+  "exclude": ["*.config.ts"]
 }

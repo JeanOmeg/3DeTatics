@@ -7,7 +7,7 @@ import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 export default defineConfigWithVueTs(
   {
-    ignores: ['**/*.js', '!src/**/*.js'],
+    ignores: ['**/*.js', '**/*.config.ts', '!src/**/*.js'],
   },
 
   pluginQuasar.configs.recommended(),
@@ -41,6 +41,7 @@ export default defineConfigWithVueTs(
           'utilitarios/**/*',
           '**/*.test.ts',
           '*.test.ts',
+          '*.config.ts',
         ],
       },
     },

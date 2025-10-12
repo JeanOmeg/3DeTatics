@@ -12,7 +12,7 @@
       <CharacterCard
         v-for="(char, index) in armyList"
         :key="index"
-        :initial-character="char"
+        :heroi_inicial="char"
         @remove="removeCharacter(index)"
       />
     </div>
@@ -21,14 +21,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { IHeroi } from './CharacterCard.vue'
 import CharacterCard from './CharacterCard.vue'
 
-// Definição da estrutura básica de um novo personagem (Mantida)
-const newCharacterTemplate = () => ({
+const newCharacterTemplate = (): IHeroi => ({
   name: '',
-  pontos: null,
-  raca: '',
-  kit: '',
+  ponto: null,
+  raca: null,
+  kit: [],
   stats: {
     F: null,
     H: null,
@@ -41,7 +41,8 @@ const newCharacterTemplate = () => ({
     PV: null,
     PM: null,
   },
-  vantagens: '',
+  vantagem: [],
+  desvantagem: [],
 })
 
 const armyList = ref([newCharacterTemplate()])
