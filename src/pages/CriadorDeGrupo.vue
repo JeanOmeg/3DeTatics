@@ -1,21 +1,16 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="row col-12 q-pa-md">
     <div class="text-h4 q-mb-md print-hide">Criador de grupo</div>
     <q-separator class="q-mb-md print-hide" />
 
-    <div class="row q-gutter-x-md q-mb-lg print-hide">
-      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="addCharacter" />
-      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="printArmy" />
-      <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" />
+    <div class="row col-12 q-gutter-md q-mb-lg justify-center print-hide">
+      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="addCharacter" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
+      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="printArmy" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
+      <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
     </div>
 
-    <div class="row items-start q-gutter-md">
-      <CharacterCard
-        v-for="(char, index) in armyList"
-        :key="index"
-        :heroi_inicial="char"
-        @remove="removeCharacter(index)"
-      />
+    <div class="row col-12 items-start q-gutter-md justify-center">
+      <CharacterCard v-for="(char, index) in armyList" :key="index" :heroi_inicial="char" @remove="removeCharacter(index)" />
     </div>
   </q-page>
 </template>

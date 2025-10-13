@@ -5,41 +5,10 @@
         <div class="row justify-center text-subtitle1 text-weight-bold">Seletor de Vantagens</div>
 
         <div class="q-gutter-y-sm">
-          <q-select
-            v-model="heroi.raca"
-            outlined
-            use-chips
-            stack-label
-            label="Raça"
-            :options="lista_raca"
-          />
-          <q-select
-            v-model="heroi.kit"
-            outlined
-            multiple
-            use-chips
-            stack-label
-            label="Kits"
-            :options="lista_kit"
-          />
-          <q-select
-            v-model="heroi.vantagem"
-            outlined
-            multiple
-            use-chips
-            stack-label
-            label="Vantagens"
-            :options="lista_vantagem"
-          />
-          <q-select
-            v-model="heroi.desvantagem"
-            outlined
-            multiple
-            use-chips
-            stack-label
-            label="Desvantagens"
-            :options="lista_desvantagem"
-          />
+          <q-select v-model="heroi.raca" outlined use-chips stack-label label="Raça" :options="lista_raca" />
+          <q-select v-model="heroi.kit" outlined multiple use-chips stack-label label="Kits" :options="lista_kit" />
+          <q-select v-model="heroi.vantagem" outlined multiple use-chips stack-label label="Vantagens" :options="lista_vantagem" />
+          <q-select v-model="heroi.desvantagem" outlined multiple use-chips stack-label label="Desvantagens" :options="lista_desvantagem" />
         </div>
       </q-card-section>
     </q-card>
@@ -49,33 +18,13 @@
         <div class="row items-center q-pa-none q-ma-none">
           <div class="row col justify-center text-subtitle1 text-weight-bold">3D&Tatics</div>
 
-          <q-btn
-            flat
-            round
-            icon="close"
-            color="negative"
-            size="sm"
-            class="row justify-end no-print"
-            @click="emit('remove')"
-          />
+          <q-btn flat round icon="close" color="negative" size="sm" class="row justify-end no-print" @click="emit('remove')" />
         </div>
 
         <div class="row q-x-gutter-sm q-pb-none q-mb-none">
           <q-input v-model="heroi.name" dense outlined label="Nome" class="col-12 q-mb-xs" />
-          <q-input
-            v-model="heroi_construtor.kit"
-            dense
-            outlined
-            label="Kit"
-            class="col-12 q-mb-xs"
-          />
-          <q-input
-            v-model="heroi_construtor.raca"
-            dense
-            outlined
-            label="Raça"
-            class="col q-mr-xs"
-          />
+          <q-input v-model="heroi_construtor.kit" dense outlined label="Kit" class="col-12 q-mb-xs" />
+          <q-input v-model="heroi_construtor.raca" dense outlined label="Raça" class="col q-mr-xs" />
           <q-input dense outlined v-model="heroi.ponto" label="Pontos" style="max-width: 80px" />
         </div>
       </q-card-section>
@@ -108,20 +57,8 @@
 
       <q-card-section class="q-pa-sm">
         <div class="q-gutter-y-sm">
-          <q-input
-            v-model="heroi_construtor.vantagem"
-            outlined
-            type="textarea"
-            rows="2"
-            input-class="text-primary"
-          />
-          <q-input
-            v-model="heroi_construtor.desvantagem"
-            outlined
-            type="textarea"
-            rows="2"
-            input-class="text-negative"
-          />
+          <q-input v-model="heroi_construtor.vantagem" outlined readonly type="textarea" rows="2" input-class="text-primary" />
+          <q-input v-model="heroi_construtor.desvantagem" outlined readonly type="textarea" rows="2" input-class="text-negative" />
         </div>
       </q-card-section>
     </q-card>
@@ -157,15 +94,7 @@ interface StatItem {
 const lista_raca = ref(['Humano', 'Elfo', 'Anão', 'Halfling'])
 const lista_kit = ref(['Guerreiro', 'Mago', 'Clérigo', 'Paladino', 'Arqueiro', 'Ladino'])
 const lista_vantagem = ref(['Vantagem 1', 'Vantagem 2', 'Vantagem 3', 'Vantagem 4', 'Vantagem 5'])
-const lista_desvantagem = ref([
-  'Desvantagem 1',
-  'Desvantagem 2',
-  'Desvantagem 3',
-  'Desvantagem 4',
-  'Desvantagem 5',
-  'Desvantagem 6',
-  'Desvantagem 7',
-])
+const lista_desvantagem = ref(['Desvantagem 1', 'Desvantagem 2', 'Desvantagem 3', 'Desvantagem 4', 'Desvantagem 5', 'Desvantagem 6', 'Desvantagem 7'])
 
 const heroi = ref(
   props.heroi_inicial || {

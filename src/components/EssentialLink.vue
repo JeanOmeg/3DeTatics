@@ -1,10 +1,5 @@
 <template>
-  <q-item
-    clickable
-    :to="!isExternal ? link : undefined"
-    @click="handleClick"
-    active-class="q-item--active"
-  >
+  <q-item clickable :to="!isExternal ? link : undefined" @click="handleClick" active-class="q-item--active">
     <q-item-section avatar>
       <q-icon :name="icon" />
     </q-item-section>
