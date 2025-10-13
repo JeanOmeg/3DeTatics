@@ -45,7 +45,7 @@
     </q-card>
 
     <q-card class="character-card q-pa-none q-ma-none" flat bordered>
-      <q-card-section class="q-pt-none q-mt-none">
+      <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
         <div class="row items-center q-pa-none q-ma-none">
           <div class="row col justify-center text-subtitle1 text-weight-bold">3D&Tatics</div>
 
@@ -80,7 +80,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section class="q-py-none q-my-none">
+      <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
         <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
           <div v-for="stat in caracteristicas" :key="stat.key" class="row col justify-center">
             {{ stat.label }}
@@ -93,7 +93,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section class="q-py-none q-my-none">
+      <q-card-section class="q-py-none q-my-none q-px-sm">
         <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
           <div v-for="stat in status" :key="stat.key" class="row col justify-center">
             {{ stat.label }}
@@ -106,7 +106,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section class="q-pa-sm q-mx-sm">
+      <q-card-section class="q-pa-sm">
         <div class="q-gutter-y-sm">
           <q-input
             v-model="heroi_construtor.vantagem"
