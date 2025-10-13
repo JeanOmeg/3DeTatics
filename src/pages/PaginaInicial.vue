@@ -16,9 +16,4 @@
 import bg from 'src/assets/3detatics.png'
 </script>
 
-<style scoped>
-/* Você pode adicionar estilos específicos aqui se precisar */
-.q-page {
-  margin: 0 auto; /* Centraliza a página de regras */
-}
-</style>
+<style scoped></style>

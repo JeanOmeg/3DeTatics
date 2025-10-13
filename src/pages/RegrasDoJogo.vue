@@ -168,10 +168,4 @@
 
 <script setup lang="ts"></script>
 
-<style scoped>
-/* Você pode adicionar estilos específicos aqui se precisar */
-.q-page {
-  max-width: 1000px; /* Limita a largura para melhor leitura */
-  margin: 0 auto; /* Centraliza a página de regras */
-}
-</style>
+<style scoped></style>

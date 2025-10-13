@@ -1,4 +1,5 @@
-// Configuration for your app
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore// Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app/wrappers'

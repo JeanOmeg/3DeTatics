@@ -1,6 +1,6 @@
 <template>
   <div class="row col-3" style="min-width: 320px; max-width: 320px; margin: 0px; padding: 0px">
-    <q-card class="character-card print-hide" flat bordered>
+    <q-card class="ficha-de-heroi print-hide" flat bordered>
       <q-card-section>
         <div class="row justify-center text-subtitle1 text-weight-bold">Seletor de Vantagens</div>
 
@@ -13,7 +13,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="character-card q-pa-none q-ma-none" flat bordered>
+    <q-card class="ficha-de-heroi q-pa-none q-ma-none" flat bordered>
       <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
         <div class="row items-center q-pa-none q-ma-none">
           <div class="row col justify-center text-subtitle1 text-weight-bold">3D&Tatics</div>
@@ -37,20 +37,20 @@
         </div>
         <div class="row text-center q-gutter-x-xs">
           <div v-for="stat in caracteristicas" :key="stat.key" class="row col q-pa-none">
-            <q-input dense outlined v-model="heroi.stats[stat.key]" input-class="text-center" />
+            <q-input dense outlined v-model="heroi.caracteristicas[stat.key]" input-class="text-center" />
           </div>
         </div>
       </q-card-section>
 
       <q-card-section class="q-py-none q-my-none q-px-sm">
         <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
-          <div v-for="stat in status" :key="stat.key" class="row col justify-center">
+          <div v-for="stat in caracteristicas_status" :key="stat.key" class="row col justify-center">
             {{ stat.label }}
           </div>
         </div>
         <div class="row text-center q-gutter-x-xs">
-          <div v-for="stat in status" :key="stat.key" class="row col">
-            <q-input dense outlined v-model="heroi.stats[stat.key]" input-class="text-center" />
+          <div v-for="stat in caracteristicas_status" :key="stat.key" class="row col">
+            <q-input dense outlined v-model="heroi.caracteristicas[stat.key]" input-class="text-center" />
           </div>
         </div>
       </q-card-section>
@@ -66,6 +66,8 @@
 </template>
 
 <script setup lang="ts">
+import type { IHeroi } from 'src/interfaces/heroi-interface'
+import type { ICaracteristicaItem } from 'src/interfaces/caracteristica-item-interface'
 import { computed, ref } from 'vue'
 
 const emit = defineEmits(['remove'])
@@ -73,23 +75,6 @@ const emit = defineEmits(['remove'])
 const props = defineProps<{
   heroi_inicial?: IHeroi
 }>()
-
-export interface IHeroi {
-  name: string
-  ponto: number | null
-  raca: string | null
-  kit: []
-  stats: { [key: string]: number | null }
-  vantagem: []
-  desvantagem: []
-}
-
-type StatKey = 'F' | 'H' | 'A' | 'R' | 'PdF' | 'FA' | 'FaD' | 'FD' | 'PV' | 'PM'
-
-interface StatItem {
-  label: string
-  key: StatKey
-}
 
 const lista_raca = ref(['Humano', 'Elfo', 'Anão', 'Halfling'])
 const lista_kit = ref(['Guerreiro', 'Mago', 'Clérigo', 'Paladino', 'Arqueiro', 'Ladino'])
@@ -102,7 +87,7 @@ const heroi = ref(
     ponto: null,
     raca: null,
     kit: [],
-    stats: {
+    caracteristicas: {
       F: null,
       H: null,
       A: null,
@@ -129,7 +114,7 @@ const heroi_construtor = computed(() => {
   return hero
 })
 
-const caracteristicas: StatItem[] = [
+const caracteristicas: ICaracteristicaItem[] = [
   { label: 'F', key: 'F' },
   { label: 'H', key: 'H' },
   { label: 'A', key: 'A' },
@@ -137,7 +122,7 @@ const caracteristicas: StatItem[] = [
   { label: 'PdF', key: 'PdF' },
 ]
 
-const status: StatItem[] = [
+const caracteristicas_status: ICaracteristicaItem[] = [
   { label: 'FA', key: 'FA' },
   { label: 'FaD', key: 'FaD' },
   { label: 'FD', key: 'FD' },
@@ -147,14 +132,14 @@ const status: StatItem[] = [
 </script>
 
 <style scoped>
-.character-card {
+.ficha-de-heroi {
   width: 300px;
   max-width: 100%;
   margin: 5px;
   border-radius: 10px;
   border-color: black !important;
   border-width: 2px;
-  background-color: #f7f7f7;
+  background-color: #fff;
   padding: 0px !important;
 }
 

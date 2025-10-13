@@ -7,7 +7,7 @@ import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 export default defineConfigWithVueTs(
   {
-    ignores: ['**/*.js', '**/*.config.ts', '!src/**/*.js'],
+    ignores: ['**/*.js', 'quasar.config.ts', '!src/**/*.js'],
   },
 
   pluginQuasar.configs.recommended(),
@@ -21,28 +21,7 @@ export default defineConfigWithVueTs(
       parserOptions: {
         project: 'tsconfig.json',
         parser: '@typescript-eslint/parser',
-        projectFolderIgnoreList: [
-          '.github/**/*',
-          '.scannerwork/**/*',
-          '.sonar/**/*',
-          '.vscode/**/*',
-          '.yarn/**/*',
-          '_tests_/**/*',
-          '_utils_/**/*',
-          'eslint.config.js',
-          'dist/**/*',
-          'coverage/**/*',
-          'database/**/*',
-          'src/enum/**/*',
-          'library/**/*',
-          'lib/**/*',
-          'node_modules/**/*',
-          'public/**/*',
-          'utilitarios/**/*',
-          '**/*.test.ts',
-          '*.test.ts',
-          '*.config.ts',
-        ],
+        projectFolderIgnoreList: ['.vscode/**/*', 'eslint.config.js', 'docs/**/*', 'node_modules/**/*', 'public/**/*', '*.config.ts'],
       },
     },
 

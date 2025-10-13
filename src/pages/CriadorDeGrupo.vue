@@ -4,59 +4,63 @@
     <q-separator class="q-mb-md print-hide" />
 
     <div class="row col-12 q-gutter-md q-mb-lg justify-center print-hide">
-      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="addCharacter" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
-      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="printArmy" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
+      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="adicionarHeroi" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
+      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="imprimirGrupo" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
       <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
     </div>
 
     <div class="row col-12 items-start q-gutter-md justify-center">
-      <CharacterCard v-for="(char, index) in armyList" :key="index" :heroi_inicial="char" @remove="removeCharacter(index)" />
+      <CompFichaDeHeroi v-for="(char, index) in lista_grupo" :key="index" :heroi_inicial="char" @remove="removerHeroi(index)" />
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { IHeroi } from './CharacterCard.vue'
-import CharacterCard from './CharacterCard.vue'
+import CompFichaDeHeroi from '../components/CompFichaDeHeroi.vue'
 import { LocalStorage } from 'quasar'
+import type { IHeroi } from 'src/interfaces/heroi-interface'
 
-const newCharacterTemplate = (): IHeroi => ({
-  name: '',
-  ponto: null,
-  raca: null,
-  kit: [],
-  stats: {
-    F: null,
-    H: null,
-    A: null,
-    R: null,
-    PdF: null,
-    FA: null,
-    FaD: null,
-    FD: null,
-    PV: null,
-    PM: null,
-  },
-  vantagem: [],
-  desvantagem: [],
-})
+const lista_grupo = ref([novoHeroi()])
 
-const armyList = ref([newCharacterTemplate()])
+function novoHeroi() {
+  const heroi: IHeroi = {
+    name: '',
+    ponto: null,
+    raca: null,
+    kit: [],
+    caracteristicas: {
+      F: null,
+      H: null,
+      A: null,
+      R: null,
+      PdF: null,
+      FA: null,
+      FaD: null,
+      FD: null,
+      PV: null,
+      PM: null,
+    },
+    vantagem: [],
+    desvantagem: [],
+  }
 
-const addCharacter = () => {
-  armyList.value.push(newCharacterTemplate())
+  return heroi
 }
 
-const removeCharacter = (index: number) => {
-  armyList.value.splice(index, 1)
+function adicionarHeroi() {
+  lista_grupo.value.push(novoHeroi())
+}
+
+function removerHeroi(index: number) {
+  lista_grupo.value.splice(index, 1)
 }
 
 function salvarLista() {
-  LocalStorage.set('lista', armyList.value)
+  LocalStorage.set('lista', lista_grupo.value)
 }
 
-const printArmy = () => {
+function imprimirGrupo() {
   window.print()
 }
 </script>
@@ -91,7 +95,7 @@ const printArmy = () => {
     gap: 0;
   }
 
-  .character-card {
+  .ficha-de-heroi {
     margin: 10px !important;
     min-height: 10% !important;
     max-height: 10% !important;
