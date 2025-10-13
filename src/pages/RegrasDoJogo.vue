@@ -1,28 +1,83 @@
 <template>
-  <q-page class="q-pa-md q-gutter-md">
-    <div class="text-h3 text-weight-light q-mb-lg">Regras Básicas do 3D&Tatics</div>
-
+  <q-page class="q-pa-md">
     <q-card flat bordered class="q-mb-lg">
       <q-card-section>
-        <div class="text-h5 q-pb-sm">Capítulo 1: Introdução ao Wargame</div>
+        <div class="text-h4 text-center text-primary q-pb-md">INTRODUÇÃO</div>
         <q-separator />
       </q-card-section>
 
       <q-card-section>
-        <p class="text-body1">Bem-vindo ao 3D&Tatics, um wargame tático em escala que coloca você no comando de exércitos épicos em cenários de fantasia e ficção científica. Antes de mergulhar na construção do seu exército e nas batalhas, é essencial dominar estes conceitos fundamentais.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p class="text-body1">
+          <b>3D&Tatics</b> é um wargame de miniaturas no estilo <b><i>skirmish</i></b
+          >, o skirmish é um tipo de jogo em que cada jogador comanda poucas miniaturas individuais, geralmente representando heróis específicos, em vez de grandes exércitos. 3D&Tatics traz para a mesa a essência dos clássicos eletrônicos de estratégia em turnos, como Final Fantasy Tactics e Fire
+          Emblem. Cada jogador comanda um grupo de heróis representados por miniaturas de RPG e cartas que funcionam como fichas, mostrando atributos e habilidades únicas, no espírito do 3D&T clássico. As batalhas acontecem em tabuleiros que exigem planejamento, posicionamento e uso inteligente de
+          recursos. O jogo é simples de aprender, mas profundo o bastante para desafiar veteranos, entregando partidas intensas em que cada decisão conta. 3D&Tatics combina nostalgia e inovação para quem curte estratégia e o universo 3D&T.
+        </p>
       </q-card-section>
     </q-card>
 
     <q-card flat bordered class="q-mb-lg">
       <q-card-section>
-        <div class="text-h5 q-pb-sm">Capítulo 2: A Estrutura do Turno</div>
+        <div class="text-h4 text-center text-primary q-pb-md">PRINCÍPIOS GERAIS</div>
         <q-separator />
       </q-card-section>
 
-      <q-card-section>
-        <p class="text-body1 q-mb-md">Cada jogo de 3D&Tatics é dividido em rodadas de jogo, e cada rodada é composta por fases sequenciais. Seguir a ordem correta das fases é crucial para a jogabilidade.</p>
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">Regra de ouro</div>
+      </q-card-section>
 
+      <q-card-section>
+        <p class="text-body1">Se uma regra entrar em conflito ou não cobrir uma situação, resolva com bom senso e acordo entre os jogadores. Sempre que possível, informe ao criador do jogo para ajudar a melhorar o 3D&Tatics.</p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">3D&T</div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">Todas as regras do 3D&T Revisado, Ampliado e Turbinado continuam valendo, exceto quando este livro indicar o contrário.</p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">Objetivo</div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">Escaramuça! Ganha quem derrotar os heróis do jogador adversário.</p>
+      </q-card-section>
+    </q-card>
+
+    <q-card flat bordered class="q-mb-lg">
+      <q-card-section>
+        <div class="text-h4 text-center text-primary q-pb-md">CONFIGURAÇÃO</div>
+        <q-separator />
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">Os grupos</div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">No modo normal, o jogo é para 2 jogadores. Em modos alternativos (descritos no capítulo específico), esse número pode variar. Cada jogador monta um grupo do mesmo tamanho: recomendamos o tamanho Novato para iniciantes e Lenda para veteranos.</p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">Tamanho dos grupos</div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Os grupos são divididos em 4 tamanhos, sendo o <b>novato</b> o ideal para conhecer o jogo.<br /><br />
+          <b>Novato (5):</b> 3 heróis de 5 pts + 2 heróis de 7 pts.<br />
+          <b>Lutador (7):</b> 3 heróis de 5 pts + 2 heróis de 7 pts + 2 heróis de 10 pts.<br />
+          <b>Campeão (10):</b> 3 heróis de 5 pts + 3 heróis de 7 pts + 3 heróis de 10 pts + 1 herói de 12 pts.<br />
+          <b>Lenda (12):</b> 3 heróis de 5 pts + 3 heróis de 7 pts + 3 heróis de 10 pts + 3 heróis de 12 pts.
+        </p>
+      </q-card-section>
+    </q-card>
+
+    <!-- <q-card flat bordered class="q-mb-lg">
+      <q-card-section>
         <q-list bordered separator>
           <q-item>
             <q-item-section avatar>
@@ -107,7 +162,7 @@
       </q-card-section>
     </q-card>
 
-    <div class="text-caption text-grey-6 q-mt-xl text-center">Estas são apenas as regras básicas. Para informações detalhadas sobre a construção do exército e regras avançadas, consulte o 'Codex'.</div>
+    <div class="text-caption text-grey-6 q-mt-xl text-center">Estas são apenas as regras básicas. Para informações detalhadas sobre a construção do exército e regras avançadas, consulte o 'Codex'.</div> -->
   </q-page>
 </template>
 

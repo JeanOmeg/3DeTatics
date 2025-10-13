@@ -4,4 +4,10 @@ declare namespace NodeJS {
     VUE_ROUTER_MODE: 'hash' | 'history' | 'abstract' | undefined
     VUE_ROUTER_BASE: string | undefined
   }
+
+  declare module '*.png'
+  declare module '*.jpg'
+  declare module '*.jpeg'
+  declare module '*.gif'
+  declare module '*.svg'
 }

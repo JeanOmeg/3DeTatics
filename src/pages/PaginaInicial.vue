@@ -1,0 +1,24 @@
+<template>
+  <q-page>
+    <div
+      class="row col-12 justify-center"
+      :style="{
+        backgroundImage: `url(${bg})`,
+        backgroundSize: 'cover',
+        height: '100vh',
+        maxWidth: '100vw',
+      }"
+    ></div>
+  </q-page>
+</template>
+
+<script setup lang="ts">
+import bg from 'src/assets/3detatics.png'
+</script>
+
+<style scoped>
+/* Você pode adicionar estilos específicos aqui se precisar */
+.q-page {
+  margin: 0 auto; /* Centraliza a página de regras */
+}
+</style>

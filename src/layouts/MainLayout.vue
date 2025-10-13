@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title>3D&Tatics</q-toolbar-title>
+        <q-toolbar-title @click="paginaInicial">3D&Tatics</q-toolbar-title>
         <div>v {{ '1.0.0' }}</div>
       </q-toolbar>
     </q-header>
@@ -18,6 +18,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue'
+import { useRouter } from 'vue-router'
+
+const $router = useRouter()
 
 const linksList: EssentialLinkProps[] = [
   { title: 'Aprenda o Jogo', caption: 'Regras e exemplos', icon: 'school', link: '/regras' },
@@ -45,5 +48,9 @@ const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+async function paginaInicial() {
+  await $router.push('/')
 }
 </script>

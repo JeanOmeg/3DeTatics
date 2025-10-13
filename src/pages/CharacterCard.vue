@@ -23,8 +23,8 @@
 
         <div class="row q-x-gutter-sm q-pb-none q-mb-none">
           <q-input v-model="heroi.name" dense outlined label="Nome" class="col-12 q-mb-xs" />
-          <q-input v-model="heroi_construtor.kit" dense outlined label="Kit" class="col-12 q-mb-xs" />
-          <q-input v-model="heroi_construtor.raca" dense outlined label="Raça" class="col q-mr-xs" />
+          <q-input v-model="heroi_construtor.kit" readonly dense outlined label="Kit" class="col-12 q-mb-xs" />
+          <q-input v-model="heroi_construtor.raca" readonly dense outlined label="Raça" class="col q-mr-xs" />
           <q-input dense outlined v-model="heroi.ponto" label="Pontos" style="max-width: 80px" />
         </div>
       </q-card-section>
