@@ -74,7 +74,7 @@
             dense
             outlined
             label="Raça"
-            class="col-grow q-mr-xs"
+            class="col q-mr-xs"
           />
           <q-input dense outlined v-model="heroi.ponto" label="Pontos" style="max-width: 80px" />
         </div>
