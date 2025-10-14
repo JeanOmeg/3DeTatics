@@ -1,11 +1,18 @@
 <template>
-  <q-item clickable active-class="q-item--active" :to="!externo ? link : undefined" @click="controladorDeLink">
+  <q-item
+    clickable
+    active-class="q-item--active"
+    :to="!externo ? link : undefined"
+    @click="controladorDeLink"
+  >
     <q-item-section avatar>
       <q-icon :name="icon" />
     </q-item-section>
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
-      <q-item-label caption>{{ caption }}</q-item-label>
+      <q-item-label caption>
+        {{ caption }}
+      </q-item-label>
     </q-item-section>
   </q-item>
 </template>
@@ -25,7 +32,7 @@ const props = defineProps<EssentialLinkProps>()
 
 const externo = props.link.startsWith('http')
 
-async function controladorDeLink() {
+async function controladorDeLink () {
   if (externo) {
     window.open(props.link, '_blank')
   } else {

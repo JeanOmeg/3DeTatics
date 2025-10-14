@@ -2,17 +2,36 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title @click="paginaInicial">3D&Tatics</q-toolbar-title>
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
+        <q-toolbar-title @click="paginaInicial">
+          3D&Tatics
+        </q-toolbar-title>
         <div>v {{ '1.0.0' }}</div>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" show-if-above elevated>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      elevated
+    >
       <q-list>
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+        <EssentialLink
+          v-for="link in linksList"
+          :key="link.title"
+          v-bind="link"
+        />
       </q-list>
     </q-drawer>
-    <q-page-container class="bg-blue"> <router-view /> </q-page-container>
+    <q-page-container class="bg-blue">
+      <router-view />
+    </q-page-container>
   </q-layout>
 </template>
 <script setup lang="ts">
@@ -28,29 +47,29 @@ const linksList: EssentialLinkProps[] = [
     title: 'Vantagens & Desvantagens',
     caption: 'Características especiais dos Heróis',
     icon: 'bolt',
-    link: '/vantagens',
+    link: '/vantagens'
   },
   {
     title: 'Criador de Grupo',
     caption: 'Monte seu Grupo de Heróis',
     icon: 'military_tech',
-    link: '/grupo',
+    link: '/grupo'
   },
   {
     title: 'Github',
     caption: 'Projeto no GitHub',
     icon: 'code',
-    link: 'https://github.com/JeanOmeg/3DeTatIcs',
-  },
+    link: 'https://github.com/JeanOmeg/3DeTatIcs'
+  }
 ]
 
 const leftDrawerOpen = ref(false)
 
-function toggleLeftDrawer() {
+function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-async function paginaInicial() {
+async function paginaInicial () {
   await $router.push('/')
 }
 </script>

@@ -8,7 +8,7 @@
         height: '100vh',
         maxWidth: '100vw',
       }"
-    ></div>
+    />
   </q-page>
 </template>
 

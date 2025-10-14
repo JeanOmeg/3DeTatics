@@ -4,7 +4,7 @@
   "description": "3D&Tatics",
   "productName": "3D&Tatics",
   "author": "jeanfernandespro <jean.fernandes@prodigitalhr.com.br>",
-  "type": "module",
+  "type": "commonjs",
   "private": true,
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",

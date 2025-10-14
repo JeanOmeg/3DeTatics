@@ -1,4 +1,4 @@
-import { execSync } from 'node:child_process'
+const { execSync } = require('child_process')
 
 try {
   console.log('🔨 Buildando projeto Quasar...')

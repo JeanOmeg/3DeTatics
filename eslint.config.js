@@ -1,49 +1,70 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import pluginVue from 'eslint-plugin-vue'
-import pluginQuasar from '@quasar/app-vite/eslint'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
-import standardPkg from 'eslint-config-standard'
-import vueEssentialPkg from 'eslint-plugin-vue/lib/configs/vue3-essential.js'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import pluginImport from 'eslint-plugin-import'
+const eslint_plugin_typescript = require('@typescript-eslint/eslint-plugin')
+const vue_plugin = require('eslint-plugin-vue')
+const vue_parser = require('vue-eslint-parser')
+const parser = require('@typescript-eslint/parser')
+const import_plugin = require('eslint-plugin-import')
+const n_plugin = require('eslint-plugin-n')
+const js = require('@eslint/js')
+const globals = require('globals')
+const pluginVue = require('eslint-plugin-vue')
+const pluginQuasar = require('@quasar/app-vite/eslint')
+const { defineConfigWithVueTs, vueTsConfigs } = require('@vue/eslint-config-typescript')
+const prettierSkipFormatting = require('@vue/eslint-config-prettier/skip-formatting')
+const promise_plugin = require('eslint-plugin-promise')
+const standard = require('eslint-config-standard').rules
+const vue_essential = require('eslint-plugin-vue/lib/configs/vue3-essential').rules
+const ts_recommended = require('@typescript-eslint/eslint-plugin').configs.recommended.rules
+const ts_recommended_type_checking = require('@typescript-eslint/eslint-plugin').configs['recommended-requiring-type-checking'].rules
 
-// Cada pacote exporta de forma diferente, então a gente acessa as regras
-const standard = standardPkg.rules
-const vue_essential = vueEssentialPkg.rules
-const ts_recommended = tsPlugin.configs.recommended.rules
-const ts_recommended_type_checking = tsPlugin.configs['recommended-requiring-type-checking'].rules
-import pluginN from 'eslint-plugin-n'
-import pluginPromise from 'eslint-plugin-promise'
-
-export default defineConfigWithVueTs(
+module.exports = defineConfigWithVueTs(
+  ...vue_plugin.configs['flat/recommended'],
   {
-    ignores: ['**/*.js', 'quasar.config.ts', '!src/**/*.js'],
-  },
-
-  pluginQuasar.configs.recommended(),
-  js.configs.recommended,
-  pluginVue.configs['flat/essential'],
-
-  {
-    files: ['**/*.ts', '**/*.vue'],
-    plugins: {
-      import: pluginImport,
-      n: pluginN,
-      promise: pluginPromise,
-    },
-
+    files: ['src/**/*.{ts,vue}'],
     languageOptions: {
+      parser: vue_parser,
       parserOptions: {
-        project: 'tsconfig.json',
-        parser: '@typescript-eslint/parser',
-        projectFolderIgnoreList: ['.vscode/**/*', 'eslint.config.js', 'docs/**/*', 'node_modules/**/*', 'public/**/*', '*.config.ts'],
+        parser: require.resolve('@typescript-eslint/parser'),
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
+        extraFileExtensions: ['.vue'],
+      },
+      globals: {
+        ga: 'readonly',
+        cordova: 'readonly',
+        __statics: 'readonly',
+        __QUASAR_SSR__: 'readonly',
+        __QUASAR_SSR_SERVER__: 'readonly',
+        __QUASAR_SSR_CLIENT__: 'readonly',
+        __QUASAR_SSR_PWA__: 'readonly',
+        process: 'readonly',
+        Capacitor: 'readonly',
+        chrome: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        caches: 'readonly',
+        setTimeout: 'readonly',
+        FormData: 'readonly',
+        FileReader: 'readonly',
       },
     },
-
+    plugins: {
+      '@typescript-eslint': eslint_plugin_typescript,
+      'import': import_plugin,
+      'n': n_plugin,
+      'vue': vue_plugin,
+      'promise': promise_plugin
+    },
+    ignores: [
+      '.quasar/**/*',
+      '.vscode/**/*',
+      'node_modules/**/*',
+      'public/**/*',
+      'docs/**/*',
+      'eslint.config.js'
+    ],
     rules: {
-      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       // Regras do vue/quasar
       ...ts_recommended,
       ...ts_recommended_type_checking,
@@ -109,44 +130,7 @@ export default defineConfigWithVueTs(
           'CONTENT'
         ],
         'alphabetical': false
-      }],
-    },
-  },
-
-  vueTsConfigs.recommendedTypeChecked,
-
-  {
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        process: 'readonly',
-        ga: 'readonly',
-        cordova: 'readonly',
-        Capacitor: 'readonly',
-        chrome: 'readonly',
-        browser: 'readonly',
-      },
-    },
-
-    // Regras globais
-    rules: {
-      'prefer-promise-reject-errors': 'off',
-      'no-debugger': process.env.NODE_ENV === 'prod' ? 'error' : 'off',
-      '@typescript-eslint/no-floating-promises': 'off',
-    },
-  },
-
-  {
-    files: ['src-pwa/custom-service-worker.ts'],
-    languageOptions: {
-      globals: {
-        ...globals.serviceworker,
-      },
-    },
-  },
-
-  prettierSkipFormatting,
+      }]
+    }
+  }
 )

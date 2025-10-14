@@ -5,5 +5,9 @@
     "src/**/*.vue" // ESSENCIAL para incluir os componentes Vue
     // ... outros arquivos
   ],
-  "exclude": ["quasar.config.ts"]
+  "exclude": [
+    ".vscode",
+    "node_modules",
+    "docs"
+  ]
 }
