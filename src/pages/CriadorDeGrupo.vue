@@ -4,13 +4,17 @@
     <q-separator class="q-mb-md print-hide" />
 
     <div class="row col-12 q-gutter-md q-mb-lg justify-center print-hide">
-      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="adicionarHeroi" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" style="max-height: 36px" />
-      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="imprimirGrupo" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" style="max-height: 36px" />
-      <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" style="max-height: 36px" />
+      <q-btn color="primary" icon="add" label="Adicionar Herói" style="max-height: 36px"
+        :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" @click="adicionarHeroi" />
+      <q-btn color="secondary" icon="print" label="Imprimir Grupo" style="max-height: 36px"
+        :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" @click="imprimirGrupo" />
+      <q-btn color="accent" icon="save" label="Salvar Grupo" style="max-height: 36px"
+        :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" @click="salvarLista" />
     </div>
 
     <div class="row col-12 items-start q-gutter-md justify-center">
-      <CompFichaDeHeroi v-for="(char, index) in lista_grupo" :key="index" :heroi_inicial="char" @remove="removerHeroi(index)" />
+      <CompFichaDeHeroi v-for="(char, index) in lista_grupo" :key="index" :heroi_inicial="char"
+        @remove="removerHeroi(index)" />
     </div>
   </q-page>
 </template>
@@ -26,23 +30,23 @@ const lista_grupo = ref([novoHeroi()])
 function novoHeroi() {
   const heroi: IHeroi = {
     name: '',
-    ponto: null,
-    raca: null,
-    kit: [],
+    ponto: 0,
+    raca: '',
+    kit: '',
     caracteristicas: {
-      F: null,
-      H: null,
-      A: null,
-      R: null,
-      PdF: null,
-      FA: null,
-      FaD: null,
-      FD: null,
-      PV: null,
-      PM: null,
+      F: 0,
+      H: 0,
+      A: 0,
+      R: 0,
+      PdF: 0,
+      FA: 0,
+      FaD: 0,
+      FD: 0,
+      PV: 0,
+      PM: 0,
     },
-    vantagem: [],
-    desvantagem: [],
+    vantagem: '',
+    desvantagem: '',
   }
 
   return heroi
@@ -67,6 +71,7 @@ function imprimirGrupo() {
 
 <style>
 @media print {
+
   html,
   body {
     margin: 0 !important;

@@ -10,4 +10,5 @@ declare namespace NodeJS {
   declare module '*.jpeg'
   declare module '*.gif'
   declare module '*.svg'
+  declare module '#q-app/wrappers'
 }

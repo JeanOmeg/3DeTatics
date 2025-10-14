@@ -1,9 +1,9 @@
 export interface IHeroi {
   name: string
-  ponto: number | null
-  raca: string | null
-  kit: []
-  caracteristicas: { [key: string]: number | null }
-  vantagem: []
-  desvantagem: []
+  ponto: number
+  raca: string
+  kit: string
+  caracteristicas: { [key: string]: number }
+  vantagem: string
+  desvantagem: string
 }
