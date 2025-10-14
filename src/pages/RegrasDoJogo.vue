@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <q-card flat bordered class="q-mb-lg">
       <q-card-section>
-        <div class="text-h4 text-center text-primary q-pb-md">INTRODUÇÃO</div>
+        <div class="text-h4 text-center text-primary q-pb-md"><b>INTRODUÇÃO</b></div>
         <q-separator />
       </q-card-section>
 
@@ -18,12 +18,12 @@
 
     <q-card flat bordered class="q-mb-lg">
       <q-card-section>
-        <div class="text-h4 text-center text-primary q-pb-md">PRINCÍPIOS GERAIS</div>
+        <div class="text-h4 text-center text-primary q-pb-md"><b>PRINCÍPIOS GERAIS</b></div>
         <q-separator />
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">Regra de ouro</div>
+        <div class="text-h5 text-center text-negative"><b>Regra de ouro</b></div>
       </q-card-section>
 
       <q-card-section>
@@ -31,7 +31,7 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">3D&T</div>
+        <div class="text-h5 text-center text-negative"><b>3D&T</b></div>
       </q-card-section>
 
       <q-card-section>
@@ -39,7 +39,7 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">Objetivo</div>
+        <div class="text-h5 text-center text-negative"><b>Objetivo</b></div>
       </q-card-section>
 
       <q-card-section>
@@ -49,12 +49,12 @@
 
     <q-card flat bordered class="q-mb-lg">
       <q-card-section>
-        <div class="text-h4 text-center text-primary q-pb-md">CONFIGURAÇÃO</div>
+        <div class="text-h4 text-center text-primary q-pb-md"><b>CONFIGURAÇÃO</b></div>
         <q-separator />
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">Os grupos</div>
+        <div class="text-h5 text-center text-negative"><b>Os grupos</b></div>
       </q-card-section>
 
       <q-card-section>
@@ -62,7 +62,7 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">Tamanho dos grupos</div>
+        <div class="text-h5 text-center text-negative"><b>Tamanho dos grupos</b></div>
       </q-card-section>
 
       <q-card-section>
@@ -168,4 +168,9 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+.q-page {
+  max-width: 1000px; /* Limita a largura para melhor leitura */
+  margin: 0 auto; /* Centraliza a página de regras */
+}
+</style>

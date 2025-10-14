@@ -1,12 +1,12 @@
 <template>
   <q-page class="row col-12 q-pa-md">
-    <div class="text-h4 q-mb-md print-hide">Criador de grupo</div>
+    <div class="text-h4 text-white q-mb-md print-hide row col-12 justify-center"><b>Criador de grupo</b></div>
     <q-separator class="q-mb-md print-hide" />
 
     <div class="row col-12 q-gutter-md q-mb-lg justify-center print-hide">
-      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="adicionarHeroi" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
-      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="imprimirGrupo" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
-      <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" />
+      <q-btn color="primary" icon="add" label="Adicionar Herói" @click="adicionarHeroi" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" style="max-height: 36px" />
+      <q-btn color="secondary" icon="print" label="Imprimir Grupo" @click="imprimirGrupo" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" style="max-height: 36px" />
+      <q-btn color="accent" icon="save" label="Salvar Grupo" @click="salvarLista" :class="$q.platform.is.mobile ? 'col-12 print-hide' : 'col-3 print-hide'" style="max-height: 36px" />
     </div>
 
     <div class="row col-12 items-start q-gutter-md justify-center">
@@ -97,8 +97,6 @@ function imprimirGrupo() {
 
   .ficha-de-heroi {
     margin: 10px !important;
-    min-height: 10% !important;
-    max-height: 10% !important;
   }
 }
 </style>

@@ -7,12 +7,12 @@
         <div>v {{ '1.0.0' }}</div>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" show-if-above elevated>
       <q-list>
         <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
-    <q-page-container> <router-view /> </q-page-container>
+    <q-page-container class="bg-blue"> <router-view /> </q-page-container>
   </q-layout>
 </template>
 <script setup lang="ts">
