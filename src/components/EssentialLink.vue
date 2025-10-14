@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable :to="!isExternal ? link : undefined" @click="handleClick" active-class="q-item--active">
+  <q-item clickable :to="!externo ? link : undefined" @click="controladorDeLink" active-class="q-item--active">
     <q-item-section avatar>
       <q-icon :name="icon" />
     </q-item-section>
@@ -23,10 +23,10 @@ export interface EssentialLinkProps {
 const $router = useRouter()
 const props = defineProps<EssentialLinkProps>()
 
-const isExternal = props.link.startsWith('http')
+const externo = props.link.startsWith('http')
 
-async function handleClick() {
-  if (isExternal) {
+async function controladorDeLink() {
+  if (externo) {
     window.open(props.link, '_blank')
   } else {
     await $router.push(props.link)
