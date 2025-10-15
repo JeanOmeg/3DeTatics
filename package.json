@@ -3,12 +3,11 @@
   "version": "0.0.1",
   "description": "3D&Tatics",
   "productName": "3D&Tatics",
-  "author": "jeanfernandespro <jean.fernandes@prodigitalhr.com.br>",
+  "author": "JeanOmeg <jeanomeg3@gmail.com>",
   "type": "commonjs",
   "private": true,
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
-    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m spa",
     "build": "quasar build -m spa",

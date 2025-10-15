@@ -4,12 +4,8 @@ const vue_parser = require('vue-eslint-parser')
 const parser = require('@typescript-eslint/parser')
 const import_plugin = require('eslint-plugin-import')
 const n_plugin = require('eslint-plugin-n')
-const js = require('@eslint/js')
-const globals = require('globals')
-const pluginVue = require('eslint-plugin-vue')
 const pluginQuasar = require('@quasar/app-vite/eslint')
-const { defineConfigWithVueTs, vueTsConfigs } = require('@vue/eslint-config-typescript')
-const prettierSkipFormatting = require('@vue/eslint-config-prettier/skip-formatting')
+const { defineConfigWithVueTs } = require('@vue/eslint-config-typescript')
 const promise_plugin = require('eslint-plugin-promise')
 const standard = require('eslint-config-standard').rules
 const vue_essential = require('eslint-plugin-vue/lib/configs/vue3-essential').rules
@@ -65,18 +61,15 @@ module.exports = defineConfigWithVueTs(
       'eslint.config.js'
     ],
     rules: {
-      // Regras do vue/quasar
       ...ts_recommended,
       ...ts_recommended_type_checking,
       ...standard,
       ...vue_essential,
-      // Regras recomendadas do typescript
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/prefer-namespace-keyword': 'off',
       '@typescript-eslint/no-namespace': 'off',
-      // Regras do eslint
       indent: ['error', 2],
       quotes: ['warn', 'single', { avoidEscape: true }],
       semi: ['error', 'never'],
@@ -101,7 +94,6 @@ module.exports = defineConfigWithVueTs(
       'prefer-promise-reject-errors': 'off',
       'camelcase': 'off',
       'eqeqeq': 'off',
-      // Vue
       'vue/component-definition-name-casing': ['error', 'kebab-case'],
       'vue/prop-name-casing': ['error', 'snake_case'],
       'vue/script-setup-uses-vars': 'off',
@@ -112,7 +104,7 @@ module.exports = defineConfigWithVueTs(
       'vue/no-template-shadow': 'off',
       'vue/no-useless-template-attributes': 'off',
       'vue/v-slot-style': 'off',
-      'vue/attribute-hyphenation': 'off', // Desativa erro de innerHTML
+      'vue/attribute-hyphenation': 'off',
       'vue/attributes-order': ['error', {
         'order': [
           'DEFINITION',

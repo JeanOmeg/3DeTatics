@@ -206,6 +206,8 @@
 import type { IHeroi } from 'src/interfaces/heroi-interface'
 import type { ICaracteristicaItem } from 'src/interfaces/caracteristica-item-interface'
 import { ref } from 'vue'
+import { RacasLib } from 'src/libs/racas-lib'
+import { IComboBox } from 'src/interfaces/combobox-interface'
 
 const emit = defineEmits(['remove'])
 
@@ -227,7 +229,7 @@ const lista_combo_seletor = ref([
   { label: 'Não', value: 2 }
 ])
 
-const lista_raca = ref(['Humano', 'Elfo', 'Anão', 'Halfling'])
+const lista_raca = ref(RacasLib.listarRacasCombo())
 const lista_kit = ref(['Guerreiro', 'Mago', 'Clérigo', 'Paladino', 'Arqueiro', 'Ladino'])
 const lista_vantagem = ref(['Vantagem 1', 'Vantagem 2', 'Vantagem 3', 'Vantagem 4', 'Vantagem 5'])
 const lista_desvantagem = ref(['Desvantagem 1', 'Desvantagem 2', 'Desvantagem 3', 'Desvantagem 4', 'Desvantagem 5', 'Desvantagem 6', 'Desvantagem 7'])
@@ -276,8 +278,8 @@ function atualizarComboSeletor (combo: { label: string; value: number }) {
   }
 }
 
-function atualizarComboRaca (combo: string) {
-  heroi.value.raca = combo
+function atualizarComboRaca (combo: IComboBox) {
+  heroi.value.raca = combo.label
 }
 
 function atualizarComboKit (combo: string[]) {
