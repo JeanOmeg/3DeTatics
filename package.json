@@ -11,7 +11,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m spa",
     "build": "quasar build -m spa",
-    "deploy": "node deploy.js",
+    "dep": "node deploy.js",
     "postinstall": "quasar prepare"
   },
   "dependencies": {
