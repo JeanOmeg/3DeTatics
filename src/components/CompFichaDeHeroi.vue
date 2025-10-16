@@ -208,6 +208,8 @@ import type { ICaracteristicaItem } from 'src/interfaces/caracteristica-item-int
 import { ref } from 'vue'
 import { RacasLib } from 'src/libs/racas-lib'
 import { IComboBox } from 'src/interfaces/combobox-interface'
+import { VantagensEDesvantagensLib } from 'src/libs/vantagens-lib'
+import { TipoVantagemEnum } from 'src/enums/tipo-vantagem-enum'
 
 const emit = defineEmits(['remove'])
 
@@ -231,8 +233,8 @@ const lista_combo_seletor = ref([
 
 const lista_raca = ref(RacasLib.listarRacasCombo())
 const lista_kit = ref(['Guerreiro', 'Mago', 'Clérigo', 'Paladino', 'Arqueiro', 'Ladino'])
-const lista_vantagem = ref(['Vantagem 1', 'Vantagem 2', 'Vantagem 3', 'Vantagem 4', 'Vantagem 5'])
-const lista_desvantagem = ref(['Desvantagem 1', 'Desvantagem 2', 'Desvantagem 3', 'Desvantagem 4', 'Desvantagem 5', 'Desvantagem 6', 'Desvantagem 7'])
+const lista_vantagem = ref(VantagensEDesvantagensLib.listarVantagensEDesvantagensCombo(TipoVantagemEnum.vantagem))
+const lista_desvantagem = ref(VantagensEDesvantagensLib.listarVantagensEDesvantagensCombo(TipoVantagemEnum.desvantagem))
 
 const caracteristicas: ICaracteristicaItem[] = [
   { label: 'F', key: 'F' },
@@ -282,16 +284,16 @@ function atualizarComboRaca (combo: IComboBox) {
   heroi.value.raca = combo.label
 }
 
-function atualizarComboKit (combo: string[]) {
-  heroi.value.kit = combo.join(', ')
+function atualizarComboKit (combo: IComboBox[]) {
+  heroi.value.kit = combo.map(item => item.label).join(', ')
 }
 
-function atualizarComboVantagem (combo: string[]) {
-  heroi.value.vantagem = combo.join(', ')
+function atualizarComboVantagem (combo: IComboBox[]) {
+  heroi.value.vantagem = combo.map(item => item.label).join(', ')
 }
 
-function atualizarComboDesvantagem (combo: string[]) {
-  heroi.value.desvantagem = combo.join(', ')
+function atualizarComboDesvantagem (combo: IComboBox[]) {
+  heroi.value.desvantagem = combo.map(item => item.label).join(', ')
 }
 </script>
 
@@ -315,5 +317,7 @@ function atualizarComboDesvantagem (combo: string[]) {
   resize: none !important;
   padding: 2px 0px 2px 0px;
   min-height: 76px !important;
+  line-height: 1 !important;
+  font-size: 11.5px !important;
 }
 </style>
