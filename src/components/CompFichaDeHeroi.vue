@@ -9,8 +9,19 @@
       class="ficha-de-heroi print-hide"
     >
       <q-card-section>
-        <div class="row justify-center text-subtitle1 text-weight-bold">
-          Seletor de Vantagens
+        <div class="row col-12 text-subtitle1 text-weight-bold">
+          <div class="row col-grow justify-center">
+            Seletor de Vantagens
+          </div>
+          <q-btn
+            flat
+            round
+            icon="close"
+            color="negative"
+            size="sm"
+            class="row justify-end no-print"
+            @click="emit('remove')"
+          />
         </div>
 
         <div class="q-gutter-y-sm">
@@ -75,23 +86,7 @@
       bordered
       class="ficha-de-heroi q-pa-none q-ma-none"
     >
-      <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
-        <div class="row items-center q-pa-none q-ma-none">
-          <div class="row col justify-center text-subtitle1 text-weight-bold">
-            3D&Tatics
-          </div>
-
-          <q-btn
-            flat
-            round
-            icon="close"
-            color="negative"
-            size="sm"
-            class="row justify-end no-print"
-            @click="emit('remove')"
-          />
-        </div>
-
+      <q-card-section class="q-pt-xs q-mt-sm q-pb-xs q-mb-xs q-px-sm">
         <div class="row q-x-gutter-sm q-pb-none q-mb-none">
           <q-input
             v-model="heroi.name"
@@ -198,6 +193,25 @@
           />
         </div>
       </q-card-section>
+
+      <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
+        <div class="row col-12">
+          <q-input
+            v-model="heroi.tipo_de_dano_f"
+            dense
+            outlined
+            label="Força"
+            class="col q-mr-sm tipo-de-dano"
+          />
+          <q-input
+            v-model="heroi.tipo_de_dano_pdf"
+            dense
+            outlined
+            label="Poder de Fogo"
+            class="col q-mb-xs tipo-de-dano"
+          />
+        </div>
+      </q-card-section>
     </q-card>
   </div>
 </template>
@@ -232,7 +246,7 @@ const lista_combo_seletor = ref([
 ])
 
 const lista_raca = ref(RacasLib.listarRacasCombo())
-const lista_kit = ref(['Guerreiro', 'Mago', 'Clérigo', 'Paladino', 'Arqueiro', 'Ladino'])
+const lista_kit = ref([{ label: 'Guerreiro', value: 'guerreiro' }, { label: 'Mago', value: 'mago' }])
 const lista_vantagem = ref(VantagensEDesvantagensLib.listarVantagensEDesvantagensCombo(TipoVantagemEnum.vantagem))
 const lista_desvantagem = ref(VantagensEDesvantagensLib.listarVantagensEDesvantagensCombo(TipoVantagemEnum.desvantagem))
 
@@ -266,6 +280,8 @@ function atualizarComboSeletor (combo: { label: string; value: number }) {
   heroi.value.kit = ''
   heroi.value.vantagem = ''
   heroi.value.desvantagem = ''
+  heroi.value.tipo_de_dano_f = ''
+  heroi.value.tipo_de_dano_pdf = ''
   heroi.value.caracteristicas = {
     F: 0,
     H: 0,
@@ -316,8 +332,12 @@ function atualizarComboDesvantagem (combo: IComboBox[]) {
 .q-textarea :deep(.q-field__native) {
   resize: none !important;
   padding: 2px 0px 2px 0px;
-  min-height: 76px !important;
+  min-height: 65px !important;
   line-height: 1 !important;
-  font-size: 11.5px !important;
+  font-size: 11px !important;
+}
+
+.tipo-de-dano {
+  font-size: 12px !important;
 }
 </style>

@@ -70,7 +70,9 @@ function novoHeroi () {
       PM: 0
     },
     vantagem: '',
-    desvantagem: ''
+    desvantagem: '',
+    tipo_de_dano_f: '',
+    tipo_de_dano_pdf: ''
   }
 
   return heroi
@@ -125,7 +127,7 @@ function imprimirGrupo () {
   }
 
   .ficha-de-heroi {
-    margin: 10px !important;
+    margin: 4px !important;
   }
 }
 </style>

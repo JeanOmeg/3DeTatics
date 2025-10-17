@@ -6,4 +6,6 @@ export interface IHeroi {
   caracteristicas: { [key: string]: number }
   vantagem: string
   desvantagem: string
+  tipo_de_dano_f: string
+  tipo_de_dano_pdf: string
 }
