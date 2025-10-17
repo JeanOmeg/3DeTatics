@@ -85,19 +85,31 @@ export namespace VantagensEDesvantagensLib {
         tipo: TipoVantagemEnum.vantagem
       },
       {
-        nome: 'Armadura Extra',
-        custo: '2 a 4 pontos cada',
-        descricao: `Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra o tipo de dano escolhido.
-          O custo depende daquilo a que você é resistente:
-          Qualquer ataque com Poder de Fogo (4 pontos)
-          Qualquer ataque com Força (3 pontos)
-          Magia e Armas Mágicas (3 pontos)
-          Corte; Perfuração; Contusão; Explosão; Calor/Fogo;
-          Frio/Gelo; Luz; Eletricidade; Vento/Som; Químico (Água,
-          Ácido, Venenos...) (2 pontos cada)
-          Veja mais detalhes em Tipos de Dano.
-        `,
-        value: 'armadura_extra',
+        nome: 'Armadura Extra - Normal',
+        custo: '2 pontos cada',
+        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra o tipo de dano escolhido: Corte; Perfuração; Contusão; Explosão; Calor/Fogo; Frio/Gelo; Luz; Eletricidade; Vento/Som; Químico (Água, Ácido, Venenos...).',
+        value: 'armadura_extra_normal',
+        tipo: TipoVantagemEnum.vantagem
+      },
+      {
+        nome: 'Armadura Extra - PdF',
+        custo: '4 pontos',
+        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra ataques com PdF.',
+        value: 'armadura_extra_pdf',
+        tipo: TipoVantagemEnum.vantagem
+      },
+      {
+        nome: 'Armadura Extra - F',
+        custo: '3 pontos',
+        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra ataques com Força (3 pontos).',
+        value: 'armadura_extra_f',
+        tipo: TipoVantagemEnum.vantagem
+      },
+      {
+        nome: 'Armadura Extra - Mágica',
+        custo: '3 pontos',
+        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra ataques com Magia e Armas Mágicas.',
+        value: 'armadura_extra_magica',
         tipo: TipoVantagemEnum.vantagem
       },
       {

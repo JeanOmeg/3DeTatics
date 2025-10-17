@@ -42,12 +42,18 @@ import { useRouter } from 'vue-router'
 const $router = useRouter()
 
 const linksList: EssentialLinkProps[] = [
-  { title: 'Aprenda o Jogo', caption: 'Regras e exemplos', icon: 'school', link: '/regras' },
+  { title: 'Regras', caption: 'Regras do jogo e exemplos', icon: 'school', link: '/regras' },
   {
-    title: 'Vantagens & Desvantagens',
-    caption: 'Características especiais dos Heróis',
-    icon: 'bolt',
+    title: 'Vantagens',
+    caption: 'Vantagens normais, perícias, raciais e de kits',
+    icon: 'add',
     link: '/vantagens'
+  },
+  {
+    title: 'Desvantagens',
+    caption: 'Desvantagens normais, raciais e de kits',
+    icon: 'remove',
+    link: '/desvantagens'
   },
   {
     title: 'Criador de Grupo',
