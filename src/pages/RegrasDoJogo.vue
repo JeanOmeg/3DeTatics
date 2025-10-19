@@ -339,13 +339,13 @@
               spinner-color="white"
               :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
               :style="tamanho_imagem"
-              :src="errado_1"
+              :src="atacar_1"
             />
             <q-img
               spinner-color="white"
               class="row"
               :style="tamanho_imagem"
-              :src="errado_2"
+              :src="atacar_2"
             />
           </div>
           <p class="text-body1">
@@ -453,6 +453,8 @@ import certo_1 from 'src/assets/certo_1.jpg'
 import certo_2 from 'src/assets/certo_2.jpg'
 import errado_1 from 'src/assets/errado_1.jpg'
 import errado_2 from 'src/assets/errado_2.jpg'
+import atacar_1 from 'src/assets/atacar_1.jpg'
+import atacar_2 from 'src/assets/atacar_2.jpg'
 import terreno from 'src/assets/terreno.jpg'
 import { computed } from 'vue'
 
