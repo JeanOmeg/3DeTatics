@@ -109,6 +109,252 @@
           <b>Lenda (12):</b> 3 heróis de 5 pts + 3 heróis de 7 pts + 3 heróis de 10 pts + 3 heróis de 12 pts.
         </p>
       </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Campo de Batalha</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          O tamanho do campo varia conforme o grupo, mas você pode usar qualquer dimensão. Como o jogo não utiliza grids, adotamos duas medidas de referência: pés (’) e polegadas (”).<br><br>
+          <b>1’ (pé):</b> 12” ou 30,5 cm.<br>
+          <b>1” (polegada):</b> 2,5 cm.<br><br>
+          <b>Novato:</b> 2’ x 2’ (24” x 24” / 61cm x 61cm).<br>
+          <b>Lutador:</b> 3’ x 3’ (36” x 36” / 91cm x 91cm).<br>
+          <b>Campeão e Lenda:</b> 4’ x 4’ (48” x 48” / 1,22m x 1,22m).<br>
+        </p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Terrenos</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Como em todo wargame de fantasia, os terrenos criam desafios de movimentação e estratégia. Eles se dividem em quatro grupos.<br><br>
+          <b>campo: </b>Base do campo de batalha (grama, deserto, etc.). Não oferece bônus, penalidades ou condições especiais.<br><br>
+          <b>Intransponível: </b>Áreas que impedem a passagem (montanhas, precipícios, rios de lava, águas profundas, etc.). Só podem ser atravessadas com vantagens específicas, como Voo.<br><br>
+          <b>Bloqueador: </b>Obstáculos sólidos (rochas, muralhas, torres, estátuas, etc.). Bloqueiam visão e movimento, a não ser que o herói possua a perícia Escalar (muro) ou a vantagem Visão de Raio-X.<br><br>
+
+          <b>Floresta: </b>Bosques, selvas, mata fechada, etc.<br>
+          <i>Bônus: </i>FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.<br>
+          <i>Atacar: </i>Caso o atacante esteja fora da floresta, ataques a distância não atravessam para atingir alvos fora dela.<br>
+          <i>Mover: </i>Custa 2” para cada 1” (ex.: herói com 6” move apenas 3”). Pode ser ignorado com vantagens como Arena (Floresta), Voo ou Sobrevivência (Floresta).<br><br>
+          <b>Cobertura: </b>Ruínas, paredes baixas, escombros, caixas e similares, que permitem esconder-se parcialmente.<br>
+          <i>Bônus: </i>FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.<br><br>
+          <b>Difícil: </b>Rios, lama, matas fechadas, escombros, terrenos acidentados e similares.<br>
+          <i>mover: </i>Custa 2” para cada 1”, Ignorado se possuir vantagens como Arena (Lama), Voo ou Natação (no caso de rios) ou perícias/vantagens equivalentes.<br><br>
+
+          <b>Perigoso: </b>Rios de lava, espinhos, areia movediça e similares, que podem ferir ou matar o herói. Ao entrar no terreno, o herói realiza um teste de H-1 na primeira polegada.<br>
+          <i>Falha no teste: </i>Recebe 1D6 de dano e perde o movimento.<br>
+          <i>Repete: </i>O teste deve ser feito novamente na próxima vez que o herói tentar se mover no terreno, até conseguir sair.<br><br>
+
+          <b>Elevado: </b>Colinas, muros, telhados e similares.<br>
+          <i>Altura >3”: </i>Intransponível.<br>
+          <i>Altura ≤3”: </i>Pode ser escalado como parte do movimento, não é permitido terminar o movimento no meio da escalada. Necessário teste de H para escalar, a menos que o herói possua Perícia Escalar ou outra vantagem que dispense o teste.<br>
+          <i>Altura ≤1”: </i>Pode ser ignorado para fins de movimento (não é necessário subir e descer).<br>
+          <i>Cair: </i>Se um herói cair ou for empurrado de uma altura ≥2”, sofre 1D6 de dano para cada 1” completas de queda, após a queda, posicione o herói 2” da base do terreno onde caiu.<br>
+        </p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Montagem de Terreno</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Antes da partida, monte o campo com pelo menos 15 á 20 peças de terreno. Quanto mais terrenos houver, mais estratégica será a partida. Uma boa referência é cobrir cerca de 50% da mesa, distribuindo as peças de forma equilibrada entre os lados. Varie os tipos de terreno para que diferentes unidades e habilidades tenham utilidade durante o jogo. Siga as proporções abaixo:<br><br>
+          <i>50% dos terrenos devem bloquear linha de visão.</i><br>
+          <i>33% devem fornecer cobertura.</i><br>
+          <i>33% devem ser terrenos difíceis.</i><br>
+          <i>Cada jogador escolhe 1 terreno perigoso.</i>
+        </p>
+
+        <div class="row col-12 justify-center q-mt-md">
+          <q-img
+            spinner-color="blue"
+            class="row"
+            :style="`${$q.platform.is.mobile ? 'max-height: 380px; max-width: 380px' : 'max-height: 600px; max-width: 600px'}`"
+            :src="terreno"
+          />
+        </div>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Posicionamento dos heróis</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Cada jogador deve selecionar o herói com a maior pontuação de Iniciativa, considerando o maior valor de H e quaisquer vantagens que concedam bônus à iniciativa. Em seguida, ambos rolam H + bônus (se houver) + 1D6. O jogador com o maior resultado vence a iniciativa e deve escolher um dos quatro lados do campo como sua zona de deploy. O jogador que perder a iniciativa deve jogar no lado oposto.
+          Após definir os lados, o jogador que venceu a iniciativa deve colocar o primeiro herói em campo, a até 12” da borda correspondente ao seu lado. Os jogadores então se alternam, colocando um herói por vez até que todos estejam posicionados. Quando todos os heróis estiverem em campo, ambos os jogadores devem rolar novamente a iniciativa. O vencedor dessa nova rolagem será o primeiro a jogar.
+        </p>
+      </q-card-section>
+    </q-card>
+
+    <q-card
+      flat
+      bordered
+      class="q-mb-lg"
+    >
+      <q-card-section>
+        <div class="text-h4 text-center text-primary q-pb-md">
+          <b>JOGANDO</b>
+        </div>
+        <q-separator />
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Unidade de tempo</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          O jogo é dividido em dois tipo de tempo, turno e rodada, não tem um limite de "tempo de jogo", o jogo finaliza quando todos os heróis do grupo adversário forem derrotados (ou quando alguma condição de modos alternativos forem cumpridas).
+        </p>
+
+        <p class="text-body1">
+          <b>Turno:</b> Cada vez que um herói finaliza suas ações de jogo é considerado um turno.<br>
+          <b>Rodada:</b> Quando todos os heróis em campo finalizarem seus turnos, é considerado uma rodada.<br><br>
+        </p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Ativando Herói</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Cada herói pode ser ativado apenas UMA VÊZ por rodada, exceto em situações de defesa/esquiva ou testes que o valha.<br>
+          Após o herói ser ativado e ter utilizado suas ações, adicione um marcador ao lado do herói, ele só poderá ser ativado novamente no inicio da nova rodada.
+        </p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Ações do Herói</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Cada herói pode executar 3 tipos de ações durante sua ativação. Seguem o mesmo princípio do Manual 3D&T - Revisado, Ampliado e Turbinado.
+        </p>
+
+        <p class="text-body1">
+          <b>Mover (Uma vêz por turno):</b> Todo herói pode se mover 6" (ao menos que outra coisa diga o contrário) por turno, antes ou depois de executar uma Ação.<br>
+          <b>Ação (Uma vêz por turno):</b> Ação geralmente consiste em atacar, usar uma vantagem (algumas vantagens não utilizam ação), uma mágia e afins.<br>
+          <b>Correr (Uma vêz por turno, desde que não tenha usado Ação ou Mover):</b> Se o herói não usou Mover e Ação no turno, ele pode correr e finalizar seu turno. Correr é igual 2 x Mover.
+        </p>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Mover</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Cada herói pode mover até 6" por turno (ele não precisa mover seu máximo de movimento), seguindo pra qualquer direção que seja possível se movimentar. Algumas vantagens/desvantagens e mágias podem adicionar/remover " do movimento.
+        </p>
+
+        <div>
+          <p class="text-body1">
+            <b>Correto:</b> A régua deve sair da ponta da base da miniatura, e o herói deve ser posicionado antes do fim régua.<br>
+          </p>
+          <div class="row col-12 justify-center">
+            <q-img
+              spinner-color="blue"
+              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+              :style="tamanho_imagem"
+              :src="certo_1"
+            />
+            <q-img
+              spinner-color="blue"
+              class="row"
+              :style="tamanho_imagem"
+              :src="certo_2"
+            />
+          </div>
+          <br>
+          <p class="text-body1">
+            <b>Errado:</b> Considera errado a régua sair de qualquer lugar que não seja a ponta da base, e o herói ser posicionado após a régua.<br>
+          </p>
+          <div class="row col-12 justify-center">
+            <q-img
+              spinner-color="white"
+              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+              :style="tamanho_imagem"
+              :src="errado_1"
+            />
+            <q-img
+              spinner-color="white"
+              class="row"
+              :style="tamanho_imagem"
+              :src="errado_2"
+            />
+          </div>
+        </div>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none">
+        <div class="text-h5 text-center text-negative">
+          <b>Ação</b>
+        </div>
+      </q-card-section>
+
+      <q-card-section>
+        <p class="text-body1">
+          Utilizar uma ação segue o mesmo princípio do Manual 3D&T Revisado, Ampliado e Turbinado, geralmente um ataque, utilizar uma vantagem ou uma mágia e assim por diante. O herói só pode utilizar UMA AÇÃO por turno, a não ser que tenha algo que diga o contrário.
+        </p>
+        <p class="text-body1">
+          <b>Ataque: </b>Ataque é considerado uma AÇÃO. Para atacar ou defender as regras são as mesmas do Manual 3D&T Revisado, Ampliado e Turbinado, lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo, e após o ataque, o herói atacante recua 1" da base do herói alvo.<br>
+        </p>
+        <div class="row col-12">
+          <div class="row col-12 justify-center q-mb-md">
+            <div class="col-12 row justify-center">
+              <div
+                class="row col justify-center"
+                :innerHTML="`<p><b>Ao atacar<br></p>`"
+              />
+              <div
+                class="row col justify-center"
+                :innerHTML="`<p><b>Após atacar<br></p>`"
+              />
+            </div>
+            <q-img
+              spinner-color="white"
+              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+              :style="tamanho_imagem"
+              :src="errado_1"
+            />
+            <q-img
+              spinner-color="white"
+              class="row"
+              :style="tamanho_imagem"
+              :src="errado_2"
+            />
+          </div>
+          <p class="text-body1">
+            <b>Vantagem: </b>Geralmente utilizar uma vantagem não gasta uma ação, por exemplo ativar os efeitos de Aceleração ou Ataque Especial.<br>
+            <b>Desvantagem: </b>O mesmo de vantagem.<br>
+            <b>Mágias: </b>Utilizar mágia é considerado uma AÇÃO. Mágias possuem regras especificas que serão abordadas a frente.
+          </p>
+        </div>
+      </q-card-section>
     </q-card>
 
     <!-- <q-card flat bordered class="q-mb-lg">
@@ -201,7 +447,22 @@
   </q-page>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useQuasar } from 'quasar'
+import certo_1 from 'src/assets/certo_1.jpg'
+import certo_2 from 'src/assets/certo_2.jpg'
+import errado_1 from 'src/assets/errado_1.jpg'
+import errado_2 from 'src/assets/errado_2.jpg'
+import terreno from 'src/assets/terreno.jpg'
+import { computed } from 'vue'
+
+const $q = useQuasar()
+
+const tamanho_imagem = computed(() => {
+  const pixel = $q.platform.is.mobile ? '380px' : '400px'
+  return `max-height: ${pixel}; max-width: ${pixel}`
+})
+</script>
 
 <style scoped>
 .q-page {
