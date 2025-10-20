@@ -418,7 +418,7 @@
 
         <div class="text-body1 justify-center row q-my-md">
           <div class="row">
-            <i><b>Com visão: </b> Pelo menos 50% de visão da miniatura.</i><br>
+            <i><b>Sem visão: </b> Menos de 50% de visão da miniatura.</i><br>
           </div>
         </div>
 
