@@ -271,42 +271,46 @@
           Cada herói pode mover até 6" por turno (ele não precisa mover seu máximo de movimento), seguindo pra qualquer direção que seja possível se movimentar. Algumas vantagens/desvantagens e mágias podem adicionar/remover " do movimento.
         </p>
 
-        <div>
-          <p class="text-body1">
-            <b>Correto:</b> A régua deve sair da ponta da base da miniatura, e o herói deve ser posicionado antes do fim régua.<br>
-          </p>
-          <div class="row col-12 justify-center">
-            <q-img
-              spinner-color="blue"
-              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-              :style="tamanho_imagem"
-              :src="certo_1"
-            />
-            <q-img
-              spinner-color="blue"
-              class="row"
-              :style="tamanho_imagem"
-              :src="certo_2"
-            />
+        <div class="text-body1 justify-center row q-my-md">
+          <div class="row">
+            <i> <b>Correto:</b> A régua deve sair da ponta da base da miniatura, e o herói deve ser posicionado antes do fim régua.</i><br>
           </div>
-          <br>
-          <p class="text-body1">
-            <b>Errado:</b> Considera errado a régua sair de qualquer lugar que não seja a ponta da base, e o herói ser posicionado após a régua.<br>
-          </p>
-          <div class="row col-12 justify-center">
-            <q-img
-              spinner-color="white"
-              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-              :style="tamanho_imagem"
-              :src="errado_1"
-            />
-            <q-img
-              spinner-color="white"
-              class="row"
-              :style="tamanho_imagem"
-              :src="errado_2"
-            />
+        </div>
+
+        <div class="row col-12 justify-center">
+          <q-img
+            spinner-color="blue"
+            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+            :style="tamanho_imagem"
+            :src="certo_1"
+          />
+          <q-img
+            spinner-color="blue"
+            class="row"
+            :style="tamanho_imagem"
+            :src="certo_2"
+          />
+        </div>
+
+        <div class="text-body1 justify-center row q-my-md">
+          <div class="row">
+            <i><b>Errado:</b> A régua sair de qualquer lugar que não seja a ponta da base, e o herói ser posicionado após a régua.</i>
           </div>
+        </div>
+
+        <div class="row col-12 justify-center">
+          <q-img
+            spinner-color="white"
+            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+            :style="tamanho_imagem"
+            :src="errado_1"
+          />
+          <q-img
+            spinner-color="white"
+            class="row"
+            :style="tamanho_imagem"
+            :src="errado_2"
+          />
         </div>
       </q-card-section>
 
@@ -348,12 +352,99 @@
               :src="atacar_2"
             />
           </div>
-          <p class="text-body1">
-            <b>Vantagem: </b>Geralmente utilizar uma vantagem não gasta uma ação, por exemplo ativar os efeitos de Aceleração ou Ataque Especial.<br>
-            <b>Desvantagem: </b>O mesmo de vantagem.<br>
-            <b>Mágias: </b>Utilizar mágia é considerado uma AÇÃO. Mágias possuem regras especificas que serão abordadas a frente.
-          </p>
         </div>
+
+        <p class="text-body1">
+          <b>Atacar a distância: </b>Atacar a distância segue quase as mesmas regras do Manual 3D&T Revisado, Ampliado e Turbinado, com a diferença que para executar um ataque a distância, o herói precisa ter pelo menos PdF1 para poder atacar. Além de possuir pelo menos PdF1, o herói precisa ter uma linha de visão clara do herói alvo. Para alcançar o ataque, pelo menos 1/4" deve passar da base do alvo.<br><br>
+          <b>Alcance: </b>O alcance do ataque a distância depende do PdF do herói atacante.<br>
+          <i>PdF 0: </i>0" de alcance.<br>
+          <i>PdF 1: </i>3" de alcance.<br>
+          <i>PdF 2: </i>6" de alcance.<br>
+          <i>PdF 3: </i>12" de alcance.<br>
+          <i>PdF 4: </i>18" de alcance.<br>
+          <i>PdF 5: </i>24" de alcance.<br>
+        </p>
+        <div class="row col-12">
+          <div class="row col-12 justify-center q-mb-md">
+            <div class="col-12 row justify-center">
+              <div
+                class="row col justify-center"
+                :innerHTML="`<p><b>Com alcance<br></p>`"
+              />
+              <div
+                class="row col justify-center"
+                :innerHTML="`<p><b>Sem alcance<br></p>`"
+              />
+            </div>
+            <q-img
+              spinner-color="white"
+              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+              :style="tamanho_imagem"
+              :src="alcanca"
+            />
+            <q-img
+              spinner-color="white"
+              class="row"
+              :style="tamanho_imagem"
+              :src="nao_alcanca"
+            />
+          </div>
+        </div>
+
+        <p class="text-body1">
+          <b>Linha de visão: </b>O herói atacante precisa enxergar pelo menos 50% da miniatura do herói alvo.<br>
+        </p>
+
+        <div class="text-body1 justify-center row">
+          <div class="row">
+            <i><b>Com visão: </b> Pelo menos 50% de visão da miniatura.</i><br>
+          </div>
+        </div>
+
+        <div class="row col-12 justify-center q-mt-md">
+          <q-img
+            spinner-color="blue"
+            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+            :style="tamanho_imagem"
+            :src="visao1"
+          />
+          <q-img
+            spinner-color="blue"
+            class="row"
+            :style="tamanho_imagem"
+            :src="visao2"
+          />
+        </div>
+
+        <div class="text-body1 justify-center row q-my-md">
+          <div class="row">
+            <i><b>Com visão: </b> Pelo menos 50% de visão da miniatura.</i><br>
+          </div>
+        </div>
+
+        <div class="row col-12 justify-center q-mb-lg">
+          <q-img
+            spinner-color="white"
+            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
+            :style="tamanho_imagem"
+            :src="sem_visao1"
+          />
+          <q-img
+            spinner-color="white"
+            class="row"
+            :style="tamanho_imagem"
+            :src="sem_visao2"
+          />
+        </div>
+        <p class="text-body1">
+          <b>Arremeso de arma: </b> Em base, segue o mesmo conceito de ataque a distância. Caso o herói não tenha PdF e queira atacar a distância, ele pode arremesar sua arma (desde que o herói utilize uma), e tenha pelo menos F1, atacando com F em vez de PdF. Após arremesar sua arma, adicione um marcador (simbolizando a arma) a frente do herói alvo, até o herói atacante buscar a arma, ele fica com FA-2. O alcance do arremeso é baseado em sua força.<br>
+          <i>F0: </i>2"<br>
+          <i>F1: </i>3"<br>
+          <i>F2: </i>6"<br>
+          <i>F3: </i>9"<br>
+          <i>F4: </i>12"<br>
+          <i>F5: </i>15"<br><br>
+        </p>
       </q-card-section>
     </q-card>
 
@@ -456,6 +547,12 @@ import errado_2 from 'src/assets/errado_2.jpg'
 import atacar_1 from 'src/assets/atacar_1.jpg'
 import atacar_2 from 'src/assets/atacar_2.jpg'
 import terreno from 'src/assets/terreno.jpg'
+import visao1 from 'src/assets/visao1.jpg'
+import visao2 from 'src/assets/visao2.jpg'
+import sem_visao1 from 'src/assets/sem_visao1.jpg'
+import sem_visao2 from 'src/assets/sem_visao2.jpg'
+import alcanca from 'src/assets/alcanca.jpg'
+import nao_alcanca from 'src/assets/nao_alcanca.jpg'
 import { computed } from 'vue'
 
 const $q = useQuasar()
