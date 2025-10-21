@@ -181,7 +181,7 @@
             spinner-color="blue"
             class="row"
             :style="`${$q.platform.is.mobile ? 'max-height: 380px; max-width: 380px' : 'max-height: 600px; max-width: 600px'}`"
-            :src="terreno"
+            :src="imagen.terreno"
           />
         </div>
       </q-card-section>
@@ -282,13 +282,13 @@
             spinner-color="blue"
             :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
             :style="tamanho_imagem"
-            :src="certo_1"
+            :src="imagen.certo_1"
           />
           <q-img
             spinner-color="blue"
             class="row"
             :style="tamanho_imagem"
-            :src="certo_2"
+            :src="imagen.certo_2"
           />
         </div>
 
@@ -303,13 +303,13 @@
             spinner-color="white"
             :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
             :style="tamanho_imagem"
-            :src="errado_1"
+            :src="imagen.errado_1"
           />
           <q-img
             spinner-color="white"
             class="row"
             :style="tamanho_imagem"
-            :src="errado_2"
+            :src="imagen.errado_2"
           />
         </div>
       </q-card-section>
@@ -343,13 +343,13 @@
               spinner-color="white"
               :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
               :style="tamanho_imagem"
-              :src="atacar_1"
+              :src="imagen.atacar_1"
             />
             <q-img
               spinner-color="white"
               class="row"
               :style="tamanho_imagem"
-              :src="atacar_2"
+              :src="imagen.atacar_2"
             />
           </div>
         </div>
@@ -380,13 +380,13 @@
               spinner-color="white"
               :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
               :style="tamanho_imagem"
-              :src="alcanca"
+              :src="imagen.alcanca"
             />
             <q-img
               spinner-color="white"
               class="row"
               :style="tamanho_imagem"
-              :src="nao_alcanca"
+              :src="imagen.nao_alcanca"
             />
           </div>
         </div>
@@ -406,13 +406,13 @@
             spinner-color="blue"
             :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
             :style="tamanho_imagem"
-            :src="visao1"
+            :src="imagen.visao1"
           />
           <q-img
             spinner-color="blue"
             class="row"
             :style="tamanho_imagem"
-            :src="visao2"
+            :src="imagen.visao2"
           />
         </div>
 
@@ -427,13 +427,13 @@
             spinner-color="white"
             :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
             :style="tamanho_imagem"
-            :src="sem_visao1"
+            :src="imagen.sem_visao1"
           />
           <q-img
             spinner-color="white"
             class="row"
             :style="tamanho_imagem"
-            :src="sem_visao2"
+            :src="imagen.sem_visao2"
           />
         </div>
         <p class="text-body1">
@@ -540,20 +540,8 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import certo_1 from 'src/assets/certo_1.jpg'
-import certo_2 from 'src/assets/certo_2.jpg'
-import errado_1 from 'src/assets/errado_1.jpg'
-import errado_2 from 'src/assets/errado_2.jpg'
-import atacar_1 from 'src/assets/atacar_1.jpg'
-import atacar_2 from 'src/assets/atacar_2.jpg'
-import terreno from 'src/assets/terreno.jpg'
-import visao1 from 'src/assets/visao1.jpg'
-import visao2 from 'src/assets/visao2.jpg'
-import sem_visao1 from 'src/assets/sem_visao1.jpg'
-import sem_visao2 from 'src/assets/sem_visao2.jpg'
-import alcanca from 'src/assets/alcanca.jpg'
-import nao_alcanca from 'src/assets/nao_alcanca.jpg'
-import { computed } from 'vue'
+import { boot_imagens } from 'src/boot/axios'
+import { computed, ref } from 'vue'
 
 const $q = useQuasar()
 
@@ -561,6 +549,9 @@ const tamanho_imagem = computed(() => {
   const pixel = $q.platform.is.mobile ? '380px' : '400px'
   return `max-height: ${pixel}; max-width: ${pixel}`
 })
+
+const imagen = ref(boot_imagens)
+
 </script>
 
 <style scoped>

@@ -5,10 +5,22 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined
   }
 
-  declare module '*.png'
-  declare module '*.jpg'
-  declare module '*.jpeg'
-  declare module '*.gif'
+declare module '*.jpg' {
+  const value: string
+  export default value
+}
+declare module '*.png' {
+  const value: string
+  export default value
+}
+declare module '*.jpeg' {
+  const value: string
+  export default value
+}
+declare module '*.gif' {
+  const value: string
+  export default value
+}
   declare module '*.svg'
   declare module '#q-app/wrappers'
 }
