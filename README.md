@@ -1,6 +1,7 @@
 # 3D&Tatics (3detatics)
 
-3D&Tatics
+3D&Tatics é um aplicativo para aprender as regras do wargame baseado em 3D&T.
+Previsão de lançamento, final de 2026.
 
 ## Install the dependencies
 
