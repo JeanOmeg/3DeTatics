@@ -42,6 +42,7 @@ import { useRouter } from 'vue-router'
 const $router = useRouter()
 
 const linksList: EssentialLinkProps[] = [
+  { title: 'Introdução', caption: 'Página inicial', icon: 'home', link: '/' },
   { title: 'Regras', caption: 'Regras do jogo e exemplos', icon: 'school', link: '/regras' },
   {
     title: 'Vantagens',
