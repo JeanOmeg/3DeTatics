@@ -3,7 +3,7 @@
     <q-card
       flat
       bordered
-      class="q-mb-lg"
+      class="q-my-lg"
     >
       <q-card-section>
         <div class="text-h4 text-center text-primary q-pb-md">
@@ -20,19 +20,19 @@
 
       <q-card-section>
         <p class="text-body1">
-          Se uma regra entrar em conflito ou não cobrir uma situação, resolva com bom senso e acordo entre os jogadores. Sempre que possível, informe ao criador do jogo para ajudar a melhorar o 3D&Tatics.
+          Se uma regra entrar em conflito ou não cobrir uma situação, resolva com bom senso e acordo entre os jogadores. Sempre que possível, informe ao criador do jogo para ajudar a melhorar o 3DeTatics.
         </p>
       </q-card-section>
 
       <q-card-section class="q-pa-none">
         <div class="text-h5 text-center text-negative">
-          <b>3D&T</b>
+          <b>3D&T - Alpha</b>
         </div>
       </q-card-section>
 
       <q-card-section>
         <p class="text-body1">
-          Todas as regras do 3D&T Revisado, Ampliado e Turbinado continuam valendo, exceto quando este livro indicar o contrário.
+          As regras do 3D&T - Alpha são a base do 3DeTatics, no geral as regras são as mesmas, mas com suas devidas adaptações para um wargame. Você é livre para modificar as regras, mas lembre-se, 3DeTatics não é um RPG, tenha bom senso.
         </p>
       </q-card-section>
 
@@ -44,7 +44,7 @@
 
       <q-card-section>
         <p class="text-body1">
-          Escaramuça! Ganha quem derrotar os heróis do jogador adversário.
+          Escaramuça! Ganha quem derrotar os heróis do jogador adversário. Na seção de Regras Avançadas, você encontrará novos modos de jogos com objetivos diferentes.
         </p>
       </q-card-section>
     </q-card>
@@ -69,7 +69,7 @@
 
       <q-card-section>
         <p class="text-body1">
-          No modo normal, o jogo é para 2 jogadores. Em modos alternativos (descritos no capítulo específico), esse número pode variar. Cada jogador monta um grupo do mesmo tamanho: recomendamos o tamanho Novato para iniciantes e Lenda para veteranos.
+          No modo normal, o jogo é para 2 jogadores. Em modos alternativos (descritos nas Regras Avançadas), esse número pode variar. Cada jogador monta um grupo do mesmo tamanho: recomendo o tamanho Novato para iniciantes e Lenda para veteranos.
         </p>
       </q-card-section>
 
@@ -81,7 +81,7 @@
 
       <q-card-section>
         <p class="text-body1">
-          Os grupos são divididos em 4 tamanhos, sendo o <b>novato</b> o ideal para conhecer o jogo.<br><br>
+          Os grupos são divididos em 4 tamanhos, sendo o <b>novato</b> o ideal para conhecer o jogo. Não pode possuir heróis com kits iguais por grupo de pontos. Exemplo: Se seu grupo é do tamanho novato, 3 heróis de 5 pts com kits diferentes, e 2 heróis com 7 pts com kits diferentes. Mas você pode possuir um herói de 5 pts com kit Guerreiro e outro de 7 pts também com kit Guerreiro.<br><br>
           <b>Novato (5):</b> 3 heróis de 5 pts + 2 heróis de 7 pts.<br>
           <b>Lutador (7):</b> 3 heróis de 5 pts + 2 heróis de 7 pts + 2 heróis de 10 pts.<br>
           <b>Campeão (10):</b> 3 heróis de 5 pts + 3 heróis de 7 pts + 3 heróis de 10 pts + 1 herói de 12 pts.<br>
@@ -301,10 +301,10 @@
 
       <q-card-section>
         <p class="text-body1">
-          Utilizar uma ação segue o mesmo princípio do Manual 3D&T Revisado, Ampliado e Turbinado, geralmente um ataque, utilizar uma vantagem ou uma mágia e assim por diante. O herói só pode utilizar UMA AÇÃO por turno, a não ser que tenha algo que diga o contrário.
+          Utilizar uma ação segue o mesmo princípio do 3D&T - Alpha, geralmente um ataque, utilizar uma vantagem ou uma mágia e assim por diante. O herói só pode utilizar UMA AÇÃO por turno, a não ser que tenha algo que diga o contrário.
         </p>
         <p class="text-body1">
-          <b>Ataque: </b>Ataque é considerado uma AÇÃO. Para atacar ou defender as regras são as mesmas do Manual 3D&T Revisado, Ampliado e Turbinado, lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo, e após o ataque, o herói atacante recua 1" da base do herói alvo.<br>
+          <b>Ataque: </b>Ataque é considerado uma AÇÃO. Para atacar ou defender as regras são as mesmas do 3D&T - Alpha, lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo, e após o ataque, o herói atacante recua 1" da base do herói alvo.<br>
         </p>
         <div class="row col-12">
           <div class="row col-12 justify-center q-mb-md">
@@ -334,7 +334,7 @@
         </div>
 
         <p class="text-body1">
-          <b>Atacar a distância: </b>Atacar a distância segue quase as mesmas regras do Manual 3D&T Revisado, Ampliado e Turbinado, com a diferença que para executar um ataque a distância, o herói precisa ter pelo menos PdF1 para poder atacar. Além de possuir pelo menos PdF1, o herói precisa ter uma linha de visão clara do herói alvo. Para alcançar o ataque, pelo menos 1/4" deve passar da base do alvo.<br><br>
+          <b>Atacar a distância: </b>Atacar a distância segue quase as mesmas regras do 3D&T - Alpha, com a diferença que para executar um ataque a distância, o herói precisa ter pelo menos PdF1 para poder atacar. Além de possuir pelo menos PdF1, o herói precisa ter uma linha de visão clara do herói alvo. Para alcançar o ataque, pelo menos 1/4" deve passar da base do alvo.<br><br>
           <b>Alcance: </b>O alcance do ataque a distância depende do PdF do herói atacante.<br>
           <i>PdF 0: </i>0" de alcance.<br>
           <i>PdF 1: </i>3" de alcance.<br>
@@ -481,7 +481,7 @@
       </q-card-section>
 
       <q-card-section>
-        <p class="text-body1 q-mb-md">A maioria das ações no 3D&Tatics é resolvida com um lançamento de dado de 6 faces (D6).</p>
+        <p class="text-body1 q-mb-md">A maioria das ações no 3DeTatics é resolvida com um lançamento de dado de 6 faces (D6).</p>
 
         <q-list dense>
           <q-item>

@@ -3,7 +3,7 @@
     <q-card
       flat
       bordered
-      class="q-mb-lg"
+      class="q-my-lg"
     >
       <q-card-section>
         <div class="text-h4 text-center text-primary q-pb-md">

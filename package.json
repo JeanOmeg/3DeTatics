@@ -1,8 +1,8 @@
 {
   "name": "3detatics",
   "version": "0.0.1",
-  "description": "3D&Tatics",
-  "productName": "3D&Tatics",
+  "description": "3DeTatics",
+  "productName": "3DeTatics",
   "author": "JeanOmeg <jeanomeg3@gmail.com>",
   "type": "commonjs",
   "private": true,

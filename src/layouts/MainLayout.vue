@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title @click="paginaInicial">
-          3D&Tatics
+          3DeTatics
         </q-toolbar-title>
         <div>v {{ '1.0.0' }}</div>
       </q-toolbar>
@@ -42,7 +42,6 @@ import { useRouter } from 'vue-router'
 const $router = useRouter()
 
 const linksList: EssentialLinkProps[] = [
-  { title: 'Introdução', caption: 'Página inicial', icon: 'home', link: '/' },
   { title: 'Regras', caption: 'Regras do jogo e exemplos', icon: 'school', link: '/regras' },
   {
     title: 'Vantagens',

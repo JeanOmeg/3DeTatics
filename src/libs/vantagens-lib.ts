@@ -22,13 +22,6 @@ export namespace VantagensEDesvantagensLib {
         tipo: TipoVantagemEnum.vantagem
       },
       {
-        nome: 'Aliado',
-        custo: '1 ponto cada',
-        descricao: 'Aliado é construído com a mesma quantidade de pontos que o próprio herói. Se quiser um Aliado mais poderoso, ele custará mais caro: 1 ponto extra para cada ponto de personagem. Por exemplo, se você é um herói Novato (5 pontos) e quer um Aliado feito com 6 pontos, ele vai custar 2 pontos. O Aliado não pode ser uma miniatura adicional, ela deve estar na mesma base que o herói, o jogador decide se vai usar o herói ou o aliado no turno, nunca podendo usar os dois ao mesmo tempo, a não ser que possua a Vantagem Parceiro (dai vale as regras de Parceiro)',
-        value: 'aliado',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
         nome: 'Aparência Inofensiva',
         custo: '1 ponto',
         descricao: 'O herói ganha um ataque extra no primeiro turno do combate. Ao lutar com outro herói em outro combate, Aparência Inofensiva só funciona caso esse novo alvo estivesse a mais de 12" do primeiro combate.',
