@@ -5,77 +5,77 @@
       bordered
       class="seletor-card print-hide"
     >
-      <q-card-section>
-        <div class="row col-12 text-subtitle1 text-weight-bold">
-          <div class="row col-grow justify-center">
-            Seletor de Vantagens
-          </div>
-          <q-btn
-            flat
-            round
-            icon="close"
-            color="negative"
-            size="sm"
-            class="row justify-end no-print"
-            @click="emit('remove')"
-          />
-        </div>
+      <div class="seletor-header">
+        <span class="seletor-titulo">Seletor de Vantagens</span>
+        <q-space />
+        <q-toggle
+          v-model="seletor_ativo"
+          dense
+          size="sm"
+          color="primary"
+          @update:model-value="alternarSeletor"
+        />
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          color="negative"
+          size="sm"
+          class="no-print"
+          @click="emit('remove')"
+        />
+      </div>
 
-        <div class="q-gutter-y-sm">
+      <q-slide-transition>
+        <div
+          v-show="seletor_ativo"
+          class="seletor-campos"
+        >
           <q-select
-            v-model="usar_seletor"
-            outlined
-            use-chips
-            stack-label
-            label="Usar seletor de vantagens"
-            :options="lista_combo_seletor"
-            @update:model-value="atualizarComboSeletor"
-          />
-          <q-select
-            v-if="usar_seletor.value == 1"
             v-model="seletor_raca"
+            dense
             outlined
-            use-chips
-            stack-label
+            options-dense
             label="Raça"
             :options="lista_raca"
             @update:model-value="atualizarComboRaca"
           />
           <q-select
-            v-if="usar_seletor.value == 1"
             v-model="seletor_kit"
+            dense
             outlined
             multiple
+            options-dense
             use-chips
-            stack-label
             label="Kits"
             :options="lista_kit"
             @update:model-value="atualizarComboKit"
           />
           <q-select
-            v-if="usar_seletor.value == 1"
             v-model="seletor_vantagem"
+            dense
             outlined
             multiple
+            options-dense
             use-chips
-            stack-label
             label="Vantagens"
             :options="lista_vantagem"
             @update:model-value="atualizarComboVantagem"
           />
           <q-select
-            v-if="usar_seletor.value == 1"
             v-model="seletor_desvantagem"
+            dense
             outlined
             multiple
+            options-dense
             use-chips
-            stack-label
             label="Desvantagens"
             :options="lista_desvantagem"
             @update:model-value="atualizarComboDesvantagem"
           />
         </div>
-      </q-card-section>
+      </q-slide-transition>
     </q-card>
 
     <q-card
@@ -90,7 +90,7 @@
           outlined
           label="Nome"
           class="carta-stat-linha"
-          :readonly="usar_seletor.value == 1"
+          :readonly="seletor_ativo"
         />
         <q-input
           v-model.number="heroi.ph"
@@ -109,7 +109,7 @@
           outlined
           label="Kit"
           class="carta-stat-linha"
-          :readonly="usar_seletor.value == 1"
+          :readonly="seletor_ativo"
         />
         <q-input
           v-model.number="heroi.pv"
@@ -128,7 +128,7 @@
           outlined
           label="Raça"
           class="carta-stat-linha"
-          :readonly="usar_seletor.value == 1"
+          :readonly="seletor_ativo"
         />
         <q-input
           v-model.number="heroi.pm"
@@ -167,7 +167,7 @@
         label="Vantagens"
         class="carta-texto"
         input-class="text-primary"
-        :readonly="usar_seletor.value == 1"
+        :readonly="seletor_ativo"
       />
       <q-input
         v-model="heroi.desvantagem"
@@ -177,7 +177,7 @@
         label="Desvantagens"
         class="carta-texto"
         input-class="text-negative"
-        :readonly="usar_seletor.value == 1"
+        :readonly="seletor_ativo"
       />
 
       <div class="carta-linha">
@@ -217,17 +217,12 @@ const props = defineProps<{
 
 const heroi = ref(props.heroi_inicial)
 
-const usar_seletor = ref<IComboBox>({ label: 'Não', value: 2 })
+const seletor_ativo = ref(false)
 
 const seletor_raca = ref<IComboBox | null>(null)
 const seletor_kit = ref<IComboBox[] | null>(null)
 const seletor_vantagem = ref<IComboBox[] | null>(null)
 const seletor_desvantagem = ref<IComboBox[] | null>(null)
-
-const lista_combo_seletor = ref<IComboBox[]>([
-  { label: 'Sim', value: 1 },
-  { label: 'Não', value: 2 }
-])
 
 const lista_raca = ref(RacasLib.listarRacasCombo())
 const lista_kit = ref([{ label: 'Guerreiro', value: 'guerreiro' }, { label: 'Mago', value: 'mago' }])
@@ -242,16 +237,14 @@ const caracteristicas: ICaracteristicaItem[] = [
   { label: 'R', key: 'R' }
 ]
 
-function atualizarComboSeletor (combo: IComboBox) {
-  usar_seletor.value = combo
-
+function alternarSeletor () {
   seletor_raca.value = null
   seletor_kit.value = null
   seletor_vantagem.value = null
   seletor_desvantagem.value = null
 
   heroi.value.name = ''
-  heroi.value.ph = 0
+  heroi.value.ph = null
   heroi.value.raca = ''
   heroi.value.kit = ''
   heroi.value.vantagem = ''
@@ -259,11 +252,11 @@ function atualizarComboSeletor (combo: IComboBox) {
   heroi.value.tipo_de_dano_f = ''
   heroi.value.tipo_de_dano_pdf = ''
   heroi.value.caracteristicas = {
-    F: 0,
-    PdF: 0,
-    A: 0,
-    H: 0,
-    R: 0
+    F: null,
+    PdF: null,
+    A: null,
+    H: null,
+    R: null
   }
 }
 
@@ -298,9 +291,31 @@ function atualizarComboDesvantagem (combo: IComboBox[]) {
   max-width: 100%;
   margin-bottom: 8px;
   border-radius: 10px;
-  border-color: black !important;
-  border-width: 2px;
-  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  overflow: hidden;
+}
+
+.seletor-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 10px;
+}
+
+.seletor-titulo {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #555;
+}
+
+.seletor-campos {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 8px 10px;
 }
 
 /* Carta do herói: dimensões exatas de carta MTG (63mm x 88mm) */
