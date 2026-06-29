@@ -1,1 +1,1 @@
-export type TCaracteristicaKey = 'F' | 'H' | 'A' | 'R' | 'PdF'
+export type TCaracteristicaKey = 'F' | 'PdF' | 'A' | 'H' | 'R'

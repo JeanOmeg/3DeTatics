@@ -67,15 +67,17 @@ function novoHeroi () {
   const heroi: IHeroi = {
     id: globalThis.crypto.randomUUID(),
     name: '',
-    ponto: 0,
+    pv: 0,
+    pm: 0,
+    ph: 0,
     raca: '',
     kit: '',
     caracteristicas: {
       F: 0,
-      H: 0,
+      PdF: 0,
       A: 0,
-      R: 0,
-      PdF: 0
+      H: 0,
+      R: 0
     },
     vantagem: '',
     desvantagem: '',

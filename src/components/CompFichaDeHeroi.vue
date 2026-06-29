@@ -83,19 +83,43 @@
       bordered
       class="carta-heroi"
     >
-      <q-input
-        v-model="heroi.name"
-        dense
-        outlined
-        label="Nome"
-      />
-      <q-input
-        v-model="heroi.kit"
-        dense
-        outlined
-        label="Kit"
-        :readonly="usar_seletor.value == 1"
-      />
+      <div class="carta-linha">
+        <q-input
+          v-model="heroi.name"
+          dense
+          outlined
+          label="Nome"
+          class="carta-stat-linha"
+          :readonly="usar_seletor.value == 1"
+        />
+        <q-input
+          v-model.number="heroi.ph"
+          dense
+          outlined
+          type="number"
+          label="PH"
+          class="carta-pontos"
+        />
+      </div>
+
+      <div class="carta-linha">
+        <q-input
+          v-model="heroi.kit"
+          dense
+          outlined
+          label="Kit"
+          class="carta-stat-linha"
+          :readonly="usar_seletor.value == 1"
+        />
+        <q-input
+          v-model.number="heroi.pv"
+          dense
+          outlined
+          type="number"
+          label="PV"
+          class="carta-pontos"
+        />
+      </div>
 
       <div class="carta-linha">
         <q-input
@@ -103,15 +127,15 @@
           dense
           outlined
           label="Raça"
-          class="carta-raca"
+          class="carta-stat-linha"
           :readonly="usar_seletor.value == 1"
         />
         <q-input
-          v-model.number="heroi.ponto"
+          v-model.number="heroi.pm"
           dense
           outlined
           type="number"
-          label="Pontos"
+          label="PM"
           class="carta-pontos"
         />
       </div>
@@ -212,10 +236,10 @@ const lista_desvantagem = ref(VantagensEDesvantagensLib.listarVantagensEDesvanta
 
 const caracteristicas: ICaracteristicaItem[] = [
   { label: 'F', key: 'F' },
-  { label: 'H', key: 'H' },
+  { label: 'PdF', key: 'PdF' },
   { label: 'A', key: 'A' },
-  { label: 'R', key: 'R' },
-  { label: 'PdF', key: 'PdF' }
+  { label: 'H', key: 'H' },
+  { label: 'R', key: 'R' }
 ]
 
 function atualizarComboSeletor (combo: IComboBox) {
@@ -227,7 +251,7 @@ function atualizarComboSeletor (combo: IComboBox) {
   seletor_desvantagem.value = null
 
   heroi.value.name = ''
-  heroi.value.ponto = 0
+  heroi.value.ph = 0
   heroi.value.raca = ''
   heroi.value.kit = ''
   heroi.value.vantagem = ''
@@ -236,10 +260,10 @@ function atualizarComboSeletor (combo: IComboBox) {
   heroi.value.tipo_de_dano_pdf = ''
   heroi.value.caracteristicas = {
     F: 0,
-    H: 0,
+    PdF: 0,
     A: 0,
-    R: 0,
-    PdF: 0
+    H: 0,
+    R: 0
   }
 }
 
@@ -300,7 +324,7 @@ function atualizarComboDesvantagem (combo: IComboBox[]) {
   gap: 4px;
 }
 
-.carta-raca {
+.carta-stat-linha {
   flex: 1 1 auto;
 }
 
