@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/vantagens', component: () => import('src/pages/VantagensHerois.vue') },
       { path: '/desvantagens', component: () => import('src/pages/DesvantagensHeroi.vue') },
       { path: '/grupo', component: () => import('src/pages/CriadorDeGrupo.vue') },
+      { path: '/grupos', component: () => import('src/pages/ListaDeGrupos.vue') },
       { path: '/:catchAll(.*)*', component: () => import('pages/ErrorNotFound.vue') }
     ]
   }

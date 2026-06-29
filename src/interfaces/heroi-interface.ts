@@ -1,9 +1,12 @@
+import type { TCaracteristicaKey } from 'src/types/caracteristica-key-type'
+
 export interface IHeroi {
+  id: string
   name: string
   ponto: number
   raca: string
   kit: string
-  caracteristicas: { [key: string]: number }
+  caracteristicas: Record<TCaracteristicaKey, number>
   vantagem: string
   desvantagem: string
   tipo_de_dano_f: string

@@ -1,12 +1,9 @@
 <template>
-  <div
-    class="row col-3"
-    style="min-width: 320px; max-width: 320px; margin: 0px; padding: 0px"
-  >
+  <div class="ficha-container">
     <q-card
       flat
       bordered
-      class="ficha-de-heroi print-hide"
+      class="seletor-card print-hide"
     >
       <q-card-section>
         <div class="row col-12 text-subtitle1 text-weight-bold">
@@ -84,134 +81,97 @@
     <q-card
       flat
       bordered
-      class="ficha-de-heroi q-pa-none q-ma-none"
+      class="carta-heroi"
     >
-      <q-card-section class="q-pt-xs q-mt-sm q-pb-xs q-mb-xs q-px-sm">
-        <div class="row q-x-gutter-sm q-pb-none q-mb-none">
-          <q-input
-            v-model="heroi.name"
-            dense
-            outlined
-            label="Nome"
-            class="col-12 q-mb-xs"
-          />
-          <q-input
-            v-model="heroi.kit"
-            dense
-            outlined
-            label="Kit"
-            class="col-12 q-mb-xs"
-            :readonly="usar_seletor.value == 1"
-          />
-          <q-input
-            v-model="heroi.raca"
-            dense
-            outlined
-            label="Raça"
-            class="col q-mr-xs"
-            :readonly="usar_seletor.value == 1"
-          />
-          <q-input
-            v-model="heroi.ponto"
-            dense
-            outlined
-            label="Pontos"
-            style="max-width: 80px"
-          />
-        </div>
-      </q-card-section>
+      <q-input
+        v-model="heroi.name"
+        dense
+        outlined
+        label="Nome"
+      />
+      <q-input
+        v-model="heroi.kit"
+        dense
+        outlined
+        label="Kit"
+        :readonly="usar_seletor.value == 1"
+      />
 
-      <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
-        <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
-          <div
-            v-for="stat in caracteristicas"
-            :key="stat.key"
-            class="row col justify-center"
-          >
+      <div class="carta-linha">
+        <q-input
+          v-model="heroi.raca"
+          dense
+          outlined
+          label="Raça"
+          class="carta-raca"
+          :readonly="usar_seletor.value == 1"
+        />
+        <q-input
+          v-model.number="heroi.ponto"
+          dense
+          outlined
+          type="number"
+          label="Pontos"
+          class="carta-pontos"
+        />
+      </div>
+
+      <div class="carta-caracteristicas">
+        <div
+          v-for="stat in caracteristicas"
+          :key="stat.key"
+          class="carta-stat"
+        >
+          <div class="carta-stat-label">
             {{ stat.label }}
           </div>
-        </div>
-        <div class="row text-center q-gutter-x-xs">
-          <div
-            v-for="stat in caracteristicas"
-            :key="stat.key"
-            class="row col q-pa-none"
-          >
-            <q-input
-              v-model="heroi.caracteristicas[stat.key]"
-              dense
-              outlined
-              input-class="text-center"
-            />
-          </div>
-        </div>
-      </q-card-section>
-
-      <q-card-section class="q-py-none q-my-none q-px-sm">
-        <div class="row text-center text-weight-bold q-mb-xs q-gutter-x-xs">
-          <div
-            v-for="stat in caracteristicas_status"
-            :key="stat.key"
-            class="row col justify-center"
-          >
-            {{ stat.label }}
-          </div>
-        </div>
-        <div class="row text-center q-gutter-x-xs">
-          <div
-            v-for="stat in caracteristicas_status"
-            :key="stat.key"
-            class="row col"
-          >
-            <q-input
-              v-model="heroi.caracteristicas[stat.key]"
-              dense
-              outlined
-              input-class="text-center"
-            />
-          </div>
-        </div>
-      </q-card-section>
-
-      <q-card-section class="q-pa-sm">
-        <div class="q-gutter-y-sm">
           <q-input
-            v-model="heroi.vantagem"
-            outlined
-            type="textarea"
-            rows="2"
-            input-class="text-primary"
-            :readonly="usar_seletor.value == 1"
-          />
-          <q-input
-            v-model="heroi.desvantagem"
-            outlined
-            rows="2"
-            input-class="text-negative"
-            type="textarea"
-            :readonly="usar_seletor.value == 1"
-          />
-        </div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none q-mt-none q-pb-xs q-mb-xs q-px-sm">
-        <div class="row col-12">
-          <q-input
-            v-model="heroi.tipo_de_dano_f"
+            v-model.number="heroi.caracteristicas[stat.key]"
             dense
             outlined
-            label="Força"
-            class="col q-mr-sm tipo-de-dano"
-          />
-          <q-input
-            v-model="heroi.tipo_de_dano_pdf"
-            dense
-            outlined
-            label="Poder de Fogo"
-            class="col q-mb-xs tipo-de-dano"
+            type="number"
+            input-class="text-center"
           />
         </div>
-      </q-card-section>
+      </div>
+
+      <q-input
+        v-model="heroi.vantagem"
+        outlined
+        stack-label
+        type="textarea"
+        label="Vantagens"
+        class="carta-texto"
+        input-class="text-primary"
+        :readonly="usar_seletor.value == 1"
+      />
+      <q-input
+        v-model="heroi.desvantagem"
+        outlined
+        stack-label
+        type="textarea"
+        label="Desvantagens"
+        class="carta-texto"
+        input-class="text-negative"
+        :readonly="usar_seletor.value == 1"
+      />
+
+      <div class="carta-linha">
+        <q-input
+          v-model="heroi.tipo_de_dano_f"
+          dense
+          outlined
+          label="Força"
+          class="col tipo-de-dano"
+        />
+        <q-input
+          v-model="heroi.tipo_de_dano_pdf"
+          dense
+          outlined
+          label="Poder de Fogo"
+          class="col tipo-de-dano"
+        />
+      </div>
     </q-card>
   </div>
 </template>
@@ -233,14 +193,14 @@ const props = defineProps<{
 
 const heroi = ref(props.heroi_inicial)
 
-const usar_seletor = ref({ label: 'Não', value: 2 })
+const usar_seletor = ref<IComboBox>({ label: 'Não', value: 2 })
 
-const seletor_raca = ref()
-const seletor_kit = ref()
-const seletor_vantagem = ref()
-const seletor_desvantagem = ref()
+const seletor_raca = ref<IComboBox | null>(null)
+const seletor_kit = ref<IComboBox[] | null>(null)
+const seletor_vantagem = ref<IComboBox[] | null>(null)
+const seletor_desvantagem = ref<IComboBox[] | null>(null)
 
-const lista_combo_seletor = ref([
+const lista_combo_seletor = ref<IComboBox[]>([
   { label: 'Sim', value: 1 },
   { label: 'Não', value: 2 }
 ])
@@ -258,21 +218,13 @@ const caracteristicas: ICaracteristicaItem[] = [
   { label: 'PdF', key: 'PdF' }
 ]
 
-const caracteristicas_status: ICaracteristicaItem[] = [
-  { label: 'FA', key: 'FA' },
-  { label: 'FaD', key: 'FaD' },
-  { label: 'FD', key: 'FD' },
-  { label: 'PV', key: 'PV' },
-  { label: 'PM', key: 'PM' }
-]
-
-function atualizarComboSeletor (combo: { label: string; value: number }) {
+function atualizarComboSeletor (combo: IComboBox) {
   usar_seletor.value = combo
 
-  seletor_raca.value = null as unknown as string
-  seletor_kit.value = null as unknown as string
-  seletor_vantagem.value = null as unknown as string
-  seletor_desvantagem.value = null as unknown as string
+  seletor_raca.value = null
+  seletor_kit.value = null
+  seletor_vantagem.value = null
+  seletor_desvantagem.value = null
 
   heroi.value.name = ''
   heroi.value.ponto = 0
@@ -287,12 +239,7 @@ function atualizarComboSeletor (combo: { label: string; value: number }) {
     H: 0,
     A: 0,
     R: 0,
-    PdF: 0,
-    FA: 0,
-    FaD: 0,
-    FD: 0,
-    PV: 0,
-    PM: 0
+    PdF: 0
   }
 }
 
@@ -314,30 +261,137 @@ function atualizarComboDesvantagem (combo: IComboBox[]) {
 </script>
 
 <style scoped>
-.ficha-de-heroi {
-  width: 300px;
-  max-width: 100%;
+/* Tamanho padrão de carta: Magic: The Gathering = 63mm x 88mm */
+.ficha-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 5px;
+}
+
+.seletor-card {
+  width: 63mm;
+  max-width: 100%;
+  margin-bottom: 8px;
   border-radius: 10px;
   border-color: black !important;
   border-width: 2px;
   background-color: #fff;
-  padding: 0px !important;
 }
 
-.q-input:deep(.q-field__native) {
+/* Carta do herói: dimensões exatas de carta MTG (63mm x 88mm) */
+.carta-heroi {
+  width: 63mm;
+  height: 88mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 10px;
+  border-color: black !important;
+  border-width: 2px;
+  background-color: #fff;
+}
+
+/* Linha com dois campos lado a lado */
+.carta-linha {
+  display: flex;
+  gap: 4px;
+}
+
+.carta-raca {
+  flex: 1 1 auto;
+}
+
+.carta-pontos {
+  flex: 0 0 58px;
+}
+
+/* Grade de características (F H A R PdF) */
+.carta-caracteristicas {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
   text-align: center;
 }
 
-.q-textarea :deep(.q-field__native) {
-  resize: none !important;
-  padding: 2px 0px 2px 0px;
-  min-height: 65px !important;
-  line-height: 1 !important;
-  font-size: 11px !important;
+.carta-stat-label {
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 1.4;
 }
 
-.tipo-de-dano {
-  font-size: 12px !important;
+/* Áreas de texto crescem igualmente para preencher a carta */
+.carta-texto {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+/* Centraliza valores numéricos */
+.carta-heroi :deep(.q-field__native) {
+  text-align: center;
+}
+
+/* Remove as setinhas (spinners) dos inputs do tipo number */
+.carta-heroi :deep(input[type='number']) {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.carta-heroi :deep(input[type='number']::-webkit-outer-spin-button),
+.carta-heroi :deep(input[type='number']::-webkit-inner-spin-button) {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Compacta os campos densos para caber em 88mm */
+.carta-heroi :deep(.q-field--dense .q-field__control) {
+  height: 26px;
+  min-height: 26px;
+}
+
+.carta-heroi :deep(.q-field--dense .q-field__native),
+.carta-heroi :deep(.q-field--dense .q-field__input) {
+  font-size: 10px;
+  min-height: 24px;
+}
+
+.carta-heroi :deep(.q-field__label) {
+  font-size: 9px;
+}
+
+/* Textareas preenchem o espaço restante da carta */
+.carta-texto :deep(.q-field__control),
+.carta-texto :deep(.q-field__control-container) {
+  height: 100%;
+  min-height: 0;
+}
+
+.carta-texto :deep(textarea.q-field__native) {
+  height: 100% !important;
+  min-height: 0 !important;
+  resize: none !important;
+  padding: 0;
+  font-size: 9px !important;
+  line-height: 1.15 !important;
+}
+
+.tipo-de-dano :deep(.q-field__native) {
+  font-size: 10px;
+}
+
+/* Impressão: garante o tamanho exato da carta */
+@media print {
+  .ficha-container {
+    margin: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .carta-heroi {
+    width: 63mm !important;
+    height: 88mm !important;
+  }
 }
 </style>

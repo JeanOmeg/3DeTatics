@@ -62,6 +62,12 @@ const linksList: EssentialLinkProps[] = [
     link: '/grupo'
   },
   {
+    title: 'Lista de Grupos',
+    caption: 'Grupos salvos',
+    icon: 'groups',
+    link: '/grupos'
+  },
+  {
     title: 'Github',
     caption: 'Projeto no GitHub',
     icon: 'code',
