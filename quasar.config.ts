@@ -152,7 +152,14 @@ export default defineConfig((/* ctx */) => {
       // useCredentialsForManifestTag: true,
       // injectPwaMetaTags: false,
       // extendPWACustomSWConf (esbuildConf) {},
-      // extendGenerateSWOptions (cfg) {},
+      extendGenerateSWOptions(cfg: Record<string, unknown>) {
+        // Faz o novo service worker assumir o controle imediatamente,
+        // evitando que o navegador sirva um index.html em cache que
+        // aponta para chunks já deletados (erro 404 no import dinâmico).
+        cfg.skipWaiting = true
+        cfg.clientsClaim = true
+        cfg.cleanupOutdatedCaches = true
+      },
       // extendInjectManifestOptions (cfg) {}
     },
 

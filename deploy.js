@@ -2,7 +2,7 @@ const { execSync } = require('child_process')
 
 try {
   console.log('Buildando...')
-  execSync('cross-env NODE_ENV=prod yarn quasar build -m pwa', { stdio: 'inherit' })
+  execSync('yarn quasar build -m pwa', { stdio: 'inherit' })
 
   console.log('Commitando build pra master')
   execSync('git add .', { stdio: 'inherit' })
