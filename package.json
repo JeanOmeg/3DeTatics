@@ -9,8 +9,8 @@
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev -m pwa",
-    "build": "quasar build -m pwa",
+    "dev": "quasar dev -m spa",
+    "build": "quasar build -m spa",
     "dep": "node deploy.js",
     "postinstall": "quasar prepare"
   },
