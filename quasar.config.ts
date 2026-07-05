@@ -145,25 +145,9 @@ export default defineConfig((/* ctx */) => {
       // pwaExtendInjectManifestOptions (cfg) {}
     },
 
-    // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
-    pwa: {
-      workboxMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      // swFilename: 'sw.js',
-      // manifestFilename: 'manifest.json',
-      // extendManifestJson (json) {},
-      // useCredentialsForManifestTag: true,
-      // injectPwaMetaTags: false,
-      // extendPWACustomSWConf (esbuildConf) {},
-      extendGenerateSWOptions(cfg: Record<string, unknown>) {
-        // Faz o novo service worker assumir o controle imediatamente,
-        // evitando que o navegador sirva um index.html em cache que
-        // aponta para chunks já deletados (erro 404 no import dinâmico).
-        cfg.skipWaiting = true
-        cfg.clientsClaim = true
-        cfg.cleanupOutdatedCaches = true
-      },
-      // extendInjectManifestOptions (cfg) {}
-    },
+    // PWA removido: este projeto é SPA puro (build com `-m spa`).
+    // Um kill-switch service worker vive em `public/sw.js` para desregistrar
+    // service workers antigos que ainda existam em dispositivos de visitantes.
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova
     cordova: {
