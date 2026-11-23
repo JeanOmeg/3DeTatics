@@ -1,5 +1,323 @@
-// app global css in SCSS form
-.q-page {
-  max-width: 1000px; /* Limita a largura para melhor leitura */
-  margin: 0 auto; /* Centraliza a página de regras */
+// =============================================================================
+// 3DeTatics — estilos globais e tokens de interface
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Tokens (tema claro: pergaminho)
+// -----------------------------------------------------------------------------
+:root {
+  // Cores de interface
+  --cor-fundo: #f4efe4;
+  --cor-superficie: #fffdf8;
+  --cor-superficie-2: #efe7d6;
+  --cor-borda: #dccfb6;
+  --cor-texto: #1e2433;
+  --cor-texto-suave: #575c6b;
+  --cor-titulo: #1c2f5a;
+  --cor-link: #2b4c8c;
+  --cor-destaque: #b8432a;
+  --cor-ouro: #c9961f;
+  --cor-cabecalho: #1c2f5a;
+  --cor-cabecalho-texto: #fdf8ec;
+
+  // Caixas de destaque
+  --cor-nota-fundo: #e8eef9;
+  --cor-nota-borda: #2b4c8c;
+  --cor-exemplo-fundo: #edf3e6;
+  --cor-exemplo-borda: #4e7a3a;
+  --cor-importante-fundo: #fbeae4;
+  --cor-importante-borda: #b8432a;
+
+  // Tipografia
+  --fonte-titulo: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --fonte-texto: 'Nunito Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  // Espaçamento
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px;
+  --esp-5: 24px;
+  --esp-6: 32px;
+  --esp-7: 48px;
+
+  // Bordas e sombras
+  --raio-1: 6px;
+  --raio-2: 10px;
+  --raio-3: 16px;
+  --sombra-1: 0 1px 2px rgba(30, 36, 51, 0.08), 0 1px 3px rgba(30, 36, 51, 0.06);
+  --sombra-2: 0 4px 14px rgba(30, 36, 51, 0.12);
+
+  // Larguras
+  --largura-texto: 920px;
+  --largura-larga: 1400px;
+}
+
+// -----------------------------------------------------------------------------
+// Tokens (tema escuro: noite de campanha)
+// -----------------------------------------------------------------------------
+body.body--dark {
+  --cor-fundo: #12151f;
+  --cor-superficie: #1b2030;
+  --cor-superficie-2: #232a3d;
+  --cor-borda: #333c55;
+  --cor-texto: #ece6d8;
+  --cor-texto-suave: #a9aebf;
+  --cor-titulo: #f1d48a;
+  --cor-link: #93b1ee;
+  --cor-destaque: #f08a6b;
+  --cor-ouro: #e2b44c;
+  --cor-cabecalho: #0d1018;
+  --cor-cabecalho-texto: #f4ecd8;
+
+  --cor-nota-fundo: #1d2a45;
+  --cor-nota-borda: #6f8fd6;
+  --cor-exemplo-fundo: #1f2c1c;
+  --cor-exemplo-borda: #7fae63;
+  --cor-importante-fundo: #3a201b;
+  --cor-importante-borda: #f08a6b;
+
+  --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --sombra-2: 0 4px 14px rgba(0, 0, 0, 0.45);
+
+  // Primária mais clara no escuro, mantendo contraste com texto branco
+  --q-primary: #4a6fc0;
+}
+
+// -----------------------------------------------------------------------------
+// Base
+// -----------------------------------------------------------------------------
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--cor-link);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-titulo);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 var(--esp-3);
+}
+
+// Escala tipográfica
+.titulo-pagina {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.titulo-secao {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.titulo-subsecao {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.texto-suave {
+  color: var(--cor-texto-suave);
+}
+
+.texto-legenda {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.texto-destaque {
+  color: var(--cor-destaque);
+}
+
+// -----------------------------------------------------------------------------
+// Páginas
+// -----------------------------------------------------------------------------
+.pagina {
+  width: 100%;
+  max-width: var(--largura-texto);
+  margin: 0 auto;
+  padding: var(--esp-5) var(--esp-4) var(--esp-7);
+}
+
+.pagina--larga {
+  max-width: var(--largura-larga);
+}
+
+// Bloco de conteúdo (substitui os q-card soltos das páginas)
+.bloco {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-3);
+  box-shadow: var(--sombra-1);
+  padding: var(--esp-5);
+  margin-bottom: var(--esp-5);
+
+  @media (max-width: 599px) {
+    padding: var(--esp-4);
+  }
+}
+
+// Lista vertical de itens com espaçamento uniforme
+.pilha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+// Grade responsiva de cards
+.grade-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--esp-4);
+}
+
+// Barra de busca e filtros (fixa no topo ao rolar)
+.barra-filtros {
+  position: sticky;
+  top: 63px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-2) var(--esp-3);
+  margin-bottom: var(--esp-4);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-2);
+  box-shadow: var(--sombra-1);
+}
+
+.barra-filtros__busca {
+  flex: 1 1 220px;
+  max-width: 320px;
+}
+
+// Abas podem encolher e rolar em telas estreitas, sem empurrar a página
+.barra-filtros > .q-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 599px) {
+  .barra-filtros__busca {
+    max-width: none;
+  }
+}
+
+// Tabelas de regras
+.tabela-regras {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin: var(--esp-3) 0 var(--esp-4);
+
+  th,
+  td {
+    text-align: left;
+    padding: var(--esp-2) var(--esp-3);
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  th {
+    font-weight: 800;
+    color: var(--cor-titulo);
+    background: var(--cor-superficie-2);
+  }
+}
+
+.tabela-rolagem {
+  overflow-x: auto;
+}
+
+// Termos de regra em destaque dentro do texto
+.termo {
+  font-weight: 800;
+  color: var(--cor-titulo);
+}
+
+// -----------------------------------------------------------------------------
+// Ajustes de componentes do Quasar
+// -----------------------------------------------------------------------------
+.q-btn {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.q-card {
+  border-radius: var(--raio-2);
+}
+
+// No escuro, texto "primary" (botões outline/flat, abas, chips) usa o azul claro
+// para manter contraste; fundos bg-primary continuam com a cor de marca.
+body.body--dark .text-primary {
+  color: var(--cor-link) !important;
+}
+
+body.body--dark .q-card,
+body.body--dark .q-menu,
+body.body--dark .q-dialog .q-card {
+  background: var(--cor-superficie);
+}
+
+// -----------------------------------------------------------------------------
+// Acessibilidade
+// -----------------------------------------------------------------------------
+:focus-visible {
+  outline: 3px solid var(--cor-ouro);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Impressão: sempre claro
+// -----------------------------------------------------------------------------
+@media print {
+  body,
+  body.body--dark {
+    background: #fff !important;
+    color: #000 !important;
+
+    // Mesmo no tema escuro, tudo que for impresso usa a paleta clara
+    --cor-fundo: #fff;
+    --cor-superficie: #fff;
+    --cor-texto: #1e2433;
+  }
+
+  .q-page-container,
+  .q-page {
+    background: #fff !important;
+  }
+
+  // Menus, diálogos e avisos abertos nunca vão para o papel
+  .q-menu,
+  .q-dialog,
+  .q-notifications {
+    display: none !important;
+  }
 }

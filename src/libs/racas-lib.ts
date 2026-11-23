@@ -2,101 +2,199 @@ import { RacaEnum } from 'src/enums/raca-enum'
 import { IComboBox } from 'src/interfaces/combobox-interface'
 import { IRaca } from 'src/interfaces/raca-interface'
 
+// Raças (Vantagens e Desvantagens Únicas) adaptadas para o skirmish.
+// Cada herói pode ter apenas uma raça. Bônus raciais nunca levam uma
+// Característica acima de 5 em heróis recém-criados.
+// Os campos estruturados (bonus, vantagensGratis, desvantagensRaciais...)
+// alimentam a calculadora de pontos; os textos são o que aparece nas páginas.
+
+const RACAS: IRaca[] = [
+  {
+    nome: 'Anão',
+    custo: 2,
+    vantagens: ['Infravisão', 'Resistência à Magia', 'R+1 em testes', 'H+1 contra orcs, goblinoides e trolls'],
+    desvantagens: ['-2" de movimento'],
+    value: RacaEnum.anao,
+    categoria: 'vivo',
+    vantagensGratis: ['resistencia_a_magia']
+  },
+  {
+    nome: 'Anfíbio',
+    custo: 0,
+    vantagens: ['Move-se por terreno de água normalmente', 'Radar (apenas dentro de terreno com água)'],
+    desvantagens: ['Ambiente Especial (água)', 'Vulnerabilidade (calor/fogo)'],
+    value: RacaEnum.anfibio,
+    categoria: 'vivo',
+    desvantagensRaciais: ['ambiente_especial', 'vulnerabilidade']
+  },
+  {
+    nome: 'Centauro',
+    custo: 2,
+    vantagens: ['F+1 em testes de empurrar e carregar', '+2" de movimento', 'Pode trocar seu ataque por 2 ataques com os cascos (FA = F+1d, sem H, sem bônus de Vantagens)'],
+    desvantagens: ['Modelo Especial'],
+    value: RacaEnum.centauro,
+    categoria: 'vivo',
+    desvantagensRaciais: ['modelo_especial']
+  },
+  {
+    nome: 'Construto',
+    custo: 0,
+    vantagens: ['Imune a venenos, doenças, magias mentais (com Telepatia) e qualquer efeito que funcione apenas em seres vivos'],
+    desvantagens: ['Não recupera PV por cura, magia ou itens', 'Não pode usar magia'],
+    value: RacaEnum.construto,
+    categoria: 'construto',
+    semMagia: true
+  },
+  {
+    nome: 'Elfo',
+    custo: 2,
+    vantagens: ['Infravisão', 'H+1 (máx. 5)', 'FA+1 com dano de corte (F) ou perfuração (PdF), escolha um'],
+    desvantagens: ['R-1 em testes'],
+    value: RacaEnum.elfo,
+    categoria: 'vivo',
+    bonus: { H: 1 }
+  },
+  {
+    nome: 'Elfo Negro',
+    custo: 3,
+    vantagens: ['H+1 (máx. 5)', 'Infravisão', 'Resistência à Magia', 'Focus+1 em Luz e Trevas'],
+    desvantagens: ['R-1 em testes', '-1 em todas as Características em cenários diurnos', 'Vulnerabilidade (luz)'],
+    value: RacaEnum.elfo_negro,
+    categoria: 'vivo',
+    bonus: { H: 1 },
+    bonusFocus: { luz: 1, trevas: 1 },
+    vantagensGratis: ['resistencia_a_magia'],
+    desvantagensRaciais: ['vulnerabilidade']
+  },
+  {
+    nome: 'Esqueleto',
+    custo: -2,
+    vantagens: ['Armadura Extra (corte/perfuração)', 'Invulnerabilidade (frio/gelo)', 'Imune a venenos, doenças, magias mentais (com Telepatia) e qualquer efeito que funcione apenas em seres vivos'],
+    desvantagens: ['Não recupera PV', 'Não pode ser ressuscitado', 'Não pode usar magia ou gastar PM', 'Monstruoso'],
+    value: RacaEnum.esqueleto,
+    categoria: 'morto_vivo',
+    semMagia: true,
+    desvantagensRaciais: ['monstruoso']
+  },
+  {
+    nome: 'Gnomo',
+    custo: 2,
+    vantagens: ['H+1 (máx. 5)', 'Genialidade', 'Focus+1 em Luz', 'Magias de ilusão e Invisibilidade custam 1PM a menos'],
+    desvantagens: ['Modelo Especial'],
+    value: RacaEnum.gnomo,
+    categoria: 'vivo',
+    bonus: { H: 1 },
+    bonusFocus: { luz: 1 },
+    vantagensGratis: ['genialidade'],
+    desvantagensRaciais: ['modelo_especial']
+  },
+  {
+    nome: 'Goblin',
+    custo: -2,
+    vantagens: ['Pode comprar Crime por 1 ponto', 'Infravisão'],
+    desvantagens: ['Má Fama', 'Não pode ser mago', 'Focus máximo 2 com Clericato', 'Não pode ter Focus em Luz'],
+    value: RacaEnum.goblin,
+    categoria: 'vivo',
+    desvantagensRaciais: ['ma_fama'],
+    focusMaximo: 2,
+    magiaExigeClericato: true
+  },
+  {
+    nome: 'Halfling',
+    custo: 2,
+    vantagens: ['H+1 (máx. 5)', 'PdF+1 (máx. 5)', 'Resistência à Magia', 'Pode comprar Crime por 1 ponto'],
+    desvantagens: ['Modelo Especial'],
+    value: RacaEnum.halfling,
+    categoria: 'vivo',
+    bonus: { H: 1, PdF: 1 },
+    vantagensGratis: ['resistencia_a_magia'],
+    desvantagensRaciais: ['modelo_especial']
+  },
+  {
+    nome: 'Humano',
+    custo: 0,
+    vantagens: ['Pode comprar qualquer Perícia por 1 ponto'],
+    desvantagens: [],
+    value: RacaEnum.humano,
+    categoria: 'vivo'
+  },
+  {
+    nome: 'Licantropo',
+    custo: 0,
+    vantagens: ['F+1 transformado', 'A+1 transformado'],
+    desvantagens: ['Fúria (ao entrar em Fúria se transforma)', 'Monstruoso (transformado)', 'Vulnerabilidade (magia, armas mágicas e prata)'],
+    value: RacaEnum.licantropo,
+    categoria: 'vivo',
+    desvantagensRaciais: ['furia', 'monstruoso', 'vulnerabilidade']
+  },
+  {
+    nome: 'Meio-Elfo',
+    custo: 1,
+    vantagens: ['Pode comprar qualquer Perícia por 1 ponto', 'Infravisão'],
+    desvantagens: [],
+    value: RacaEnum.meio_elfo,
+    categoria: 'vivo'
+  },
+  {
+    nome: 'Meio-Orc',
+    custo: -1,
+    vantagens: ['F+1 (máx. 5)', 'Infravisão'],
+    desvantagens: ['Má Fama', 'Não pode comprar Genialidade'],
+    value: RacaEnum.meio_orc,
+    categoria: 'vivo',
+    bonus: { F: 1 },
+    desvantagensRaciais: ['ma_fama'],
+    vantagensProibidas: ['genialidade']
+  },
+  {
+    nome: 'Minotauro',
+    custo: 1,
+    vantagens: ['F+2 (máx. 5)', 'R+1 (máx. 5)'],
+    desvantagens: ['Código de Honra do Combate', 'Má Fama', 'Medo de altura: não pode terminar o movimento sobre terreno Elevado'],
+    value: RacaEnum.minotauro,
+    categoria: 'vivo',
+    bonus: { F: 2, R: 1 },
+    desvantagensRaciais: ['codigo_de_honra', 'ma_fama']
+  },
+  {
+    nome: 'Ogre',
+    custo: 3,
+    vantagens: ['F+3 (máx. 5)', 'R+3 (máx. 5)'],
+    desvantagens: ['Má Fama', 'Modelo Especial', 'Monstruoso', 'Não pode comprar Genialidade'],
+    value: RacaEnum.ogre,
+    categoria: 'vivo',
+    bonus: { F: 3, R: 3 },
+    desvantagensRaciais: ['ma_fama', 'modelo_especial', 'monstruoso'],
+    vantagensProibidas: ['genialidade']
+  },
+  {
+    nome: 'Troglodita',
+    custo: 3,
+    vantagens: ['F+1 (máx. 5)', 'A+1 (máx. 5)', 'Infravisão', 'Camuflagem: não pode ser alvo de ataques à distância na primeira rodada', 'Óleo fedorento: uma vez por partida, como Ação, um inimigo em contato de base testa R; se falhar sofre F-1 por 2 rodadas'],
+    desvantagens: ['Monstruoso', 'Vulnerabilidade (frio/gelo)', 'Só usa magia com Clericato e Focus máximo 3'],
+    value: RacaEnum.troglodita,
+    categoria: 'vivo',
+    bonus: { F: 1, A: 1 },
+    desvantagensRaciais: ['monstruoso', 'vulnerabilidade'],
+    focusMaximo: 3,
+    magiaExigeClericato: true
+  }
+]
+
+const POR_VALOR = new Map(RACAS.map(raca => [raca.value, raca]))
+
 export namespace RacasLib {
 
   export function listarRacas () {
-    const racas: IRaca[] = [
-      {
-        nome: 'Anão',
-        custo: 2,
-        vantangens: ['Infravisão', ' Resistência à magia', 'R+1 em teste', 'H+1 contra inimigo'],
-        desvantagens: ['-2" movimento'],
-        value: RacaEnum.anao
-      },
-      {
-        nome: 'Anfíbio',
-        custo: 0,
-        vantangens: ['Pode se mover por terreno de aguá normalmente', 'Radar (apenas em terrenos com água)'],
-        desvantagens: ['Ambiente Especial (água)', 'Vulnerabilidade (calor/fogo)'],
-        value: RacaEnum.anfibio
-      },
-      {
-        nome: 'Centauro',
-        custo: 2,
-        vantangens: ['F+1 em teste(cavalo)', '+2" movimento', '2x Ataque (F+1D6)'],
-        desvantagens: [],
-        value: RacaEnum.centauro
-      },
-      {
-        nome: 'Construto',
-        custo: 0,
-        vantangens: ['Imune a venenos, doenças, magias mentais (com Telepatia) e qualquer efeito que funcione apenas em seres vivos.'],
-        desvantagens: ['Não pode recuperar vida ou ressuscitar'],
-        value: RacaEnum.construto
-      },
-      {
-        nome: 'Elfo',
-        custo: 2,
-        vantangens: ['Infravisão', 'H+1 (max 5)', 'FA+1 corte/perfuração'],
-        desvantagens: ['R-1 em teste'],
-        value: RacaEnum.elfo
-      },
-      {
-        nome: 'Esqueleto',
-        custo: -2,
-        vantangens: ['Armadura extra (corte/perfuração)', 'Invulnerabilidade (frio/gelo)', 'Imune a venenos, doenças, magias mentais (com Telepatia) e qualquer efeito que funcione apenas em seres vivos.'],
-        desvantagens: ['Não pode recuperar HP', 'Não pode ser ressuscitado', 'Não pode usar magia ou gastar PM'],
-        value: RacaEnum.esqueleto
-      },
-      {
-        nome: 'Goblin',
-        custo: -2,
-        vantangens: ['Pode comprar Crime por 1pt', 'Infravisão'],
-        desvantagens: ['Má fama', 'Não pode ser mago', 'Focus máximo 2 com Clericato', 'Não pode ter focus em luz'],
-        value: RacaEnum.goblin
-      },
-      {
-        nome: 'Halfling',
-        custo: 2,
-        vantangens: ['H+1', 'PdF+1', ' Resistência à magia', 'Pode comprar Crime por 1pt'],
-        desvantagens: ['Modelo especial'],
-        value: RacaEnum.halfling
-      },
-      {
-        nome: 'Humano',
-        custo: 0,
-        vantangens: ['Pode comprar qualquer perícia por 1pt'],
-        desvantagens: [],
-        value: RacaEnum.humano
-      },
-      {
-        nome: 'Licantropo',
-        custo: 0,
-        vantangens: ['F+1 transformado', 'A+1 transformado'],
-        desvantagens: ['Fúria (ativa transformação)', 'Monstruoso', 'Vulnerabilidade magia/armas mágicas'],
-        value: RacaEnum.licantropo
-      },
-      {
-        nome: 'Meio-elfo',
-        custo: 1,
-        vantangens: ['Pode comprar qualquer perícia por 1pt', 'Infravisão'],
-        desvantagens: [],
-        value: RacaEnum.meio_elfo
-      },
-      {
-        nome: 'Meio-orc',
-        custo: -1,
-        vantangens: ['F+1', 'Infravisão'],
-        desvantagens: ['Má fama', 'Não pode comprar genialidade/memoria expandida'],
-        value: RacaEnum.meio_orc
-      }
-    ]
+    return RACAS
+  }
 
-    return racas
+  export function obter (value: string) {
+    return POR_VALOR.get(value)
   }
 
   export function listarRacasCombo () {
-    const combo: IComboBox[] = listarRacas().map(item => ({ label: item.nome, value: item.value }))
+    const combo: IComboBox[] = RACAS.map(item => ({ label: item.nome, value: item.value }))
 
     return combo
   }

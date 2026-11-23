@@ -1,534 +1,658 @@
 <template>
-  <q-page class="q-pa-md">
-    <q-card
-      flat
-      bordered
-      class="q-my-lg"
-    >
-      <q-card-section>
-        <div class="text-h4 text-center text-primary q-pb-md">
-          <b>PRINCÍPIOS GERAIS</b>
-        </div>
-        <q-separator />
-      </q-card-section>
+  <q-page class="pagina">
+    <CabecalhoPagina
+      sobretitulo="Livro de regras"
+      titulo="Regras do jogo"
+      descricao="Tudo o que você precisa para montar a mesa, posicionar seus heróis e resolver os combates."
+    />
 
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Regra de ouro</b>
-        </div>
-      </q-card-section>
+    <IndiceSecoes :itens="indice" />
 
-      <q-card-section>
-        <p class="text-body1">
-          Se uma regra entrar em conflito ou não cobrir uma situação, resolva com bom senso e acordo entre os jogadores. Sempre que possível, informe ao criador do jogo para ajudar a melhorar o 3DeTatics.
+    <!-- 1. Princípios gerais -->
+    <section class="bloco">
+      <TituloSecao
+        numero="1"
+        titulo="Princípios gerais"
+        ancora="principios"
+      />
+
+      <CaixaDestaque
+        tipo="importante"
+        titulo="Regra de ouro"
+      >
+        <p>Se uma regra entrar em conflito ou não cobrir uma situação, resolva com bom senso e acordo entre os jogadores. Sempre que possível, informe ao criador do jogo para ajudar a melhorar o 3DeTatics.</p>
+      </CaixaDestaque>
+
+      <TituloSecao
+        titulo="3D&T Turbinado"
+        :nivel="3"
+      />
+      <p>As regras do 3D&T Turbinado são a base do 3DeTatics, no geral as regras são as mesmas, mas com suas devidas adaptações para um wargame. Você é livre para modificar as regras, mas lembre-se, 3DeTatics não é um RPG, tenha bom senso.</p>
+
+      <TituloSecao
+        titulo="Objetivo"
+        :nivel="3"
+      />
+      <p>Escaramuça! Ganha quem derrotar os heróis do jogador adversário. Na seção Modos de jogo você encontra outras formas de jogar, com objetivos diferentes.</p>
+    </section>
+
+    <!-- 2. Configuração -->
+    <section class="bloco">
+      <TituloSecao
+        numero="2"
+        titulo="Configuração"
+        ancora="configuracao"
+      />
+
+      <TituloSecao
+        titulo="Os grupos"
+        :nivel="3"
+      />
+      <p>No modo normal, o jogo é para 2 jogadores. Em alguns modos de jogo (veja Modos de jogo), esse número pode variar. Cada jogador monta um grupo do mesmo tamanho: recomendo o tamanho Novato para iniciantes e Lenda para veteranos.</p>
+
+      <TituloSecao
+        titulo="Tamanho dos grupos"
+        :nivel="3"
+      />
+      <p>Os grupos são divididos em 4 tamanhos, sendo o <b>Novato</b> o ideal para conhecer o jogo.</p>
+      <div class="tabela-rolagem">
+        <table class="tabela-regras">
+          <thead>
+            <tr>
+              <th>Tamanho</th>
+              <th>5 pts</th>
+              <th>7 pts</th>
+              <th>10 pts</th>
+              <th>12 pts</th>
+              <th>Campo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="tamanho in tamanhosGrupo"
+              :key="tamanho.nome"
+            >
+              <td><span class="termo">{{ tamanho.nome }}</span></td>
+              <td>{{ tamanho.h5 }}</td>
+              <td>{{ tamanho.h7 }}</td>
+              <td>{{ tamanho.h10 }}</td>
+              <td>{{ tamanho.h12 }}</td>
+              <td>{{ tamanho.campo }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <CaixaDestaque
+        tipo="nota"
+        titulo="Kits repetidos"
+      >
+        <p>Não pode possuir heróis com kits iguais por grupo de pontos. Exemplo: se seu grupo é do tamanho Novato, 3 heróis de 5 pts com kits diferentes e 2 heróis de 7 pts com kits diferentes. Mas você pode possuir um herói de 5 pts com kit Guerreiro e outro de 7 pts também com kit Guerreiro.</p>
+      </CaixaDestaque>
+
+      <TituloSecao
+        titulo="Campo de batalha"
+        :nivel="3"
+      />
+      <p>O tamanho do campo varia conforme o grupo (veja a tabela acima), mas você pode usar qualquer dimensão. Como o jogo não utiliza grids, adotamos duas medidas de referência: pés (’) e polegadas (”).</p>
+      <ul>
+        <li><span class="termo">1’ (pé):</span> 12” ou 30,5 cm.</li>
+        <li><span class="termo">1” (polegada):</span> 2,5 cm.</li>
+      </ul>
+
+      <TituloSecao
+        titulo="Terrenos"
+        :nivel="3"
+      />
+      <p>Como em todo wargame de fantasia, os terrenos criam desafios de movimentação e estratégia. Eles se dividem em oito tipos.</p>
+      <div class="pilha">
+        <ItemRegra
+          v-for="terreno in terrenos"
+          :key="terreno.nome"
+          :nome="terreno.nome"
+        >
+          <p>{{ terreno.descricao }}</p>
+          <ul v-if="terreno.regras.length">
+            <li
+              v-for="regra in terreno.regras"
+              :key="regra.rotulo"
+            >
+              <span class="termo">{{ regra.rotulo }}:</span> {{ regra.texto }}
+            </li>
+          </ul>
+        </ItemRegra>
+      </div>
+
+      <TituloSecao
+        titulo="Montagem de terreno"
+        :nivel="3"
+      />
+      <p>Antes da partida, monte o campo com pelo menos 15 a 20 peças de terreno. Quanto mais terrenos houver, mais estratégica será a partida. Uma boa referência é cobrir cerca de 50% da mesa, distribuindo as peças de forma equilibrada entre os lados. Varie os tipos de terreno para que diferentes unidades e habilidades tenham utilidade durante o jogo. Siga as proporções abaixo:</p>
+      <ul>
+        <li>50% dos terrenos devem bloquear linha de visão.</li>
+        <li>33% devem fornecer cobertura.</li>
+        <li>33% devem ser terrenos difíceis.</li>
+        <li>Cada jogador escolhe 1 terreno perigoso.</li>
+      </ul>
+      <CaixaDestaque
+        tipo="nota"
+        titulo="Por que as proporções passam de 100%"
+      >
+        <p>As categorias se sobrepõem: uma mesma peça pode contar em mais de uma. Uma floresta densa, por exemplo, bloqueia a linha de visão e também é terreno difícil; um muro baixo de ruínas dá cobertura e é terreno difícil. Use as proporções como guia para a variedade da mesa, não como uma soma exata.</p>
+      </CaixaDestaque>
+      <div class="imagem-unica">
+        <ImagemExemplo
+          alt="Mesa de jogo montada com várias peças de terreno: rochas, árvores, ruínas e muros."
+          legenda="Exemplo de mesa montada"
+          :src="imagens.terreno"
+        />
+      </div>
+
+      <TituloSecao
+        titulo="Posicionamento dos heróis"
+        :nivel="3"
+      />
+      <p>Cada jogador deve selecionar o herói com a maior pontuação de Iniciativa, considerando o maior valor de H e quaisquer vantagens que concedam bônus à iniciativa. Em seguida, ambos rolam H + bônus (se houver) + 1D6. O jogador com o maior resultado vence a iniciativa e deve escolher um dos quatro lados do campo como sua zona de deploy. O jogador que perder a iniciativa deve jogar no lado oposto.</p>
+      <p>Após definir os lados, o jogador que venceu a iniciativa deve colocar o primeiro herói em campo, a até 12” da borda correspondente ao seu lado. Os jogadores então se alternam, colocando um herói por vez até que todos estejam posicionados. Quando todos os heróis estiverem em campo, ambos os jogadores devem rolar novamente a iniciativa. O vencedor dessa nova rolagem será o primeiro a jogar.</p>
+    </section>
+
+    <!-- 3. Jogando -->
+    <section class="bloco">
+      <TituloSecao
+        numero="3"
+        titulo="Jogando"
+        ancora="jogando"
+      />
+
+      <TituloSecao
+        titulo="Unidade de tempo"
+        :nivel="3"
+      />
+      <p>O jogo é dividido em dois tipos de tempo, turno e rodada. Não há um limite de "tempo de jogo": o jogo termina quando todos os heróis do grupo adversário forem derrotados (ou quando alguma condição de modos alternativos for cumprida).</p>
+      <ul>
+        <li><span class="termo">Turno:</span> cada vez que um herói finaliza suas ações de jogo é considerado um turno.</li>
+        <li><span class="termo">Rodada:</span> quando todos os heróis em campo finalizarem seus turnos, é considerado uma rodada.</li>
+      </ul>
+
+      <TituloSecao
+        titulo="Ativando o herói"
+        :nivel="3"
+      />
+      <p>Cada herói pode ser ativado apenas <b>uma vez por rodada</b>, exceto em situações de defesa/esquiva ou testes que o valham. Após o herói ser ativado e ter utilizado suas ações, adicione um marcador ao lado do herói: ele só poderá ser ativado novamente no início da nova rodada.</p>
+
+      <TituloSecao
+        titulo="Ações do herói"
+        :nivel="3"
+      />
+      <p>Cada herói pode executar 3 tipos de ações durante sua ativação, seguindo o mesmo princípio do Manual 3D&T Revisado, Ampliado e Turbinado.</p>
+      <div class="tabela-rolagem">
+        <table class="tabela-regras">
+          <thead>
+            <tr>
+              <th>Ação</th>
+              <th>Quando</th>
+              <th>Efeito</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="termo">Mover</span></td>
+              <td>Uma vez por turno</td>
+              <td>Move até 6" (a menos que algo diga o contrário), antes ou depois de executar uma Ação.</td>
+            </tr>
+            <tr>
+              <td><span class="termo">Ação</span></td>
+              <td>Uma vez por turno</td>
+              <td>Atacar, usar uma vantagem (algumas não usam ação), lançar uma magia e afins.</td>
+            </tr>
+            <tr>
+              <td><span class="termo">Correr</span></td>
+              <td>Uma vez por turno, se não usou Mover nem Ação</td>
+              <td>Move 2 x Mover e finaliza o turno.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <TituloSecao
+        titulo="Mover"
+        :nivel="3"
+      />
+      <p>Cada herói pode mover até 6" por turno (ele não precisa mover seu máximo de movimento), seguindo para qualquer direção em que seja possível se movimentar. Algumas vantagens, desvantagens e magias podem adicionar ou remover polegadas do movimento.</p>
+      <div class="par-imagens">
+        <ImagemExemplo
+          alt="Trena saindo da ponta da base da miniatura."
+          legenda="Certo: a régua sai da ponta da base"
+          tipo="certo"
+          :src="imagens.certo_1"
+        />
+        <ImagemExemplo
+          alt="Miniatura posicionada antes do fim da régua."
+          legenda="Certo: o herói para antes do fim da régua"
+          tipo="certo"
+          :src="imagens.certo_2"
+        />
+        <ImagemExemplo
+          alt="Trena saindo do meio da base da miniatura."
+          legenda="Errado: a régua sai de outro ponto da base"
+          tipo="errado"
+          :src="imagens.errado_1"
+        />
+        <ImagemExemplo
+          alt="Miniatura posicionada depois do fim da régua."
+          legenda="Errado: o herói passa do fim da régua"
+          tipo="errado"
+          :src="imagens.errado_2"
+        />
+      </div>
+
+      <TituloSecao
+        titulo="Ação"
+        :nivel="3"
+      />
+      <p>Utilizar uma ação segue o mesmo princípio do 3D&T Turbinado: geralmente um ataque, usar uma vantagem ou uma magia e assim por diante. O herói só pode utilizar <b>uma Ação por turno</b>, a não ser que algo diga o contrário.</p>
+      <p><span class="termo">Ataque:</span> o ataque é considerado uma Ação. Para atacar ou defender as regras são as mesmas do 3D&T Turbinado (veja Combate), lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo e, após o ataque, o herói atacante recua 1" da base do herói alvo.</p>
+      <div class="par-imagens">
+        <ImagemExemplo
+          alt="Duas miniaturas com as bases encostadas."
+          legenda="Ao atacar: bases em contato"
+          :src="imagens.atacar_1"
+        />
+        <ImagemExemplo
+          alt="Miniatura atacante afastada 1 polegada do alvo."
+          legenda="Após atacar: recua 1&quot;"
+          :src="imagens.atacar_2"
+        />
+      </div>
+
+      <TituloSecao
+        titulo="Atacar à distância"
+        :nivel="3"
+      />
+      <p>Atacar à distância segue quase as mesmas regras do 3D&T Turbinado, com a diferença de que, para executar um ataque à distância, o herói precisa ter pelo menos PdF1. Além disso, o herói precisa ter uma linha de visão clara do herói alvo. Para alcançar o ataque, pelo menos 1/4" deve passar da base do alvo.</p>
+      <p><span class="termo">Alcance:</span> o alcance do ataque à distância depende do PdF do herói atacante.</p>
+      <div class="tabela-rolagem">
+        <table class="tabela-regras tabela-regras--compacta">
+          <thead>
+            <tr>
+              <th>PdF</th>
+              <th
+                v-for="linha in alcancePdf"
+                :key="linha.valor"
+              >
+                {{ linha.valor }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="termo">Alcance</span></td>
+              <td
+                v-for="linha in alcancePdf"
+                :key="linha.valor"
+              >
+                {{ linha.alcance }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="par-imagens">
+        <ImagemExemplo
+          alt="Régua de alcance ultrapassando a base do alvo."
+          legenda="Com alcance"
+          tipo="certo"
+          :src="imagens.alcanca"
+        />
+        <ImagemExemplo
+          alt="Régua de alcance terminando antes da base do alvo."
+          legenda="Sem alcance"
+          tipo="errado"
+          :src="imagens.nao_alcanca"
+        />
+      </div>
+
+      <TituloSecao
+        titulo="Linha de visão"
+        :nivel="3"
+      />
+      <p>O herói atacante precisa enxergar pelo menos 50% da miniatura do herói alvo.</p>
+      <div class="par-imagens">
+        <ImagemExemplo
+          alt="Miniatura alvo quase toda visível atrás de um obstáculo."
+          legenda="Com visão: 50% ou mais da miniatura"
+          tipo="certo"
+          :src="imagens.visao1"
+        />
+        <ImagemExemplo
+          alt="Outra miniatura alvo visível em boa parte."
+          legenda="Com visão: 50% ou mais da miniatura"
+          tipo="certo"
+          :src="imagens.visao2"
+        />
+        <ImagemExemplo
+          alt="Miniatura alvo quase toda escondida atrás de um obstáculo."
+          legenda="Sem visão: menos de 50% da miniatura"
+          tipo="errado"
+          :src="imagens.sem_visao1"
+        />
+        <ImagemExemplo
+          alt="Outra miniatura alvo escondida em sua maior parte."
+          legenda="Sem visão: menos de 50% da miniatura"
+          tipo="errado"
+          :src="imagens.sem_visao2"
+        />
+      </div>
+
+      <TituloSecao
+        titulo="Arremesso de arma"
+        :nivel="3"
+      />
+      <p>Segue o mesmo conceito de ataque à distância. Caso o herói não tenha PdF e queira atacar à distância, ele pode arremessar sua arma (desde que utilize uma) e tenha pelo menos F1, atacando com F em vez de PdF. Após arremessar a arma, adicione um marcador (simbolizando a arma) à frente do herói alvo: até o herói atacante buscar a arma, ele fica com FA-2. O alcance do arremesso é baseado em sua Força.</p>
+      <div class="tabela-rolagem">
+        <table class="tabela-regras tabela-regras--compacta">
+          <thead>
+            <tr>
+              <th>F</th>
+              <th
+                v-for="linha in alcanceArremesso"
+                :key="linha.valor"
+              >
+                {{ linha.valor }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="termo">Alcance</span></td>
+              <td
+                v-for="linha in alcanceArremesso"
+                :key="linha.valor"
+              >
+                {{ linha.alcance }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. Combate -->
+    <section class="bloco">
+      <TituloSecao
+        numero="4"
+        titulo="Combate"
+        ancora="combate"
+      />
+
+      <TituloSecao
+        titulo="Pontos de Vida e de Magia"
+        :nivel="3"
+      />
+      <p>Para manter as fichas fixas e prontas para impressão, nada é rolado na criação: cada herói começa a partida com PV e PM iguais à sua R multiplicada pelo valor indicado no seu kit (sem kit, <b>PV = R x 5</b> e <b>PM = R x 5</b>). Heróis com R0 têm 1 PV e 1 PM. Vantagens como Pontos de Vida Extras e Pontos de Magia Extras aumentam esses valores. PV e PM não se recuperam durante a partida, a não ser por Vantagens ou magias.</p>
+
+      <TituloSecao
+        titulo="Força de Ataque e Força de Defesa"
+        :nivel="3"
+      />
+      <div class="tabela-rolagem">
+        <table class="tabela-regras">
+          <tbody>
+            <tr>
+              <th>Força de Ataque (FA)</th>
+              <td>H + F + 1D6 corpo a corpo, ou H + PdF + 1D6 à distância.</td>
+            </tr>
+            <tr>
+              <th>Força de Defesa (FD)</th>
+              <td>H + A + 1D6.</td>
+            </tr>
+            <tr>
+              <th>Dano</th>
+              <td>FA – FD, com mínimo de 1 ponto (Deflexão e Reflexão bem-sucedidas são a exceção: não causam dano).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p><span class="termo">Acerto Crítico:</span> um 6 no dado da FA dobra a F ou o PdF; um 6 no dado da FD dobra a A. Bônus de H nunca são dobrados. Se o valor já estava dobrado (Armadura Extra, Tiro Carregável), ele é triplicado.</p>
+      <p><span class="termo">Ataque Especial simples:</span> qualquer herói pode gastar 1 PM antes de rolar o ataque para ganhar F+1 ou PdF+1.</p>
+
+      <TituloSecao
+        titulo="Esquiva"
+        :nivel="3"
+      />
+      <p>Antes de rolar a FD, o herói atacado pode tentar uma Esquiva: um teste de H com redutor igual à H do atacante. Se passar, o ataque não acerta. Cada herói pode tentar no máximo H esquivas por rodada, e só uma vez contra cada ataque. Um 6 é sempre falha. Aceleração dá +1 e Teleporte dá +2 nas esquivas (não cumulativos).</p>
+
+      <TituloSecao
+        titulo="Indefeso"
+        :nivel="3"
+      />
+      <p>Um herói paralisado, atacado pelas costas sem ter visto o atacante, ou impedido de se defender por qualquer efeito é considerado Indefeso: sua FD é apenas a A, sem H e sem rolar o dado, e ele não pode esquivar.</p>
+
+      <TituloSecao
+        titulo="Perto da Morte e Derrota"
+        :nivel="3"
+      />
+      <ul>
+        <li><span class="termo">Perto da Morte:</span> o herói está Perto da Morte quando seus PV ficam iguais ou menores que sua R (máximo 5 PV). Algumas Vantagens só funcionam nesse estado.</li>
+        <li><span class="termo">Derrota:</span> com 0 PV o herói é derrotado e sua miniatura sai do campo. Não há testes de morte no 3DeTatics.</li>
+      </ul>
+
+      <TituloSecao
+        titulo="Distâncias das Vantagens"
+        :nivel="3"
+      />
+      <p>As Vantagens do manual original usam metros. No 3DeTatics todas as distâncias já foram convertidas para polegadas (") e os efeitos que duravam "turnos de combate" agora duram turnos de ativação ou rodadas, como indicado em cada Vantagem.</p>
+
+      <CaixaDestaque
+        tipo="nota"
+        titulo="Magias"
+      >
+        <p>
+          As regras de Focus, Caminhos e a lista de magias estão na <router-link to="/magias">
+            página de Magias
+          </router-link>.
         </p>
-      </q-card-section>
+      </CaixaDestaque>
+    </section>
 
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>3D&T - Alpha</b>
-        </div>
-      </q-card-section>
+    <!-- 5. Modos de jogo -->
+    <section class="bloco">
+      <TituloSecao
+        numero="5"
+        titulo="Modos de jogo"
+        ancora="modos"
+      />
+      <p>Escaramuça é o modo padrão. Os modos abaixo mudam apenas o objetivo da partida: o resto das regras continua igual. Combine o modo antes de montar a mesa.</p>
 
-      <q-card-section>
-        <p class="text-body1">
-          As regras do 3D&T - Alpha são a base do 3DeTatics, no geral as regras são as mesmas, mas com suas devidas adaptações para um wargame. Você é livre para modificar as regras, mas lembre-se, 3DeTatics não é um RPG, tenha bom senso.
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Objetivo</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Escaramuça! Ganha quem derrotar os heróis do jogador adversário. Na seção de Regras Avançadas, você encontrará novos modos de jogos com objetivos diferentes.
-        </p>
-      </q-card-section>
-    </q-card>
-
-    <q-card
-      flat
-      bordered
-      class="q-mb-lg"
-    >
-      <q-card-section>
-        <div class="text-h4 text-center text-primary q-pb-md">
-          <b>CONFIGURAÇÃO</b>
-        </div>
-        <q-separator />
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Os grupos</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          No modo normal, o jogo é para 2 jogadores. Em modos alternativos (descritos nas Regras Avançadas), esse número pode variar. Cada jogador monta um grupo do mesmo tamanho: recomendo o tamanho Novato para iniciantes e Lenda para veteranos.
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Tamanho dos grupos</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Os grupos são divididos em 4 tamanhos, sendo o <b>novato</b> o ideal para conhecer o jogo. Não pode possuir heróis com kits iguais por grupo de pontos. Exemplo: Se seu grupo é do tamanho novato, 3 heróis de 5 pts com kits diferentes, e 2 heróis com 7 pts com kits diferentes. Mas você pode possuir um herói de 5 pts com kit Guerreiro e outro de 7 pts também com kit Guerreiro.<br><br>
-          <b>Novato (5):</b> 3 heróis de 5 pts + 2 heróis de 7 pts.<br>
-          <b>Lutador (7):</b> 3 heróis de 5 pts + 2 heróis de 7 pts + 2 heróis de 10 pts.<br>
-          <b>Campeão (10):</b> 3 heróis de 5 pts + 3 heróis de 7 pts + 3 heróis de 10 pts + 1 herói de 12 pts.<br>
-          <b>Lenda (12):</b> 3 heróis de 5 pts + 3 heróis de 7 pts + 3 heróis de 10 pts + 3 heróis de 12 pts.
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Campo de Batalha</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          O tamanho do campo varia conforme o grupo, mas você pode usar qualquer dimensão. Como o jogo não utiliza grids, adotamos duas medidas de referência: pés (’) e polegadas (”).<br><br>
-          <b>1’ (pé):</b> 12” ou 30,5 cm.<br>
-          <b>1” (polegada):</b> 2,5 cm.<br><br>
-          <b>Novato:</b> 2’ x 2’ (24” x 24” / 61cm x 61cm).<br>
-          <b>Lutador:</b> 3’ x 3’ (36” x 36” / 91cm x 91cm).<br>
-          <b>Campeão e Lenda:</b> 4’ x 4’ (48” x 48” / 1,22m x 1,22m).<br>
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Terrenos</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Como em todo wargame de fantasia, os terrenos criam desafios de movimentação e estratégia. Eles se dividem em quatro grupos.<br><br>
-          <b>campo: </b>Base do campo de batalha (grama, deserto, etc.). Não oferece bônus, penalidades ou condições especiais.<br><br>
-          <b>Intransponível: </b>Áreas que impedem a passagem (montanhas, precipícios, rios de lava, águas profundas, etc.). Só podem ser atravessadas com vantagens específicas, como Voo.<br><br>
-          <b>Bloqueador: </b>Obstáculos sólidos (rochas, muralhas, torres, estátuas, etc.). Bloqueiam visão e movimento, a não ser que o herói possua a perícia Escalar (muro) ou a vantagem Visão de Raio-X.<br><br>
-
-          <b>Floresta: </b>Bosques, selvas, mata fechada, etc.<br>
-          <i>Bônus: </i>FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.<br>
-          <i>Atacar: </i>Caso o atacante esteja fora da floresta, ataques a distância não atravessam para atingir alvos fora dela.<br>
-          <i>Mover: </i>Custa 2” para cada 1” (ex.: herói com 6” move apenas 3”). Pode ser ignorado com vantagens como Arena (Floresta), Voo ou Sobrevivência (Floresta).<br><br>
-          <b>Cobertura: </b>Ruínas, paredes baixas, escombros, caixas e similares, que permitem esconder-se parcialmente.<br>
-          <i>Bônus: </i>FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.<br><br>
-          <b>Difícil: </b>Rios, lama, matas fechadas, escombros, terrenos acidentados e similares.<br>
-          <i>mover: </i>Custa 2” para cada 1”, Ignorado se possuir vantagens como Arena (Lama), Voo ou Natação (no caso de rios) ou perícias/vantagens equivalentes.<br><br>
-
-          <b>Perigoso: </b>Rios de lava, espinhos, areia movediça e similares, que podem ferir ou matar o herói. Ao entrar no terreno, o herói realiza um teste de H-1 na primeira polegada.<br>
-          <i>Falha no teste: </i>Recebe 1D6 de dano e perde o movimento.<br>
-          <i>Repete: </i>O teste deve ser feito novamente na próxima vez que o herói tentar se mover no terreno, até conseguir sair.<br><br>
-
-          <b>Elevado: </b>Colinas, muros, telhados e similares.<br>
-          <i>Altura >3”: </i>Intransponível.<br>
-          <i>Altura ≤3”: </i>Pode ser escalado como parte do movimento, não é permitido terminar o movimento no meio da escalada. Necessário teste de H para escalar, a menos que o herói possua Perícia Escalar ou outra vantagem que dispense o teste.<br>
-          <i>Altura ≤1”: </i>Pode ser ignorado para fins de movimento (não é necessário subir e descer).<br>
-          <i>Cair: </i>Se um herói cair ou for empurrado de uma altura ≥2”, sofre 1D6 de dano para cada 1” completas de queda, após a queda, posicione o herói 2” da base do terreno onde caiu.<br>
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Montagem de Terreno</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Antes da partida, monte o campo com pelo menos 15 á 20 peças de terreno. Quanto mais terrenos houver, mais estratégica será a partida. Uma boa referência é cobrir cerca de 50% da mesa, distribuindo as peças de forma equilibrada entre os lados. Varie os tipos de terreno para que diferentes unidades e habilidades tenham utilidade durante o jogo. Siga as proporções abaixo:<br><br>
-          <i>50% dos terrenos devem bloquear linha de visão.</i><br>
-          <i>33% devem fornecer cobertura.</i><br>
-          <i>33% devem ser terrenos difíceis.</i><br>
-          <i>Cada jogador escolhe 1 terreno perigoso.</i>
-        </p>
-
-        <div class="row col-12 justify-center q-mt-md">
-          <q-img
-            spinner-color="blue"
-            class="row"
-            :style="`${$q.platform.is.mobile ? 'max-height: 380px; max-width: 380px' : 'max-height: 600px; max-width: 600px'}`"
-            :src="imagen.terreno"
-          />
-        </div>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Posicionamento dos heróis</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Cada jogador deve selecionar o herói com a maior pontuação de Iniciativa, considerando o maior valor de H e quaisquer vantagens que concedam bônus à iniciativa. Em seguida, ambos rolam H + bônus (se houver) + 1D6. O jogador com o maior resultado vence a iniciativa e deve escolher um dos quatro lados do campo como sua zona de deploy. O jogador que perder a iniciativa deve jogar no lado oposto.
-          Após definir os lados, o jogador que venceu a iniciativa deve colocar o primeiro herói em campo, a até 12” da borda correspondente ao seu lado. Os jogadores então se alternam, colocando um herói por vez até que todos estejam posicionados. Quando todos os heróis estiverem em campo, ambos os jogadores devem rolar novamente a iniciativa. O vencedor dessa nova rolagem será o primeiro a jogar.
-        </p>
-      </q-card-section>
-    </q-card>
-
-    <q-card
-      flat
-      bordered
-      class="q-mb-lg"
-    >
-      <q-card-section>
-        <div class="text-h4 text-center text-primary q-pb-md">
-          <b>JOGANDO</b>
-        </div>
-        <q-separator />
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Unidade de tempo</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          O jogo é dividido em dois tipo de tempo, turno e rodada, não tem um limite de "tempo de jogo", o jogo finaliza quando todos os heróis do grupo adversário forem derrotados (ou quando alguma condição de modos alternativos forem cumpridas).
-        </p>
-
-        <p class="text-body1">
-          <b>Turno:</b> Cada vez que um herói finaliza suas ações de jogo é considerado um turno.<br>
-          <b>Rodada:</b> Quando todos os heróis em campo finalizarem seus turnos, é considerado uma rodada.<br><br>
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Ativando Herói</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Cada herói pode ser ativado apenas UMA VÊZ por rodada, exceto em situações de defesa/esquiva ou testes que o valha.<br>
-          Após o herói ser ativado e ter utilizado suas ações, adicione um marcador ao lado do herói, ele só poderá ser ativado novamente no inicio da nova rodada.
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Ações do Herói</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Cada herói pode executar 3 tipos de ações durante sua ativação. Seguem o mesmo princípio do Manual 3D&T - Revisado, Ampliado e Turbinado.
-        </p>
-
-        <p class="text-body1">
-          <b>Mover (Uma vêz por turno):</b> Todo herói pode se mover 6" (ao menos que outra coisa diga o contrário) por turno, antes ou depois de executar uma Ação.<br>
-          <b>Ação (Uma vêz por turno):</b> Ação geralmente consiste em atacar, usar uma vantagem (algumas vantagens não utilizam ação), uma mágia e afins.<br>
-          <b>Correr (Uma vêz por turno, desde que não tenha usado Ação ou Mover):</b> Se o herói não usou Mover e Ação no turno, ele pode correr e finalizar seu turno. Correr é igual 2 x Mover.
-        </p>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Mover</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Cada herói pode mover até 6" por turno (ele não precisa mover seu máximo de movimento), seguindo pra qualquer direção que seja possível se movimentar. Algumas vantagens/desvantagens e mágias podem adicionar/remover " do movimento.
-        </p>
-
-        <div class="text-body1 justify-center row q-my-md">
-          <div class="row">
-            <i> <b>Correto:</b> A régua deve sair da ponta da base da miniatura, e o herói deve ser posicionado antes do fim régua.</i><br>
-          </div>
-        </div>
-
-        <div class="row col-12 justify-center">
-          <q-img
-            spinner-color="blue"
-            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-            :style="tamanho_imagem"
-            :src="imagen.certo_1"
-          />
-          <q-img
-            spinner-color="blue"
-            class="row"
-            :style="tamanho_imagem"
-            :src="imagen.certo_2"
-          />
-        </div>
-
-        <div class="text-body1 justify-center row q-my-md">
-          <div class="row">
-            <i><b>Errado:</b> A régua sair de qualquer lugar que não seja a ponta da base, e o herói ser posicionado após a régua.</i>
-          </div>
-        </div>
-
-        <div class="row col-12 justify-center">
-          <q-img
-            spinner-color="white"
-            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-            :style="tamanho_imagem"
-            :src="imagen.errado_1"
-          />
-          <q-img
-            spinner-color="white"
-            class="row"
-            :style="tamanho_imagem"
-            :src="imagen.errado_2"
-          />
-        </div>
-      </q-card-section>
-
-      <q-card-section class="q-pa-none">
-        <div class="text-h5 text-center text-negative">
-          <b>Ação</b>
-        </div>
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1">
-          Utilizar uma ação segue o mesmo princípio do 3D&T - Alpha, geralmente um ataque, utilizar uma vantagem ou uma mágia e assim por diante. O herói só pode utilizar UMA AÇÃO por turno, a não ser que tenha algo que diga o contrário.
-        </p>
-        <p class="text-body1">
-          <b>Ataque: </b>Ataque é considerado uma AÇÃO. Para atacar ou defender as regras são as mesmas do 3D&T - Alpha, lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo, e após o ataque, o herói atacante recua 1" da base do herói alvo.<br>
-        </p>
-        <div class="row col-12">
-          <div class="row col-12 justify-center q-mb-md">
-            <div class="col-12 row justify-center">
-              <div
-                class="row col justify-center"
-                :innerHTML="`<p><b>Ao atacar<br></p>`"
-              />
-              <div
-                class="row col justify-center"
-                :innerHTML="`<p><b>Após atacar<br></p>`"
-              />
-            </div>
-            <q-img
-              spinner-color="white"
-              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-              :style="tamanho_imagem"
-              :src="imagen.atacar_1"
-            />
-            <q-img
-              spinner-color="white"
-              class="row"
-              :style="tamanho_imagem"
-              :src="imagen.atacar_2"
-            />
-          </div>
-        </div>
-
-        <p class="text-body1">
-          <b>Atacar a distância: </b>Atacar a distância segue quase as mesmas regras do 3D&T - Alpha, com a diferença que para executar um ataque a distância, o herói precisa ter pelo menos PdF1 para poder atacar. Além de possuir pelo menos PdF1, o herói precisa ter uma linha de visão clara do herói alvo. Para alcançar o ataque, pelo menos 1/4" deve passar da base do alvo.<br><br>
-          <b>Alcance: </b>O alcance do ataque a distância depende do PdF do herói atacante.<br>
-          <i>PdF 0: </i>0" de alcance.<br>
-          <i>PdF 1: </i>3" de alcance.<br>
-          <i>PdF 2: </i>6" de alcance.<br>
-          <i>PdF 3: </i>12" de alcance.<br>
-          <i>PdF 4: </i>18" de alcance.<br>
-          <i>PdF 5: </i>24" de alcance.<br>
-        </p>
-        <div class="row col-12">
-          <div class="row col-12 justify-center q-mb-md">
-            <div class="col-12 row justify-center">
-              <div
-                class="row col justify-center"
-                :innerHTML="`<p><b>Com alcance<br></p>`"
-              />
-              <div
-                class="row col justify-center"
-                :innerHTML="`<p><b>Sem alcance<br></p>`"
-              />
-            </div>
-            <q-img
-              spinner-color="white"
-              :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-              :style="tamanho_imagem"
-              :src="imagen.alcanca"
-            />
-            <q-img
-              spinner-color="white"
-              class="row"
-              :style="tamanho_imagem"
-              :src="imagen.nao_alcanca"
-            />
-          </div>
-        </div>
-
-        <p class="text-body1">
-          <b>Linha de visão: </b>O herói atacante precisa enxergar pelo menos 50% da miniatura do herói alvo.<br>
-        </p>
-
-        <div class="text-body1 justify-center row">
-          <div class="row">
-            <i><b>Com visão: </b> Pelo menos 50% de visão da miniatura.</i><br>
-          </div>
-        </div>
-
-        <div class="row col-12 justify-center q-mt-md">
-          <q-img
-            spinner-color="blue"
-            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-            :style="tamanho_imagem"
-            :src="imagen.visao1"
-          />
-          <q-img
-            spinner-color="blue"
-            class="row"
-            :style="tamanho_imagem"
-            :src="imagen.visao2"
-          />
-        </div>
-
-        <div class="text-body1 justify-center row q-my-md">
-          <div class="row">
-            <i><b>Sem visão: </b> Menos de 50% de visão da miniatura.</i><br>
-          </div>
-        </div>
-
-        <div class="row col-12 justify-center q-mb-lg">
-          <q-img
-            spinner-color="white"
-            :class="`${$q.platform.is.mobile ? 'row q-mb-md' : 'row q-mr-md'}`"
-            :style="tamanho_imagem"
-            :src="imagen.sem_visao1"
-          />
-          <q-img
-            spinner-color="white"
-            class="row"
-            :style="tamanho_imagem"
-            :src="imagen.sem_visao2"
-          />
-        </div>
-        <p class="text-body1">
-          <b>Arremeso de arma: </b> Em base, segue o mesmo conceito de ataque a distância. Caso o herói não tenha PdF e queira atacar a distância, ele pode arremesar sua arma (desde que o herói utilize uma), e tenha pelo menos F1, atacando com F em vez de PdF. Após arremesar sua arma, adicione um marcador (simbolizando a arma) a frente do herói alvo, até o herói atacante buscar a arma, ele fica com FA-2. O alcance do arremeso é baseado em sua força.<br>
-          <i>F0: </i>2"<br>
-          <i>F1: </i>3"<br>
-          <i>F2: </i>6"<br>
-          <i>F3: </i>9"<br>
-          <i>F4: </i>12"<br>
-          <i>F5: </i>15"<br><br>
-        </p>
-      </q-card-section>
-    </q-card>
-
-    <!-- <q-card flat bordered class="q-mb-lg">
-      <q-card-section>
-        <q-list bordered separator>
-          <q-item>
-            <q-item-section avatar>
-              <q-icon name="looks_one" color="primary" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Fase de Planejamento</q-item-label>
-              <q-item-label caption>Nesta fase, ambos os jogadores secretamente escolhem e revelam suas ordens de comando.</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section avatar>
-              <q-icon name="looks_two" color="primary" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Fase de Movimentação</q-item-label>
-              <q-item-label caption>As unidades são movidas pelo campo de batalha. O movimento é medido em polegadas (ou centímetros), conforme o tipo de unidade.</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section avatar>
-              <q-icon name="looks_3" color="primary" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Fase de Combate</q-item-label>
-              <q-item-label caption>Unidades engajam em combate à distância (disparo) e em combate corpo a corpo (assalto). </q-item-label>
-              <q-item-label caption>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section avatar>
-              <q-icon name="looks_4" color="primary" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Fase de Moral e Verificação</q-item-label>
-              <q-item-label caption>Unidades que sofreram baixas significativas devem fazer testes de Moral. O jogador verifica condições de vitória.</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-card-section>
-    </q-card>
-
-    <q-card flat bordered class="q-mb-lg">
-      <q-card-section>
-        <div class="text-h5 q-pb-sm">Capítulo 3: Resolução de Ações (O Dado)</div>
-        <q-separator />
-      </q-card-section>
-
-      <q-card-section>
-        <p class="text-body1 q-mb-md">A maioria das ações no 3DeTatics é resolvida com um lançamento de dado de 6 faces (D6).</p>
-
-        <q-list dense>
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Teste de Acerto:</q-item-label>
-              <q-item-label caption>Para atingir um alvo, o atacante deve rolar um número igual ou superior ao seu valor de Habilidade de Combate (HC). Excepteur sint occaecat cupidatat non proident.</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Teste de Ferimento:</q-item-label>
-              <q-item-label caption>Após acertar, o atacante deve rolar um D6 e somar modificadores para igualar ou exceder o valor de Resistência (R) do alvo.</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-weight-bold">Regras Especiais:</q-item-label>
-              <q-item-label caption>Uma rolagem de '1' (Falha Crítica) sempre falha. Uma rolagem de '6' (Sucesso Crítico) sempre acerta, e geralmente confere um bônus especial.</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-
-        <p class="q-mt-md">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-          fugit.
-        </p>
-      </q-card-section>
-    </q-card>
-
-    <div class="text-caption text-grey-6 q-mt-xl text-center">Estas são apenas as regras básicas. Para informações detalhadas sobre a construção do exército e regras avançadas, consulte o 'Codex'.</div> -->
+      <div class="pilha">
+        <ItemRegra
+          v-for="modo in modosDeJogo"
+          :key="modo.nome"
+          :nome="modo.nome"
+          :etiquetas="modo.etiquetas"
+        >
+          <p
+            v-for="(paragrafo, indice) in modo.regras"
+            :key="indice"
+          >
+            {{ paragrafo }}
+          </p>
+        </ItemRegra>
+      </div>
+    </section>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
-import { boot_imagens } from 'src/boot/axios'
-import { computed, ref } from 'vue'
+import CabecalhoPagina from 'components/CabecalhoPagina.vue'
+import TituloSecao from 'components/TituloSecao.vue'
+import IndiceSecoes from 'components/IndiceSecoes.vue'
+import CaixaDestaque from 'components/CaixaDestaque.vue'
+import ItemRegra from 'components/ItemRegra.vue'
+import ImagemExemplo from 'components/ImagemExemplo.vue'
+import { imagens } from 'src/libs/imagens'
 
-const $q = useQuasar()
+const indice = [
+  { ancora: 'principios', titulo: '1. Princípios gerais' },
+  { ancora: 'configuracao', titulo: '2. Configuração' },
+  { ancora: 'jogando', titulo: '3. Jogando' },
+  { ancora: 'combate', titulo: '4. Combate' },
+  { ancora: 'modos', titulo: '5. Modos de jogo' }
+]
 
-const tamanho_imagem = computed(() => {
-  const pixel = $q.platform.is.mobile ? '380px' : '400px'
-  return `max-height: ${pixel}; max-width: ${pixel}`
-})
+const modosDeJogo = [
+  {
+    nome: 'Escaramuça',
+    etiquetas: [{ rotulo: 'Jogadores', valor: '2' }, { rotulo: 'Duração', valor: 'sem limite de rodadas' }],
+    regras: ['O modo padrão. Vence quem derrotar todos os heróis do grupo adversário.']
+  },
+  {
+    nome: 'Domínio',
+    etiquetas: [{ rotulo: 'Jogadores', valor: '2' }, { rotulo: 'Duração', valor: '6 rodadas' }],
+    regras: [
+      'Antes do deploy, coloque 3 marcadores de objetivo: um no centro da mesa e dois nos pontos médios das bordas que não são zonas de deploy (ou outra disposição combinada), sempre a pelo menos 6" das zonas de deploy.',
+      'Um objetivo é controlado por um jogador quando ele tem um herói em contato com o marcador e nenhum herói inimigo está em contato com ele. No fim de cada rodada, cada objetivo controlado vale 1 ponto.',
+      'Depois da 6ª rodada vence quem tiver mais pontos. Derrotar todos os heróis inimigos encerra a partida com vitória imediata. Em caso de empate, vence quem derrotou mais PH inimigos.'
+    ]
+  },
+  {
+    nome: 'Caça ao Líder',
+    etiquetas: [{ rotulo: 'Jogadores', valor: '2' }, { rotulo: 'Duração', valor: 'sem limite de rodadas' }],
+    regras: [
+      'Antes do deploy, cada jogador anota em segredo qual dos seus heróis é o líder. O líder só é revelado quando for derrotado.',
+      'Vence quem derrotar o líder adversário primeiro. Se os dois líderes caírem na mesma rodada, vence quem tiver mais PH em campo.'
+    ]
+  },
+  {
+    nome: 'Batalha Real',
+    etiquetas: [{ rotulo: 'Jogadores', valor: '3 ou 4' }, { rotulo: 'Duração', valor: '8 rodadas' }],
+    regras: [
+      'Use o campo do tamanho de grupo seguinte (um grupo Novato joga em 3’ x 3’, por exemplo). Cada jogador escolhe um lado ou canto da mesa pela ordem da iniciativa, e o deploy segue a mesma ordem.',
+      'As ativações seguem a ordem da iniciativa: cada jogador ativa um herói por vez, em rodízio, até todos os heróis terem sido ativados.',
+      'Vence o último jogador com heróis em campo. Se a 8ª rodada terminar com mais de um grupo de pé, vence quem derrotou mais PH inimigos.'
+    ]
+  }
+]
 
-const imagen = ref(boot_imagens)
+const tamanhosGrupo = [
+  { nome: 'Novato', h5: 3, h7: 2, h10: '–', h12: '–', campo: '2’ x 2’ (61 x 61 cm)' },
+  { nome: 'Lutador', h5: 3, h7: 2, h10: 2, h12: '–', campo: '3’ x 3’ (91 x 91 cm)' },
+  { nome: 'Campeão', h5: 3, h7: 3, h10: 3, h12: 1, campo: '4’ x 4’ (1,22 x 1,22 m)' },
+  { nome: 'Lenda', h5: 3, h7: 3, h10: 3, h12: 3, campo: '4’ x 4’ (1,22 x 1,22 m)' }
+]
 
+const alcancePdf = [
+  { valor: 0, alcance: '0"' },
+  { valor: 1, alcance: '3"' },
+  { valor: 2, alcance: '6"' },
+  { valor: 3, alcance: '12"' },
+  { valor: 4, alcance: '18"' },
+  { valor: 5, alcance: '24"' }
+]
+
+const alcanceArremesso = [
+  { valor: 0, alcance: '2"' },
+  { valor: 1, alcance: '3"' },
+  { valor: 2, alcance: '6"' },
+  { valor: 3, alcance: '9"' },
+  { valor: 4, alcance: '12"' },
+  { valor: 5, alcance: '15"' }
+]
+
+const terrenos = [
+  {
+    nome: 'Campo',
+    descricao: 'Base do campo de batalha (grama, deserto, etc.). Não oferece bônus, penalidades ou condições especiais.',
+    regras: []
+  },
+  {
+    nome: 'Intransponível',
+    descricao: 'Áreas que impedem a passagem (montanhas, precipícios, rios de lava, águas profundas, etc.). Só podem ser atravessadas com vantagens específicas, como Levitação.',
+    regras: []
+  },
+  {
+    nome: 'Bloqueador',
+    descricao: 'Obstáculos sólidos (rochas, muralhas, torres, estátuas, etc.). Bloqueiam visão e movimento, a não ser que o herói possua a perícia Escalar (muro) ou a vantagem Visão de Raio-X.',
+    regras: []
+  },
+  {
+    nome: 'Floresta',
+    descricao: 'Bosques, selvas, mata fechada, etc.',
+    regras: [
+      { rotulo: 'Bônus', texto: 'FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.' },
+      { rotulo: 'Atacar', texto: 'Caso o atacante esteja fora da floresta, ataques à distância não atravessam para atingir alvos fora dela.' },
+      { rotulo: 'Mover', texto: 'Custa 2” para cada 1” (ex.: herói com 6” move apenas 3”). Pode ser ignorado com vantagens como Arena (Floresta), Levitação ou Sobrevivência (Floresta).' }
+    ]
+  },
+  {
+    nome: 'Cobertura',
+    descricao: 'Ruínas, paredes baixas, escombros, caixas e similares, que permitem esconder-se parcialmente.',
+    regras: [
+      { rotulo: 'Bônus', texto: 'FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.' }
+    ]
+  },
+  {
+    nome: 'Difícil',
+    descricao: 'Rios, lama, matas fechadas, escombros, terrenos acidentados e similares.',
+    regras: [
+      { rotulo: 'Mover', texto: 'Custa 2” para cada 1”. Ignorado se possuir vantagens como Arena (Lama), Levitação ou Natação (no caso de rios) ou perícias/vantagens equivalentes.' }
+    ]
+  },
+  {
+    nome: 'Perigoso',
+    descricao: 'Rios de lava, espinhos, areia movediça e similares, que podem ferir ou matar o herói. Ao entrar no terreno, o herói realiza um teste de H-1 na primeira polegada.',
+    regras: [
+      { rotulo: 'Falha no teste', texto: 'Recebe 1D6 de dano e perde o movimento.' },
+      { rotulo: 'Repete', texto: 'O teste deve ser feito novamente na próxima vez que o herói tentar se mover no terreno, até conseguir sair.' }
+    ]
+  },
+  {
+    nome: 'Elevado',
+    descricao: 'Colinas, muros, telhados e similares.',
+    regras: [
+      { rotulo: 'Altura >3”', texto: 'Intransponível.' },
+      { rotulo: 'Altura ≤3”', texto: 'Pode ser escalado como parte do movimento; não é permitido terminar o movimento no meio da escalada. Necessário teste de H para escalar, a menos que o herói possua Perícia Escalar ou outra vantagem que dispense o teste.' },
+      { rotulo: 'Altura ≤1”', texto: 'Pode ser ignorado para fins de movimento (não é necessário subir e descer).' },
+      { rotulo: 'Cair', texto: 'Se um herói cair ou for empurrado de uma altura ≥2”, sofre 1D6 de dano para cada 1” completa de queda; após a queda, posicione o herói a 2” da base do terreno onde caiu.' }
+    ]
+  }
+]
 </script>
+
+<style scoped lang="scss">
+.par-imagens {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--esp-4);
+  margin: var(--esp-3) 0 var(--esp-5);
+
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.imagem-unica {
+  max-width: 600px;
+  margin: var(--esp-3) auto var(--esp-5);
+}
+
+.tabela-regras--compacta {
+  th,
+  td {
+    text-align: center;
+  }
+
+  th:first-child,
+  td:first-child {
+    text-align: left;
+  }
+}
+
+ul {
+  padding-left: var(--esp-5);
+  margin: 0 0 var(--esp-3);
+
+  li {
+    margin-bottom: var(--esp-1);
+  }
+}
+</style>

@@ -1,25 +1,20 @@
-// Quasar SCSS (& Sass) Variables
-// --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+// Paleta do 3DeTatics (cores de marca usadas pelos componentes do Quasar).
+// Os tokens de interface (fundo, superfície, texto...) ficam em app.scss.
+//
+// primary   azul-real da capa: botões, links, item ativo
+// secondary verde-musgo do campo de batalha: ações secundárias
+// accent    vermelhão do logo: chamadas de destaque
+// Cores de feedback (positive, negative, warning, info) são usadas SÓ para
+// mensagens e estados, nunca para títulos.
 
-// Check documentation for full list of Quasar variables
+$primary: #2b4c8c;
+$secondary: #4e7a3a;
+$accent: #b8432a;
 
-// Your own variables (that are declared here) and Quasar's own
-// ones will be available out of the box in your .vue/.scss/.sass files
+$dark: #1b2030;
+$dark-page: #12151f;
 
-// It's highly recommended to change the default colors
-// to match your app's branding.
-// Tip: Use the "Theme Builder" on Quasar's documentation website.
-
-$primary: 'blue';
-$secondary: #26a69a;
-$accent: #9c27b0;
-
-$dark: #1d1d1d;
-$dark-page: #121212;
-
-$positive: #21ba45;
-$negative: 'red';
-$info: #31ccec;
-$warning: #f2c037;
+$positive: #2e7d4f;
+$negative: #b3261e;
+$info: #2a7ab0;
+$warning: #c98a12;

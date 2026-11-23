@@ -1,24 +1,26 @@
 {
   "name": "3detatics",
   "version": "0.0.1",
-  "description": "3DeTatics",
+  "description": "3DeTatics: wargame skirmish de miniaturas baseado no 3D&T Turbinado. Regras, vantagens, kits, magias e criador de grupos.",
   "productName": "3DeTatics",
   "author": "JeanOmeg <jeanomeg3@gmail.com>",
   "type": "commonjs",
   "private": true,
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",
-    "test": "echo \"No test specified\" && exit 0",
+    "test": "vitest run",
     "dev": "quasar dev -m spa",
     "build": "quasar build -m spa",
     "dep": "node deploy.js",
-    "postinstall": "quasar prepare"
+    "postinstall": "quasar prepare",
+    "imagens": "node scripts/otimizar-imagens.mjs",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@fontsource/cinzel": "5.1.0",
+    "@fontsource/nunito-sans": "5.1.0",
     "@quasar/extras": "^1.16.4",
-    "axios": "^1.2.1",
     "localbase": "^0.7.7",
-    "pinia": "^3.0.1",
     "quasar": "^2.16.0",
     "vue": "3.5.20",
     "vue-router": "^4.0.12"
@@ -38,10 +40,13 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-vue": "^10.4.0",
+    "fake-indexeddb": "6.0.1",
     "globals": "^16.4.0",
     "prettier": "^3.3.3",
+    "sharp": "0.33.5",
     "typescript": "^5.9.3",
     "vite-plugin-checker": "^0.10.3",
+    "vitest": "3.2.4",
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^3.0.7"
   },

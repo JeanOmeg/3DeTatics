@@ -1,35 +1,62 @@
-import Localbase from 'localbase'
 import type { IGrupo } from 'src/interfaces/grupo-interface'
-
-const db = new Localbase('3detatics')
-db.config.debug = false
+import { migrarHeroi } from 'src/libs/heroi-lib'
+import { agoraIso, clonar, db, gravarDocumento, VERSAO_DADOS } from 'src/services/banco'
 
 const COLECAO = 'grupos'
 
-export async function listarGrupos (): Promise<IGrupo[]> {
-  const grupos = await db.collection(COLECAO).orderBy('criadoEm', 'desc').get()
+// Converte grupos salvos em qualquer versão anterior para o formato atual.
+export function migrarGrupo (dados: Partial<IGrupo>): IGrupo {
+  const criadoEm = dados.criadoEm ?? agoraIso()
 
-  return (grupos ?? []) as IGrupo[]
+  return {
+    id: dados.id ?? globalThis.crypto.randomUUID(),
+    nome: dados.nome ?? 'Grupo sem nome',
+    herois: (dados.herois ?? []).map(heroi => migrarHeroi(heroi)),
+    tamanho: dados.tamanho ?? 'livre',
+    versao: VERSAO_DADOS,
+    criadoEm,
+    atualizadoEm: dados.atualizadoEm ?? criadoEm
+  }
+}
+
+export async function listarGrupos (): Promise<IGrupo[]> {
+  const grupos = (await db.collection(COLECAO).get() ?? []) as Partial<IGrupo>[]
+
+  return grupos
+    .map(migrarGrupo)
+    .sort((a, b) => b.atualizadoEm.localeCompare(a.atualizadoEm))
 }
 
 export async function obterGrupo (id: string): Promise<IGrupo | undefined> {
-  const grupo = await db.collection(COLECAO).doc(id).get()
+  const grupo = await db.collection(COLECAO).doc(id).get() as Partial<IGrupo> | null
 
-  return (grupo ?? undefined) as IGrupo | undefined
+  return grupo ? migrarGrupo(grupo) : undefined
 }
 
-export async function salvarGrupo (grupo: IGrupo): Promise<void> {
-  // Clona para objeto puro: o IndexedDB não consegue serializar
-  // os Proxies reativos do Vue (lançaria DataCloneError).
-  const dados = JSON.parse(JSON.stringify(grupo)) as IGrupo
+// Salva o grupo mantendo a data de criação original e atualizando `atualizadoEm`.
+export async function salvarGrupo (grupo: Pick<IGrupo, 'id' | 'nome' | 'herois' | 'tamanho'>): Promise<IGrupo> {
+  const existente = await obterGrupo(grupo.id)
+  const agora = agoraIso()
 
-  const existente = await obterGrupo(dados.id)
+  const dados: IGrupo = clonar({
+    id: grupo.id,
+    nome: grupo.nome,
+    herois: grupo.herois,
+    tamanho: grupo.tamanho,
+    versao: VERSAO_DADOS,
+    criadoEm: existente?.criadoEm ?? agora,
+    atualizadoEm: agora
+  })
 
-  if (existente) {
-    await db.collection(COLECAO).doc(dados.id).set(dados)
-  } else {
-    await db.collection(COLECAO).add(dados, dados.id)
-  }
+  await gravarDocumento(COLECAO, dados.id, dados)
+
+  return dados
+}
+
+// Grava exatamente o grupo recebido (usado na importação de backup, preservando datas).
+export async function gravarGrupoImportado (grupo: Partial<IGrupo>): Promise<void> {
+  const dados = clonar(migrarGrupo(grupo))
+  await gravarDocumento(COLECAO, dados.id, dados)
 }
 
 export async function removerGrupo (id: string): Promise<void> {

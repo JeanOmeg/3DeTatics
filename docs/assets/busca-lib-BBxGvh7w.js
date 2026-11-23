@@ -1,0 +1,1 @@
+const c=new RegExp("\\p{Diacritic}","gu");function n(r){return r.normalize("NFD").replace(c,"").toLowerCase()}function i(r,...o){const e=n((r??"").trim());return e?o.some(t=>n(t).includes(e)):!0}export{i as c,n};

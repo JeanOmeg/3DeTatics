@@ -2,192 +2,133 @@ import { TipoVantagemEnum } from 'src/enums/tipo-vantagem-enum'
 import { IComboBox } from 'src/interfaces/combobox-interface'
 import { IVantagemDesvantagem } from 'src/interfaces/vantagem-desvantagem-interface'
 
+// Adaptação para wargame skirmish das Vantagens e Desvantagens do
+// Manual 3D&T Revisado, Ampliado e Turbinado. Os textos são próprios do
+// 3DeTatics: distâncias em polegadas (") e efeitos medidos em turnos/rodadas.
+
+// Custo numérico padrão: o primeiro número do texto do custo ("-1 a -3 pontos" -> -1).
+function pontosDoCusto (custo: string): number {
+  const numero = /-?\d+/.exec(custo)
+  return numero ? Number(numero[0]) : 0
+}
+
+function vantagem (nome: string, custo: string, descricao: string, value: string): IVantagemDesvantagem {
+  return { nome, custo, descricao, value, tipo: TipoVantagemEnum.vantagem, pontos: pontosDoCusto(custo) }
+}
+
+function desvantagem (nome: string, custo: string, descricao: string, value: string): IVantagemDesvantagem {
+  return { nome, custo, descricao, value, tipo: TipoVantagemEnum.desvantagem, pontos: pontosDoCusto(custo) }
+}
+
+// Regras de custo e pré-requisitos que não cabem no texto do custo.
+const REQUER_ARMA_MAGICA = { requer: ['arma_magica'] }
+const REQUER_ATAQUE_ESPECIAL = { requer: ['ataque_especial'] }
+
+const REGRAS_ESPECIAIS: Record<string, Partial<IVantagemDesvantagem>> = {
+  arcano: { repetivel: true },
+  armadura_extra_normal: { repetivel: true },
+  pontos_de_vida_extras: { repetivel: true },
+  pontos_de_magia_extras: { repetivel: true },
+  energia_extra: { opcoes: [1, 2] },
+  sentidos_especiais: { opcoes: [1, 2] },
+  am_ataque_especial: REQUER_ARMA_MAGICA,
+  am_retornavel: REQUER_ARMA_MAGICA,
+  am_sagrada: REQUER_ARMA_MAGICA,
+  am_veloz: REQUER_ARMA_MAGICA,
+  am_vorpal: REQUER_ARMA_MAGICA,
+  ae_area: REQUER_ATAQUE_ESPECIAL,
+  ae_paralisante: REQUER_ATAQUE_ESPECIAL,
+  ae_preciso: REQUER_ATAQUE_ESPECIAL,
+  ae_teleguiado: REQUER_ATAQUE_ESPECIAL,
+  ae_lento: REQUER_ATAQUE_ESPECIAL,
+  ae_perto_da_morte: REQUER_ATAQUE_ESPECIAL,
+  codigo_de_honra: { repetivel: true },
+  restricao_de_magia: { opcoes: [-1, -2, -3] },
+  vulnerabilidade: { opcoes: [-1, -2, -3] }
+}
+
+const VANTAGENS: IVantagemDesvantagem[] = [
+  vantagem('Aceleração', '1 ponto', 'Aceleração custa 1PM por turno para ativar (o herói pode ativar Aceleração no turno do adversário desde que seja para executar uma esquiva). Em testes de esquiva, o herói recebe H+1 para rolar o teste (não cumulativo com Teleporte). Com Aceleração ativada, o herói pode correr e executar uma ação, em vez de apenas correr no seu turno.', 'aceleracao'),
+  vantagem('Adaptador', '1 ponto', 'O herói que possui Adaptador pode trocar seu tipo de dano sem receber penalidade. Usar Adaptador não gasta PM.', 'adaptador'),
+  vantagem('Aparência Inofensiva', '1 ponto', 'O herói ganha um ataque extra no primeiro turno do combate. Ao lutar com outro herói em outro combate, Aparência Inofensiva só funciona caso esse novo alvo estivesse a mais de 12" do primeiro combate. Não pode ser combinada com Monstruoso.', 'aparencia_inofensiva'),
+  vantagem('Arcano', '4 pontos', 'Herói recebe +1 em todos os Focus. Arcano pode ser comprado quantas vezes quiser, então, por 8 pontos, pode ter Arcano x2 e Focus +2 em todos os Caminhos.', 'arcano'),
+  vantagem('Arena', '1 ponto', 'O herói recebe +2 de H para todos os tipos de testes (incluindo combates) em um terreno da sua escolha. O terreno não pode ser do tipo Campo (mais informações sobre terrenos nas regras de Terrenos).', 'arena'),
+  vantagem('Arma Mágica', '1 ponto', 'O herói recebe +1 de FA quando ataca com sua Arma Mágica e recebe o tipo de dano Mágico.', 'arma_magica'),
+  vantagem('AM - Ataque Especial', '1 ponto (necessário Arma Mágica)', 'Além do bônus de Arma Mágica, o herói recebe +2 de FA ao realizar um ataque. Ativar AM - Ataque Especial custa 2PM por ativação e precisa ser ativado antes de rolar o ataque.', 'am_ataque_especial'),
+  vantagem('AM - Retornável', '1 ponto (necessário Arma Mágica)', 'Além do bônus de Arma Mágica, caso seja arremessada, esta arma retorna às mãos do herói no mesmo turno (não é necessário buscar o marcador da arma).', 'am_retornavel'),
+  vantagem('AM - Sagrada', '1 ponto (necessário Arma Mágica)', 'Além do bônus de Arma Mágica, o herói recebe +1 de F e A quando luta contra Mortos-Vivos e criaturas malignas (que possuam ou sejam criadas com magia das Trevas ou Má Fama).', 'am_sagrada'),
+  vantagem('AM - Veloz', '1 ponto (necessário Arma Mágica)', 'Além do bônus de Arma Mágica, o herói recebe +2 de H ao rolar iniciativa.', 'am_veloz'),
+  vantagem('AM - Vorpal', '2 pontos (necessário Arma Mágica)', 'Além do bônus de Arma Mágica, quando o herói consegue um Acerto Crítico e causa dano, o alvo faz um teste de A. Se falhar, é derrotado imediatamente (PV reduzido a 0). Construtos e Mortos-Vivos (exceto Vampiros) apenas sofrem o dano normal.', 'am_vorpal'),
+  vantagem('Armadura Extra - Normal', '2 pontos cada', 'Ao realizar testes que utilizam A, a A do herói será dobrada, mas apenas contra o tipo de dano escolhido: Corte; Perfuração; Contusão; Explosão; Calor/Fogo; Frio/Gelo; Luz; Eletricidade; Vento/Som; Químico (Água, Ácido, Venenos...).', 'armadura_extra_normal'),
+  vantagem('Armadura Extra - F', '3 pontos', 'Ao realizar testes que utilizam A, a A do herói será dobrada, mas apenas contra ataques com Força.', 'armadura_extra_f'),
+  vantagem('Armadura Extra - Mágica', '3 pontos', 'Ao realizar testes que utilizam A, a A do herói será dobrada, mas apenas contra ataques com Magia e Armas Mágicas.', 'armadura_extra_magica'),
+  vantagem('Armadura Extra - PdF', '4 pontos', 'Ao realizar testes que utilizam A, a A do herói será dobrada, mas apenas contra ataques com PdF.', 'armadura_extra_pdf'),
+  vantagem('Ataque Especial', '1 ponto', 'O herói gasta 2PM e realiza um ataque com +2 de F ou PdF (escolha na criação da ficha), e o ataque é considerado mágico. Sem esta Vantagem, qualquer herói pode gastar 1PM para atacar com +1 de F ou PdF.', 'ataque_especial'),
+  vantagem('AE - Área', '3 pontos (necessário Ataque Especial)', 'Além do bônus de Ataque Especial, o ataque de Área atinge vários alvos, com FA total no alvo e –1 a cada 2" de distância. Todos podem tentar esquiva para reduzir a FA em 1. Só vale para PdF, causa dano no próprio herói se ele estiver na área de impacto e custa +8PM pra usar.', 'ae_area'),
+  vantagem('AE - Paralisante', '1 ponto (necessário Ataque Especial)', 'Além do bônus de Ataque Especial, acrescente os efeitos da Vantagem Paralisia. O herói gasta +2PM além do gasto de Ataque Especial.', 'ae_paralisante'),
+  vantagem('AE - Preciso', '1 ponto (necessário Ataque Especial)', 'Além do bônus de Ataque Especial, este ataque impõe um redutor de –1 de H contra o alvo em sua FD.', 'ae_preciso'),
+  vantagem('AE - Teleguiado', '1 ponto (necessário Ataque Especial)', 'Além do bônus de Ataque Especial, este ataque impõe ao alvo um redutor de –2 na H em sua FD e tentativas de Esquiva. Válido apenas para ataques com PdF e não exige linha de visão clara, apenas que o alvo esteja no alcance. Custa +2PM além do gasto com Ataque Especial.', 'ae_teleguiado'),
+  vantagem('AE - Lento', '-1 ponto (Desvantagem para Ataque Especial)', 'Este Ataque Especial é lento: o alvo recebe +2 em Esquivas contra ele. Válido apenas para ataques com PdF. Mesmo com Desvantagens, um Ataque Especial nunca custa menos de 1 ponto.', 'ae_lento'),
+  vantagem('AE - Perto da Morte', '-2 pontos (Desvantagem para Ataque Especial)', 'Este Ataque Especial só pode ser usado quando o herói está Perto da Morte (PV igual ou menor que sua R). Mesmo com Desvantagens, um Ataque Especial nunca custa menos de 1 ponto.', 'ae_perto_da_morte'),
+  vantagem('Ataque Múltiplo', '1 ponto', 'Com uma única Ação, o herói faz vários ataques com Força contra inimigos em contato com sua base, até um máximo de ataques igual à sua H. Cada ataque (incluindo o primeiro) custa 2PM e a FA de cada um é calculada separadamente. O recuo de 1" acontece apenas depois do último ataque.', 'ataque_multiplo'),
+  vantagem('Boa Fama', '1 ponto', 'Outros heróis aliados que estiverem a até 6" recebem +1 na FA. Quando um herói possui Boa Fama nenhum outro herói do grupo pode possuir a desvantagem Má Fama.', 'boa_fama'),
+  vantagem('Clericato', '2 pontos', 'O herói recebe +1 de Focus em qualquer Caminho e pode usar magias com requisito Clericato, além de poder escolher Kits com esse requisito.', 'clericato'),
+  vantagem('Deflexão', '1 ponto', 'Quando recebe um ataque com PdF, o herói pode gastar 2PM para dobrar sua H no cálculo da FD. Se a FD for igual ou maior que a FA, o ataque é desviado e não causa nenhum dano (nem o dano mínimo de 1 ponto). Conta como uma Esquiva para o limite por rodada.', 'deflexao'),
+  vantagem('Energia Extra', '1 ou 2 pontos', 'O herói usa sua Ação e gasta 2PM para recuperar todos os seus PV. Por 1 ponto só pode ser usada quando está Perto da Morte; por 2 pontos pode ser usada a qualquer momento. Pode ser usada apenas uma vez por partida.', 'energia_extra'),
+  vantagem('Energia Vital', '2 pontos', 'O herói pode gastar PV no lugar de PM para ativar Vantagens e magias (1 PV vale 1 PM). Não é possível gastar o último PV dessa forma.', 'energia_vital'),
+  vantagem('Focus', '1 ponto por nível em cada Caminho', 'Representa o poder mágico do herói em um dos seis Caminhos (Água, Ar, Fogo, Luz, Terra e Trevas). Cada nível custa 1 ponto, e o máximo segue o limite das Características para a faixa do herói. Com pelo menos 1 ponto de Focus, o herói pode lançar magias (veja a página de Magias).', 'focus'),
+  vantagem('Genialidade', '1 ponto', 'O herói recebe H+2 em todos os testes de H que não sejam ataque, defesa ou esquiva (escalar, terreno perigoso, perícias...). Apenas um herói por grupo pode ter Genialidade.', 'genialidade'),
+  vantagem('Invisibilidade', '2 pontos', 'O herói usa sua Ação e gasta 4PM para ficar invisível até o fim de seu próximo turno. Invisível, ele não pode ser alvo de ataques à distância nem de magias, e ataques corpo a corpo contra ele sofrem H–1. A invisibilidade termina se o herói atacar, usar magia ou sofrer dano.', 'invisibilidade'),
+  vantagem('Levitação', '2 pontos', 'O herói voa. Ao Mover ou Correr ele ignora os custos e restrições de terreno Difícil, Floresta, Perigoso, Intransponível e Elevado, mas precisa terminar o movimento em um local onde a miniatura possa ficar. Levitação não ignora terreno Bloqueador para linha de visão.', 'levitacao'),
+  vantagem('Paralisia', '1 ponto', 'O herói gasta 2PM ou mais e faz um ataque normal que não causa dano. Se a FA vencer a FD do alvo, ele faz um teste de R: se falhar, fica paralisado durante 1 rodada (+1 rodada a cada 2PM extras gastos). Um herói paralisado não pode ser ativado nem esquivar, e é considerado Indefeso. Qualquer dano recebido encerra a paralisia.', 'paralisia'),
+  vantagem('Parceiro', '2 pontos', 'Dois heróis do mesmo grupo com esta Vantagem, um escolhido como Parceiro do outro, podem ser ativados juntos quando estiverem em contato de base. Nesse turno fazem uma única Ação usando a maior Característica de cada um, e somam suas Vantagens. O dano recebido durante a ativação conjunta é dividido entre os dois (arredonde para cima).', 'parceiro'),
+  vantagem('Pontos de Magia Extras', '1 ponto cada', 'O herói recebe +10 PM. Pode ser comprada várias vezes e não altera a R verdadeira.', 'pontos_de_magia_extras'),
+  vantagem('Pontos de Vida Extras', '1 ponto cada', 'O herói recebe +10 PV. Pode ser comprada várias vezes e não altera a R verdadeira.', 'pontos_de_vida_extras'),
+  vantagem('Reflexão', '2 pontos', 'Igual à Deflexão, mas custa 4PM e, se a FD for igual ou maior que a FA, o ataque é devolvido ao atacante com a mesma FA original (o atacante defende normalmente). Conta como uma Esquiva para o limite por rodada.', 'reflexao'),
+  vantagem('Regeneração', '3 pontos', 'No início de cada turno do herói, ele recupera 1 PV. Não funciona se o herói estiver com 0 PV e não recupera PM.', 'regeneracao'),
+  vantagem('Resistência à Magia', '1 ponto', 'O herói recebe +3 em testes de R para resistir a magias e efeitos de Focus. Não protege contra dano. Um resultado 6 continua sendo sempre falha.', 'resistencia_a_magia'),
+  vantagem('Sentidos Especiais', '1 ponto (três sentidos) ou 2 pontos (todos)', 'Audição Aguçada: ataques corpo a corpo contra inimigos invisíveis não sofrem redutor. Faro Aguçado: o herói sabe onde estão heróis invisíveis a até 6". Infravisão: ignora redutores de escuridão em cenários noturnos. Radar: o herói nunca é considerado Surpreso. Ver o Invisível: Invisibilidade não funciona contra o herói. Visão Aguçada: +3" no alcance de PdF. Visão de Raios-X: o herói traça linha de visão através de terreno Bloqueador (o ataque ainda não atravessa).', 'sentidos_especiais'),
+  vantagem('Teleporte', '2 pontos', 'No lugar de Mover, o herói pode se teleportar para qualquer ponto em linha de visão a até H x 2", ignorando terreno e miniaturas no caminho. Também recebe +2 em Esquivas (não cumulativo com Aceleração). Teleporte não pode ser usado para Correr.', 'teleporte'),
+  vantagem('Tiro Carregável', '2 pontos', 'O herói gasta 2PM e usa sua Ação para carregar o disparo. No seu próximo turno, seu primeiro ataque com PdF tem o PdF dobrado. Se sofrer dano antes de disparar, a carga é perdida.', 'tiro_carregavel'),
+  vantagem('Tiro Múltiplo', '2 pontos', 'Com uma única Ação, o herói faz vários ataques com PdF, contra um ou mais alvos no alcance e na linha de visão, até um máximo de ataques igual à sua H. Cada ataque (incluindo o primeiro) custa 2PM e a FA de cada um é calculada separadamente.', 'tiro_multiplo'),
+  vantagem('Toque de Energia', '1 ponto', 'O herói usa sua Ação e gasta 4PM para atacar todos os inimigos em contato com sua base com FA igual a A+1d (a H não entra). O tipo de dano é escolhido na criação da ficha.', 'toque_de_energia')
+]
+
+const DESVANTAGENS: IVantagemDesvantagem[] = [
+  desvantagem('Ambiente Especial', '-1 ponto', 'Escolha um tipo de ambiente (água, gelo, floresta...). Ao fim de cada rodada em que o herói não estiver dentro ou em contato com terreno desse ambiente, ele recebe um marcador. Com 3 marcadores, sofre –1 em F e R até entrar no ambiente, o que remove todos os marcadores. Combine com o oponente antes de montar o terreno.', 'ambiente_especial'),
+  desvantagem('Assombrado', '-2 pontos', 'No início de cada rodada role 1d: com 4, 5 ou 6 o herói sofre –1 em todas as Características até o fim da rodada.', 'assombrado'),
+  desvantagem('Código de Honra', '-1 ponto cada', 'Combate: nunca ataca um inimigo Indefeso ou que já esteja em contato de base com um aliado. Derrota: nunca usa Correr para se afastar de inimigos. Caçador: se puder atacar, sempre ataca o inimigo de maior pontuação ao seu alcance. Heróis: se um aliado a até 6" estiver Perto da Morte e em contato com um inimigo, o herói deve se mover em direção a ele e atacar esse inimigo. Vários Códigos podem ser combinados.', 'codigo_de_honra'),
+  desvantagem('Curto-Circuito', '-2 pontos', 'Igual a Assombrado, mas apenas para Construtos.', 'curto_circuito'),
+  desvantagem('Devoção', '-2 pontos', 'No deploy, escolha e anuncie um herói inimigo. Enquanto ele estiver em jogo, o herói sofre –1 em todas as Características em qualquer turno em que não se mova em direção a ele nem o ataque.', 'devocao'),
+  desvantagem('Fetiche', '-1 ponto', 'Apenas para heróis com Focus. Sempre que sofrer mais de 1 ponto de dano, faz um teste de H: se falhar, não pode usar magia no seu próximo turno.', 'fetiche'),
+  desvantagem('Fúria', '-1 ponto', 'Sempre que sofrer dano, o herói faz um teste de R. Se falhar, entra em Fúria: no seu próximo turno deve se mover em direção a quem o feriu e atacá-lo (usando Correr se não o alcançar). Em Fúria recebe H+1 e FA+1, mas não pode esquivar nem gastar PM. A Fúria termina quando o alvo é derrotado; o herói sofre –1 em todas as Características até o fim da rodada seguinte.', 'furia'),
+  desvantagem('Má Fama', '-1 ponto', 'Heróis aliados não podem usar Vantagens ou magias de apoio (cura, proteção, bônus) neste herói. Não pode estar no mesmo grupo que um herói com Boa Fama.', 'ma_fama'),
+  desvantagem('Modelo Especial', '-1 ponto', 'O corpo do herói foge do padrão humano (muito grande, muito pequeno ou de formato estranho). Ele sofre –1 em testes de H para escalar e não pode usar portas, escadas e passagens de terreno feitas para humanos (combine com o oponente antes da partida).', 'modelo_especial'),
+  desvantagem('Monstruoso', '-1 ponto', 'O herói é grande e chamativo: inimigos recebem +1 na FA ao atacá-lo à distância. Não pode ser combinado com Aparência Inofensiva.', 'monstruoso'),
+  desvantagem('Munição Limitada', '-1 ponto', 'O herói pode fazer apenas PdF x 2 ataques com PdF por partida. Marque cada disparo na ficha.', 'municao_limitada'),
+  desvantagem('Ponto Fraco', '-1 ponto', 'Depois que o herói fizer seu primeiro ataque na partida, todos os inimigos recebem H+1 quando lutam contra ele.', 'ponto_fraco'),
+  desvantagem('Restrição de Magia', '-1 a -3 pontos', 'Apenas para heróis com pelo menos 3 pontos em Focus. A magia do herói não funciona em certa condição, combinada antes da partida: incomum, –1 (ex.: contra Mortos-Vivos); comum, –2 (ex.: contra humanoides); muito comum, –3 (ex.: contra qualquer criatura viva).', 'restricao_de_magia'),
+  desvantagem('Vulnerabilidade', '-1 a -3 pontos cada', 'Contra o tipo de dano escolhido, a A do herói é reduzida à metade (arredonde para baixo) no cálculo da FD. –1 ponto para um tipo simples (Corte; Perfuração; Contusão; Explosão; Calor/Fogo; Frio/Gelo; Luz; Eletricidade; Vento/Som; Químico), –2 pontos para Força ou para Magia e Armas Mágicas, –3 pontos para PdF.', 'vulnerabilidade')
+]
+
+const TODAS: IVantagemDesvantagem[] = [...VANTAGENS, ...DESVANTAGENS].map(item => ({ ...item, ...(REGRAS_ESPECIAIS[item.value] ?? {}) }))
+const POR_VALOR = new Map(TODAS.map(item => [item.value, item]))
+
+// Focus é comprado nos campos próprios da ficha, não pela lista de vantagens.
+const FORA_DO_SELETOR = new Set(['focus'])
+
 export namespace VantagensEDesvantagensLib {
 
   export function listarVantagensEDesvantagens () {
-    const vantangens_e_desvantagens: IVantagemDesvantagem[] = [
-      // Vantagens
-      {
-        nome: 'Aceleração',
-        custo: '1 ponto',
-        descricao: 'Aceleração custa 1PM por turno para ativar (o herói pode ativar Aceleração no turno do adversário desde que seja para executar uma esquiva). Em testes de esquiva, o herói recebe H+1 para rolar o teste (não cumulativo com Teleporte). Com Aceleração ativada, o herói pode correr e executar uma ação, em vez de apenas correr no seu turno.',
-        value: 'aceleracao',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Adaptador',
-        custo: '1 ponto',
-        descricao: 'O herói que possui Adaptador pode trocar seu tipo de dano sem receber penalidade. Usar Adaptador não gasta PM.',
-        value: 'adaptador',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Aparência Inofensiva',
-        custo: '1 ponto',
-        descricao: 'O herói ganha um ataque extra no primeiro turno do combate. Ao lutar com outro herói em outro combate, Aparência Inofensiva só funciona caso esse novo alvo estivesse a mais de 12" do primeiro combate.',
-        value: 'aparencia_inofensiva',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Arcano',
-        custo: '4 pontos',
-        descricao: 'Herói recebe +1 em todos os focus, Arcano pode ser comprado quantas vezes quiser, então, por 8 pontos, pode ter Arcano x2 e focus +2 em todos os Caminhos.',
-        value: 'arcano',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Arena',
-        custo: '1 ponto',
-        descricao: 'O herói recebe +2 de H para todos os tipos de testes (incluindo combates) em um terreno da sua escolha, o terreno não pode ser do tipo Campo (mais informações sobre Terrenos, consultar as regras de terreno',
-        value: 'arena',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Arma Mágica',
-        custo: '1 ponto',
-        descricao: 'O herói recebe +1 de FA quando ataca com sua Arma Mágica e recebe o tipo de dano Mágico.',
-        value: 'arma_magica',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AM - Ataque Especial',
-        custo: '1 ponto (necessário Arma Mágica)',
-        descricao: 'Além do bônus de Arma Mágica, o herói recebe +2 de FA ao realizar um ataque, ativar AM - Ataque Especial custa 2PM por ativação e precisa ser ativado antes de rolar o ataque.',
-        value: 'am_ataque_especial',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AM - Sagrada',
-        custo: '1 ponto (necessário Arma Mágica)',
-        descricao: 'Além do bônus de Arma Mágica, o herói recebe +1 de F e A quando luta contra Mortos-Vivos e criaturas malignas (que possuam ou sejam criadas com magia das Trevas ou Má fama).',
-        value: 'am_sagrada',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AM - Retornável',
-        custo: '1 ponto (necessário Arma Mágica)',
-        descricao: 'Além do bônus de Arma Mágica, caso seja arremessada, esta arma retorna às mãos do herói no mesmo turno.',
-        value: 'am_retornavel',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AM - Veloz',
-        custo: '1 ponto (necessário Arma Mágica)',
-        descricao: 'Além do bônus de Arma Mágica, o herói recebe +2 de H ao rolar iniciativa.',
-        value: 'am_veloz',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Armadura Extra - Normal',
-        custo: '2 pontos cada',
-        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra o tipo de dano escolhido: Corte; Perfuração; Contusão; Explosão; Calor/Fogo; Frio/Gelo; Luz; Eletricidade; Vento/Som; Químico (Água, Ácido, Venenos...).',
-        value: 'armadura_extra_normal',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Armadura Extra - PdF',
-        custo: '4 pontos',
-        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra ataques com PdF.',
-        value: 'armadura_extra_pdf',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Armadura Extra - F',
-        custo: '3 pontos',
-        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra ataques com Força (3 pontos).',
-        value: 'armadura_extra_f',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Armadura Extra - Mágica',
-        custo: '3 pontos',
-        descricao: 'Ao realizar testes que utilizam A, a A do herói será e dobrada, mas apenas contra ataques com Magia e Armas Mágicas.',
-        value: 'armadura_extra_magica',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Ataque Especial',
-        custo: '1 ponto',
-        descricao: 'O herói gasta 2PM e realiza um ataque com +2 de F ou PdF, e o ataque é considerado mágico.',
-        value: 'ataque_especial',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AE - Paralizante',
-        custo: '1 ponto (necessário Ataque Especial)',
-        descricao: 'Além do bônus de Ataque Especial, acrescente os efeitos da Vantagem Paralisia, o herói gasta +2PM além do gasto de Ataque Especial.',
-        value: 'ae_paralizante',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AE - Área',
-        custo: '3 ponto (necessário Ataque Especial)',
-        descricao: 'Além do bônus de Ataque Especial, o ataque de Área atinge vários alvos, com FA total no alvo e –1 a cada 2" de distância. Todos podem tentar esquiva para reduzir a FA em 1. Só vale para PdF, causa dano no próprio herói se ele estiver na área de impacto e custa +8 PM pra usar.',
-        value: 'ae_area',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AE - Preciso',
-        custo: '1 ponto (necessário Ataque Especial)',
-        descricao: 'Além do bônus de Ataque Especial, este ataque impõe um redutor de –1 de H contra o alvo em sua FD.',
-        value: 'ae_preciso',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'AE - Teleguiado',
-        custo: '1 ponto (necessário Ataque Especial)',
-        descricao: 'Além do bônus de Ataque Especial, este ataque impõe ao alvo um redutor de –2 na H em sua FD e tentativas de Esquiva. Válido apenas para ataques com PdF. Custa +2PM além do gasto com Ataque Especial.',
-        value: 'ae_teleguiado',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Boa Fama',
-        custo: '1 ponto',
-        descricao: 'Outros heróis aliados que estiverem a até 6¨ recebem +1 na FA. Quando um herói possui Boa Fama nenhum outro herói do grupo pode possuir a desvantagem Má Fama.',
-        value: 'boa_fama',
-        tipo: TipoVantagemEnum.vantagem
-      },
-      {
-        nome: 'Clericato',
-        custo: '2 pontos',
-        descricao: 'O herói recebe +1 de focus em qualquer caminho e pode usar mágias com requisito Clericato, além de poder escolher Kits com esse requisito.',
-        value: 'clericato',
-        tipo: TipoVantagemEnum.vantagem
-      },
+    return TODAS
+  }
 
-      // Desvantagem
-      {
-        nome: 'Teste desvantagem',
-        custo: '',
-        descricao: '',
-        value: '',
-        tipo: TipoVantagemEnum.desvantagem
-      },
-
-      // Racial
-      {
-        nome: 'Teste racial',
-        custo: '',
-        descricao: '',
-        value: '',
-        tipo: TipoVantagemEnum.racial
-      },
-
-      // Kit
-      {
-        nome: 'Teste kit',
-        custo: '',
-        descricao: '',
-        value: '',
-        tipo: TipoVantagemEnum.kit
-      }
-    ]
-
-    return vantangens_e_desvantagens
+  export function obter (value: string) {
+    return POR_VALOR.get(value)
   }
 
   export function listarVantagensEDesvantagensCombo (tipo: TipoVantagemEnum) {
-    const combo = listarVantagensEDesvantagens().filter(item => item.tipo === tipo).map(item => ({ label: item.nome, value: item.value }))
+    const combo = TODAS.filter(item => item.tipo === tipo && !FORA_DO_SELETOR.has(item.value)).map(item => ({ label: item.nome, value: item.value }))
 
     return combo as IComboBox[]
   }
