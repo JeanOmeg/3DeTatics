@@ -24,6 +24,9 @@ export interface IRaca {
   semMagia?: boolean
   focusMaximo?: number
   magiaExigeClericato?: boolean
+  caminhosProibidos?: TCaminho[]
+  // Vantagens com custo reduzido para esta raça: `value` -> custo em pontos.
+  descontos?: Record<string, number>
   // Vantagens que a raça não pode comprar (pelo `value`).
   vantagensProibidas?: string[]
 }

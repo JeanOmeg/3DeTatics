@@ -1,1 +1,0 @@
-import{c as s,h as c}from"./index-CgCFUCt5.js";const p=s({name:"QSpace",setup(){const t=c("div",{class:"q-space"});return()=>t}});function u(t,e,a){return a<=e?e:Math.min(a,Math.max(e,t))}function f(t,e,a){if(a<=e)return e;const n=a-e+1;let r=e+(t-e)%n;return r<e&&(r=n+r),r===0?0:r}export{p as Q,u as b,f as n};

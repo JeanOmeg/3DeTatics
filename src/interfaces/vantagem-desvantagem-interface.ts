@@ -17,4 +17,6 @@ export interface IVantagemDesvantagem {
   opcoes?: number[]
   // Exige ter estas vantagens (pelo `value`).
   requer?: string[]
+  // Algo que o jogador escolhe e anota na carta (ex.: "tipo" de dano, "terreno").
+  escolha?: string
 }

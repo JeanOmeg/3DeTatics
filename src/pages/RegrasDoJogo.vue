@@ -152,38 +152,100 @@
         :nivel="3"
       />
       <p>Cada jogador deve selecionar o herói com a maior pontuação de Iniciativa, considerando o maior valor de H e quaisquer vantagens que concedam bônus à iniciativa. Em seguida, ambos rolam H + bônus (se houver) + 1D6. O jogador com o maior resultado vence a iniciativa e deve escolher um dos quatro lados do campo como sua zona de deploy. O jogador que perder a iniciativa deve jogar no lado oposto.</p>
-      <p>Após definir os lados, o jogador que venceu a iniciativa deve colocar o primeiro herói em campo, a até 12” da borda correspondente ao seu lado. Os jogadores então se alternam, colocando um herói por vez até que todos estejam posicionados. Quando todos os heróis estiverem em campo, ambos os jogadores devem rolar novamente a iniciativa. O vencedor dessa nova rolagem será o primeiro a jogar.</p>
+      <p>Após definir os lados, o jogador que venceu a iniciativa deve colocar o primeiro herói em campo, a até 12” da borda correspondente ao seu lado. Os jogadores então se alternam, colocando um herói por vez até que todos estejam posicionados. Em caso de empate na iniciativa, rolem de novo. Heróis com a Perícia Crime são posicionados por último, depois de todos os outros. Quando todos os heróis estiverem em campo, começa a primeira rodada (veja Ordem dos turnos).</p>
     </section>
 
-    <!-- 3. Jogando -->
+    <!-- 3. Conceitos básicos -->
     <section class="bloco">
       <TituloSecao
         numero="3"
-        titulo="Jogando"
-        ancora="jogando"
+        titulo="Conceitos básicos"
+        ancora="conceitos"
       />
 
       <TituloSecao
-        titulo="Unidade de tempo"
+        titulo="Testes de Característica"
         :nivel="3"
       />
-      <p>O jogo é dividido em dois tipos de tempo, turno e rodada. Não há um limite de "tempo de jogo": o jogo termina quando todos os heróis do grupo adversário forem derrotados (ou quando alguma condição de modos alternativos for cumprida).</p>
+      <p>Sempre que uma regra pedir um <b>teste</b> de uma Característica (teste de H, teste de R...), role 1D6. Se o resultado for <b>igual ou menor</b> que a Característica, somando bônus e redutores, o herói passou. Um resultado <b>6 é sempre falha</b>, não importa o valor.</p>
+      <p><span class="termo">Exemplo:</span> um herói com H3 faz um teste de H-1 para entrar em terreno Perigoso: precisa tirar 2 ou menos.</p>
+
+      <TituloSecao
+        titulo="Turno e rodada"
+        :nivel="3"
+      />
       <ul>
-        <li><span class="termo">Turno:</span> cada vez que um herói finaliza suas ações de jogo é considerado um turno.</li>
-        <li><span class="termo">Rodada:</span> quando todos os heróis em campo finalizarem seus turnos, é considerado uma rodada.</li>
+        <li><span class="termo">Turno:</span> as ações de um herói quando ele é ativado. "Ativar" um herói é começar o turno dele.</li>
+        <li><span class="termo">Rodada:</span> termina quando todos os heróis em campo jogaram seus turnos.</li>
       </ul>
+      <p>Efeitos que duram "até o próximo turno" contam o turno do herói indicado; efeitos que duram "rodadas" contam rodadas completas.</p>
+
+      <TituloSecao
+        titulo="Tipos de dano"
+        :nivel="3"
+      />
+      <p>Todo ataque tem um tipo de dano. Ele não muda o valor do dano, mas importa contra heróis com Armadura Extra, Vulnerabilidade ou Invulnerabilidade. Os tipos são:</p>
+      <p><b>Corte · Perfuração · Contusão · Explosão · Calor/Fogo · Frio/Gelo · Luz · Eletricidade · Vento/Som · Químico</b></p>
+      <ul>
+        <li><span class="termo">Na carta:</span> escolha o tipo pela arma da miniatura e anote nos campos <b>Dano F</b> e <b>Dano PdF</b> (ex.: "Corte (espada)", "Perfuração (arco)"). O tipo é fixo durante a partida. Magias usam o tipo do Caminho (veja a página de Magias).</li>
+        <li><span class="termo">Mágico:</span> não é um tipo de dano, é uma propriedade que se soma ao tipo (ex.: "Perfuração, mágico"). São mágicos os ataques de magias, Arma Mágica e Ataque Especial, e os ataques com PdF dos kits Mago e Necromante.</li>
+        <li><span class="termo">Armadura Extra:</span> contra aquele dano, a A é dobrada na FD.</li>
+        <li><span class="termo">Vulnerabilidade:</span> contra aquele dano, a A cai à metade (arredonde para baixo) na FD.</li>
+        <li><span class="termo">Invulnerabilidade:</span> aquele dano não causa nada, nem o dano mínimo de 1 ponto.</li>
+      </ul>
+      <p>Se Armadura Extra e Vulnerabilidade valerem contra o mesmo ataque (ex.: Armadura Extra contra magia e Vulnerabilidade a fogo, atingido por uma Bola de Fogo), elas se anulam e o herói usa a A normal.</p>
+
+      <TituloSecao
+        titulo="Condições"
+        :nivel="3"
+      />
+      <div class="tabela-rolagem">
+        <table class="tabela-regras">
+          <thead>
+            <tr>
+              <th>Condição</th>
+              <th>Efeito</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="condicao in condicoes"
+              :key="condicao.nome"
+            >
+              <td><span class="termo">{{ condicao.nome }}</span></td>
+              <td>{{ condicao.efeito }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. Jogando -->
+    <section class="bloco">
+      <TituloSecao
+        numero="4"
+        titulo="Jogando"
+        ancora="jogando"
+      />
+      <p>Não há limite de tempo de jogo: a partida termina quando todos os heróis do grupo adversário forem derrotados (ou quando a condição de vitória do modo de jogo for cumprida).</p>
+
+      <TituloSecao
+        titulo="Ordem dos turnos"
+        :nivel="3"
+      />
+      <p>No início de cada rodada, os jogadores rolam a iniciativa, como no posicionamento (H do seu herói de maior H, mais bônus, + 1D6; empate, rolem de novo). Quem vencer ativa um herói primeiro. Depois os jogadores se <b>alternam, um herói por vez</b>. Se um jogador não tiver mais heróis para ativar, o outro ativa os que restam, um depois do outro. Quando todos tiverem jogado, a rodada termina.</p>
 
       <TituloSecao
         titulo="Ativando o herói"
         :nivel="3"
       />
-      <p>Cada herói pode ser ativado apenas <b>uma vez por rodada</b>, exceto em situações de defesa/esquiva ou testes que o valham. Após o herói ser ativado e ter utilizado suas ações, adicione um marcador ao lado do herói: ele só poderá ser ativado novamente no início da nova rodada.</p>
+      <p>Cada herói pode ser ativado apenas <b>uma vez por rodada</b>. Defesas, esquivas e testes feitos durante o turno de outro herói não contam como ativação. Ao terminar o turno de um herói, coloque um marcador ao lado dele; os marcadores são retirados no início da rodada seguinte.</p>
 
       <TituloSecao
         titulo="Ações do herói"
         :nivel="3"
       />
-      <p>Cada herói pode executar 3 tipos de ações durante sua ativação, seguindo o mesmo princípio do Manual 3D&T Revisado, Ampliado e Turbinado.</p>
+      <p>Cada herói pode executar 3 tipos de ações durante seu turno, seguindo o mesmo princípio do Manual 3D&T Revisado, Ampliado e Turbinado.</p>
       <div class="tabela-rolagem">
         <table class="tabela-regras">
           <thead>
@@ -250,7 +312,7 @@
         :nivel="3"
       />
       <p>Utilizar uma ação segue o mesmo princípio do 3D&T Turbinado: geralmente um ataque, usar uma vantagem ou uma magia e assim por diante. O herói só pode utilizar <b>uma Ação por turno</b>, a não ser que algo diga o contrário.</p>
-      <p><span class="termo">Ataque:</span> o ataque é considerado uma Ação. Para atacar ou defender as regras são as mesmas do 3D&T Turbinado (veja Combate), lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo e, após o ataque, o herói atacante recua 1" da base do herói alvo.</p>
+      <p><span class="termo">Ataque:</span> o ataque é considerado uma Ação. Para atacar ou defender as regras são as mesmas do 3D&T Turbinado (veja Combate), lembrando que todo ataque, mesmo que a FD do alvo seja maior, causa 1 ponto de dano. Para atacar, o herói atacante deve estar encostado na base do herói alvo e, após o ataque, o herói atacante recua 1" da base do herói alvo. O recuo não conta como Mover e ignora custos de terreno; se não houver espaço, ele recua o máximo possível.</p>
       <div class="par-imagens">
         <ImagemExemplo
           alt="Duas miniaturas com as bases encostadas."
@@ -347,7 +409,7 @@
         titulo="Arremesso de arma"
         :nivel="3"
       />
-      <p>Segue o mesmo conceito de ataque à distância. Caso o herói não tenha PdF e queira atacar à distância, ele pode arremessar sua arma (desde que utilize uma) e tenha pelo menos F1, atacando com F em vez de PdF. Após arremessar a arma, adicione um marcador (simbolizando a arma) à frente do herói alvo: até o herói atacante buscar a arma, ele fica com FA-2. O alcance do arremesso é baseado em sua Força.</p>
+      <p>Segue o mesmo conceito de ataque à distância. Caso o herói não tenha PdF e queira atacar à distância, ele pode arremessar sua arma (desde que utilize uma) e tenha pelo menos F1, atacando com F em vez de PdF. Após arremessar a arma, adicione um marcador (simbolizando a arma) à frente do herói alvo: até o herói atacante buscar a arma, ele fica com FA-2. Para buscar a arma, basta encostar a base no marcador durante um Mover ou Correr. O alcance do arremesso é baseado em sua Força.</p>
       <div class="tabela-rolagem">
         <table class="tabela-regras tabela-regras--compacta">
           <thead>
@@ -376,10 +438,10 @@
       </div>
     </section>
 
-    <!-- 4. Combate -->
+    <!-- 5. Combate -->
     <section class="bloco">
       <TituloSecao
-        numero="4"
+        numero="5"
         titulo="Combate"
         ancora="combate"
       />
@@ -420,27 +482,20 @@
         :nivel="3"
       />
       <p>Antes de rolar a FD, o herói atacado pode tentar uma Esquiva: um teste de H com redutor igual à H do atacante. Se passar, o ataque não acerta. Cada herói pode tentar no máximo H esquivas por rodada, e só uma vez contra cada ataque. Um 6 é sempre falha. Aceleração dá +1 e Teleporte dá +2 nas esquivas (não cumulativos).</p>
+      <p><span class="termo">Exemplo:</span> um herói com H4 atacado por um herói com H2 precisa tirar 2 ou menos (4 – 2). Com H igual à do atacante, a esquiva é impossível: esquivar é para quem é mais hábil que o atacante.</p>
+      <p>Heróis Indefesos não podem esquivar (veja Condições).</p>
 
       <TituloSecao
-        titulo="Indefeso"
+        titulo="Derrota"
         :nivel="3"
       />
-      <p>Um herói paralisado, atacado pelas costas sem ter visto o atacante, ou impedido de se defender por qualquer efeito é considerado Indefeso: sua FD é apenas a A, sem H e sem rolar o dado, e ele não pode esquivar.</p>
-
-      <TituloSecao
-        titulo="Perto da Morte e Derrota"
-        :nivel="3"
-      />
-      <ul>
-        <li><span class="termo">Perto da Morte:</span> o herói está Perto da Morte quando seus PV ficam iguais ou menores que sua R (máximo 5 PV). Algumas Vantagens só funcionam nesse estado.</li>
-        <li><span class="termo">Derrota:</span> com 0 PV o herói é derrotado e sua miniatura sai do campo. Não há testes de morte no 3DeTatics.</li>
-      </ul>
+      <p>Com 0 PV o herói é derrotado: tire a miniatura do campo e deixe um marcador no lugar onde ela estava (a magia Erguer Mortos usa esse marcador). Não há testes de morte no 3DeTatics.</p>
 
       <TituloSecao
         titulo="Distâncias das Vantagens"
         :nivel="3"
       />
-      <p>As Vantagens do manual original usam metros. No 3DeTatics todas as distâncias já foram convertidas para polegadas (") e os efeitos que duravam "turnos de combate" agora duram turnos de ativação ou rodadas, como indicado em cada Vantagem.</p>
+      <p>As Vantagens do manual original usam metros. No 3DeTatics todas as distâncias já foram convertidas para polegadas (") e os efeitos que duravam "turnos de combate" agora duram turnos ou rodadas, como indicado em cada Vantagem.</p>
 
       <CaixaDestaque
         tipo="nota"
@@ -454,10 +509,10 @@
       </CaixaDestaque>
     </section>
 
-    <!-- 5. Modos de jogo -->
+    <!-- 6. Modos de jogo -->
     <section class="bloco">
       <TituloSecao
-        numero="5"
+        numero="6"
         titulo="Modos de jogo"
         ancora="modos"
       />
@@ -478,6 +533,13 @@
           </p>
         </ItemRegra>
       </div>
+
+      <CaixaDestaque
+        tipo="nota"
+        titulo="Regra opcional: cenário noturno"
+      >
+        <p>Combine antes da partida se a batalha acontece de dia ou de noite. Sem combinar, é de dia. À noite, a linha de visão tem alcance máximo de 12": nenhum herói enxerga (nem ataca à distância ou lança magias) além disso. Heróis com Infravisão ignoram esse limite.</p>
+      </CaixaDestaque>
     </section>
   </q-page>
 </template>
@@ -494,9 +556,19 @@ import { imagens } from 'src/libs/imagens'
 const indice = [
   { ancora: 'principios', titulo: '1. Princípios gerais' },
   { ancora: 'configuracao', titulo: '2. Configuração' },
-  { ancora: 'jogando', titulo: '3. Jogando' },
-  { ancora: 'combate', titulo: '4. Combate' },
-  { ancora: 'modos', titulo: '5. Modos de jogo' }
+  { ancora: 'conceitos', titulo: '3. Conceitos básicos' },
+  { ancora: 'jogando', titulo: '4. Jogando' },
+  { ancora: 'combate', titulo: '5. Combate' },
+  { ancora: 'modos', titulo: '6. Modos de jogo' }
+]
+
+const condicoes = [
+  { nome: 'Indefeso', efeito: 'A FD é apenas a A: sem H e sem rolar o dado. Não pode esquivar. Um herói fica Indefeso quando está Paralisado, Adormecido ou quando um efeito diz isso (ex.: falhar no teste da magia Terremoto).' },
+  { nome: 'Paralisado', efeito: 'Não pode ser ativado nem esquivar e fica Indefeso. Qualquer dano recebido encerra a paralisia (Vantagem Paralisia).' },
+  { nome: 'Adormecido', efeito: 'Não pode ser ativado e fica Indefeso. Qualquer dano o acorda (magia Sono).' },
+  { nome: 'Em Fúria', efeito: 'Deve se mover em direção a quem o feriu e atacá-lo. Recebe H+1 e FA+1, mas não pode esquivar nem gastar PM (Desvantagem Fúria).' },
+  { nome: 'Invisível', efeito: 'Não pode ser alvo de ataques à distância nem de magias; ataques corpo a corpo contra ele sofrem H–1. Termina se atacar, usar magia ou sofrer dano (Vantagem e magia Invisibilidade).' },
+  { nome: 'Perto da Morte', efeito: 'PV iguais ou menores que a R do herói. Algumas Vantagens só funcionam nesse estado.' }
 ]
 
 const modosDeJogo = [
@@ -527,7 +599,7 @@ const modosDeJogo = [
     etiquetas: [{ rotulo: 'Jogadores', valor: '3 ou 4' }, { rotulo: 'Duração', valor: '8 rodadas' }],
     regras: [
       'Use o campo do tamanho de grupo seguinte (um grupo Novato joga em 3’ x 3’, por exemplo). Cada jogador escolhe um lado ou canto da mesa pela ordem da iniciativa, e o deploy segue a mesma ordem.',
-      'As ativações seguem a ordem da iniciativa: cada jogador ativa um herói por vez, em rodízio, até todos os heróis terem sido ativados.',
+      'Os turnos seguem a ordem da iniciativa: cada jogador ativa um herói por vez, em rodízio, até todos os heróis terem jogado.',
       'Vence o último jogador com heróis em campo. Se a 8ª rodada terminar com mais de um grupo de pé, vence quem derrotou mais PH inimigos.'
     ]
   }
@@ -550,7 +622,6 @@ const alcancePdf = [
 ]
 
 const alcanceArremesso = [
-  { valor: 0, alcance: '2"' },
   { valor: 1, alcance: '3"' },
   { valor: 2, alcance: '6"' },
   { valor: 3, alcance: '9"' },
@@ -571,7 +642,7 @@ const terrenos = [
   },
   {
     nome: 'Bloqueador',
-    descricao: 'Obstáculos sólidos (rochas, muralhas, torres, estátuas, etc.). Bloqueiam visão e movimento, a não ser que o herói possua a perícia Escalar (muro) ou a vantagem Visão de Raio-X.',
+    descricao: 'Obstáculos sólidos (rochas, muralhas, torres, estátuas, etc.). Bloqueiam visão e movimento. Heróis com Levitação passam por cima; Visão de Raios-X permite ver através deles (só a visão, o ataque não atravessa).',
     regras: []
   },
   {
@@ -580,7 +651,7 @@ const terrenos = [
     regras: [
       { rotulo: 'Bônus', texto: 'FD+1 contra ataques à distância caso o defensor esteja dentro do terreno e o atacante fora.' },
       { rotulo: 'Atacar', texto: 'Caso o atacante esteja fora da floresta, ataques à distância não atravessam para atingir alvos fora dela.' },
-      { rotulo: 'Mover', texto: 'Custa 2” para cada 1” (ex.: herói com 6” move apenas 3”). Pode ser ignorado com vantagens como Arena (Floresta), Levitação ou Sobrevivência (Floresta).' }
+      { rotulo: 'Mover', texto: 'Custa 2” para cada 1” (ex.: herói com 6” move apenas 3”). Ignorado com Arena (Floresta), Levitação, kit Batedor ou Perícia Sobrevivência.' }
     ]
   },
   {
@@ -594,7 +665,7 @@ const terrenos = [
     nome: 'Difícil',
     descricao: 'Rios, lama, matas fechadas, escombros, terrenos acidentados e similares.',
     regras: [
-      { rotulo: 'Mover', texto: 'Custa 2” para cada 1”. Ignorado se possuir vantagens como Arena (Lama), Levitação ou Natação (no caso de rios) ou perícias/vantagens equivalentes.' }
+      { rotulo: 'Mover', texto: 'Custa 2” para cada 1”. Ignorado com Arena (Difícil), Levitação ou kit Batedor. Em terreno de água (rios, lagos rasos, pântanos), também com a Perícia Esporte.' }
     ]
   },
   {
@@ -610,7 +681,7 @@ const terrenos = [
     descricao: 'Colinas, muros, telhados e similares.',
     regras: [
       { rotulo: 'Altura >3”', texto: 'Intransponível.' },
-      { rotulo: 'Altura ≤3”', texto: 'Pode ser escalado como parte do movimento; não é permitido terminar o movimento no meio da escalada. Necessário teste de H para escalar, a menos que o herói possua Perícia Escalar ou outra vantagem que dispense o teste.' },
+      { rotulo: 'Altura ≤3”', texto: 'Pode ser escalado como parte do movimento; não é permitido terminar o movimento no meio da escalada. Necessário teste de H para escalar (a Perícia Esporte dispensa o teste). Se falhar, o herói para no pé do terreno e perde o resto do movimento.' },
       { rotulo: 'Altura ≤1”', texto: 'Pode ser ignorado para fins de movimento (não é necessário subir e descer).' },
       { rotulo: 'Cair', texto: 'Se um herói cair ou for empurrado de uma altura ≥2”, sofre 1D6 de dano para cada 1” completa de queda; após a queda, posicione o herói a 2” da base do terreno onde caiu.' }
     ]

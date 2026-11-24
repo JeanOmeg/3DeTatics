@@ -18,7 +18,7 @@ function multiplicador (texto: string): number {
 
 // Dados para a calculadora e as validações, pelo value do kit.
 const REGRAS_DOS_KITS: Record<string, Partial<IKit>> = {
-  guerreiro: { descontos: { arena: 1 } },
+  guerreiro: { vantagensGratis: ['arena'] },
   barbaro: { categoriasProibidas: ['construto', 'morto_vivo'], desvantagensDoKit: ['furia'] },
   cavaleiro: { desvantagensDoKit: ['modelo_especial'] },
   guardiao: { bonus: { A: 1 } },
@@ -29,9 +29,9 @@ const REGRAS_DOS_KITS: Record<string, Partial<IKit>> = {
   bardo: { categoriasProibidas: ['construto'] },
   clerigo: { exigeVantagens: ['clericato'] },
   paladino: { exigeDesvantagens: ['codigo_de_honra'] },
-  mago: { vantagensGratis: ['ataque_especial'], descontos: { ae_area: 2 } },
-  elementalista: { desvantagensDoKit: ['vulnerabilidade'] },
-  druida: { categoriasProibidas: ['construto', 'morto_vivo'] },
+  mago: { racasProibidas: ['goblin'], vantagensGratis: ['ataque_especial'], descontos: { ae_area: 2 } },
+  elementalista: { vantagensGratis: ['armadura_extra_normal'], desvantagensDoKit: ['vulnerabilidade'] },
+  druida: { categoriasProibidas: ['construto', 'morto_vivo'], vantagensGratis: ['arena'] },
   necromante: { desvantagensDoKit: ['ma_fama'] },
   fera: { desvantagensDoKit: ['monstruoso'], pdfMaximo: 1, vantagensProibidas: ['arma_magica', 'genialidade', 'clericato'] }
 }
@@ -45,7 +45,7 @@ export namespace KitsLib {
         nome: 'Guerreiro',
         custo: 0,
         restricoes: 'nenhuma',
-        vantagens: ['Firmeza: se não se moveu neste turno, recebe FA+1 em ataques corpo a corpo', 'Pode comprar Arena por 1 ponto a menos (mínimo 1)'],
+        vantagens: ['Firmeza: se não se moveu neste turno, recebe FA+1 em ataques corpo a corpo', 'Recebe Arena gratuitamente (escolha o terreno)'],
         desvantagens: [],
         pv: 'R x 5',
         pm: 'R x 4',
@@ -55,7 +55,7 @@ export namespace KitsLib {
         nome: 'Bárbaro',
         custo: 1,
         restricoes: 'proibido para Construtos e Mortos-Vivos',
-        vantagens: ['Pode entrar em Fúria voluntariamente no início de sua ativação, sem teste', 'Em Fúria recebe FA+2 em vez de FA+1'],
+        vantagens: ['Pode entrar em Fúria voluntariamente no início do seu turno, sem teste', 'Em Fúria recebe FA+2 em vez de FA+1'],
         desvantagens: ['Fúria'],
         pv: 'R x 7',
         pm: 'R x 3',
@@ -116,7 +116,7 @@ export namespace KitsLib {
         nome: 'Ladino',
         custo: 1,
         restricoes: 'nenhuma',
-        vantagens: ['Ataque Furtivo: FA+2 contra inimigos Indefesos ou que estejam em contato de base com outro aliado seu', 'Pode comprar Invisibilidade por 1 ponto'],
+        vantagens: ['Ataque Furtivo: FA+2 contra inimigos Indefesos ou já atacados corpo a corpo por um aliado nesta rodada', 'Pode comprar Invisibilidade por 1 ponto'],
         desvantagens: [],
         pv: 'R x 4',
         pm: 'R x 3',
@@ -166,7 +166,7 @@ export namespace KitsLib {
       {
         nome: 'Mago',
         custo: 0,
-        restricoes: 'nenhuma',
+        restricoes: 'proibido para Goblins',
         vantagens: ['Recebe Ataque Especial (PdF) gratuitamente', 'Seus ataques com PdF são mágicos', 'Pode comprar AE - Área por 2 pontos'],
         desvantagens: ['FA-1 em ataques corpo a corpo'],
         pv: 'R x 3',
@@ -177,7 +177,7 @@ export namespace KitsLib {
         nome: 'Elementalista',
         custo: 1,
         restricoes: 'nenhuma',
-        vantagens: ['Escolha um elemento (Calor/Fogo, Frio/Gelo, Eletricidade ou Químico): todos os seus ataques causam esse tipo de dano', 'Armadura Extra contra o seu elemento'],
+        vantagens: ['Escolha um elemento (Calor/Fogo, Frio/Gelo, Eletricidade ou Químico): todos os seus ataques causam esse tipo de dano (anote-o nos campos Dano F e Dano PdF da carta)', 'Armadura Extra contra o seu elemento'],
         desvantagens: ['Vulnerabilidade ao elemento oposto (Fogo e Gelo são opostos; Eletricidade e Químico são opostos)'],
         pv: 'R x 4',
         pm: 'R x 5',

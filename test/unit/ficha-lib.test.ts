@@ -66,6 +66,19 @@ describe('calcularHeroi: pontos', () => {
     // Clericato (2 pontos) dá 1 nível grátis
     expect(calcularHeroi(heroiBasico({ ph: 10, vantagens_valores: ['clericato'], focus: { luz: 2 } })).pontos).toBe(5 + 2 + 1)
   })
+
+  it('Perícias custam 2, ou 1 com desconto de raça (Humano: todas; Goblin e Halfling: só Crime)', () => {
+    expect(calcularHeroi(heroiBasico({ ph: 7, vantagens_valores: ['pericia_esporte'] })).pontos).toBe(5 + 2)
+    expect(calcularHeroi(heroiBasico({ ph: 7, raca_valor: 'humano', vantagens_valores: ['pericia_esporte'] })).pontos).toBe(5 + 1)
+    // Halfling: raça 2; H e PdF com bônus +1 → Características custam 3; Crime 1, Esporte 2
+    expect(calcularHeroi(heroiBasico({ ph: 10, raca_valor: 'halfling', vantagens_valores: ['pericia_crime', 'pericia_esporte'] })).pontos).toBe(3 + 2 + 1 + 2)
+  })
+
+  it('kit dá vantagem grátis: Druida (Arena) e Elementalista (só a primeira Armadura Extra)', () => {
+    expect(calcularHeroi(heroiBasico({ ph: 7, kit_valor: 'druida', vantagens_valores: ['arena'] })).pontos).toBe(5 + 1)
+    const elementalista = heroiBasico({ ph: 10, kit_valor: 'elementalista', vantagens_valores: ['armadura_extra_normal'], ajustes: { armadura_extra_normal: 2 } })
+    expect(calcularHeroi(elementalista).pontos).toBe(5 + 1 + 2)
+  })
 })
 
 describe('calcularHeroi: validações', () => {
@@ -109,6 +122,8 @@ describe('calcularHeroi: validações', () => {
     expect(mensagens(erros(heroiBasico({ raca_valor: 'construto', focus: { fogo: 1 } })))).toContain('não pode usar magia')
     expect(mensagens(erros(heroiBasico({ raca_valor: 'goblin', focus: { fogo: 3 } })))).toContain('Focus máximo 2')
     expect(mensagens(erros(heroiBasico({ raca_valor: 'goblin', focus: { fogo: 1 } })))).toContain('só pode usar magia com Clericato')
+    expect(mensagens(erros(heroiBasico({ raca_valor: 'goblin', vantagens_valores: ['clericato'], focus: { luz: 1 } })))).toContain('não pode ter Focus em Luz')
+    expect(mensagens(erros(heroiBasico({ raca_valor: 'goblin', kit_valor: 'mago' })))).toContain('proibido para Goblin')
   })
 
   it('não deixa combinar Aparência Inofensiva com Monstruoso (nem o racial)', () => {
@@ -163,8 +178,18 @@ describe('gerarTextos', () => {
       ajustes: { armadura_extra_normal: 2 },
       desvantagens_valores: ['codigo_de_honra']
     }))
-    expect(textos.vantagem).toBe('Armadura Extra - Normal x2, Resistência à Magia (raça), Deflexão (kit)')
+    expect(textos.vantagem).toBe('Armadura Extra - Normal x2 (tipo: ___), Resistência à Magia (raça), Deflexão (kit)')
     expect(textos.desvantagem).toBe('Código de Honra')
+  })
+
+  it('deixa espaço para as escolhas que o jogador anota na carta', () => {
+    const textos = gerarTextos(heroiBasico({
+      vantagens_valores: ['toque_de_energia', 'ataque_especial'],
+      desvantagens_valores: ['vulnerabilidade'],
+      ajustes: { vulnerabilidade: -2 }
+    }))
+    expect(textos.vantagem).toBe('Toque de Energia (tipo: ___), Ataque Especial (F/PdF: ___)')
+    expect(textos.desvantagem).toBe('Vulnerabilidade (2, tipo: ___)')
   })
 
   it('acrescenta desvantagens da raça que não foram escolhidas', () => {
@@ -207,5 +232,11 @@ describe('validarGrupo', () => {
   it('não permite Boa Fama e Má Fama no mesmo grupo (inclusive racial)', () => {
     const grupo = [comPh(5, { vantagens_valores: ['boa_fama'] }), comPh(5, { raca_valor: 'goblin' })]
     expect(mensagens(validarGrupo(grupo, 'livre'))).toContain('Boa Fama')
+  })
+
+  it('permite Genialidade em apenas um herói do grupo (inclusive a racial do Gnomo)', () => {
+    expect(validarGrupo([comPh(5, { vantagens_valores: ['genialidade'] }), comPh(5)], 'livre')).toEqual([])
+    const grupo = [comPh(5, { vantagens_valores: ['genialidade'] }), comPh(5, { raca_valor: 'gnomo' })]
+    expect(mensagens(validarGrupo(grupo, 'livre'))).toContain('Apenas um herói por grupo pode ter Genialidade')
   })
 })

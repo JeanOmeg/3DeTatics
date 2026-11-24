@@ -7,7 +7,7 @@ import { CAMINHOS, type TCaminho } from 'src/types/caminho-type'
 // O alcance das magias à distância usa a tabela de alcance do PdF,
 // trocando o PdF pelo Focus do Caminho usado.
 // "Sustentável": dura enquanto o conjurador pagar 1PM no início de cada
-// uma de suas ativações (veja as regras de magia).
+// um de seus turnos (veja as regras de magia).
 
 function magia (inicial: boolean, nome: string, value: string, requisito: string, custo: string, alcance: string, duracao: string, descricao: string): IMagia {
   return { nome, value, requisito, custo, alcance, duracao, descricao, inicial }
@@ -39,7 +39,7 @@ const MAGIAS: IMagia[] = [
     'Cria uma barreira de energia (use um marcador) com até 1" de altura. Ela bloqueia movimento e linha de visão como terreno Bloqueador, e pode ser atacada: tem FD = Focus x 2 e se desfaz com qualquer dano maior ou igual a Focus.'),
   magia(true, 'Ilusão', 'ilusao', 'Luz 1', '2PM', 'Alcance de PdF (pelo Focus)', 'Sustentável',
     'Cria uma peça de terreno ilusória de até 3" x 3" que bloqueia linha de visão, mas não o movimento. Qualquer herói que entre em contato com ela pode fazer um teste de R: se passar, a Ilusão se desfaz.'),
-  magia(true, 'Invisibilidade', 'invisibilidade', 'Luz ou Ar 2', '3PM', 'Toque', 'Até o fim da próxima ativação do alvo',
+  magia(true, 'Invisibilidade', 'invisibilidade', 'Luz ou Ar 2', '3PM', 'Toque', 'Até o fim do próximo turno do alvo',
     'O alvo recebe os efeitos da Vantagem Invisibilidade. A magia termina se o alvo atacar, lançar magia ou sofrer dano.'),
   magia(true, 'Transporte', 'transporte', 'Ar ou Água 1', '2PM', 'Alcance de PdF (pelo Focus)', 'Instantânea',
     'O alvo (o conjurador ou um aliado) faz imediatamente um movimento extra de até Focus x 2", ignorando terreno Difícil e Floresta. Esse movimento não conta como a ação Mover do alvo.'),
@@ -54,11 +54,11 @@ const MAGIAS: IMagia[] = [
   magia(false, 'Toque Vampírico', 'toque_vampirico', 'Trevas 2', '3PM', 'Toque', 'Instantânea',
     'Ataque corpo a corpo com FA = H + Focus + 1D6. O conjurador recupera PV igual à metade do dano causado. Não afeta Construtos nem Mortos-Vivos.'),
   magia(false, 'Flecha Ácida', 'flecha_acida', 'Água ou Trevas 2', '3PM', 'Alcance de PdF (pelo Focus)', 'Instantânea',
-    'Ataque com FA = H + Focus + 1D6 (Químico). Se causar dano, o alvo sofre mais 1 ponto de dano no início de cada uma de suas próximas duas ativações.'),
+    'Ataque com FA = H + Focus + 1D6 (Químico). Se causar dano, o alvo sofre mais 1 ponto de dano no início de cada um de seus próximos dois turnos.'),
   magia(false, 'Lentidão', 'lentidao', 'Água ou Terra 2', '2PM', 'Alcance de PdF (pelo Focus)', '2 rodadas',
     'O alvo faz um teste de R. Se falhar, seu movimento cai 3" e ele não pode Correr enquanto durar a magia.'),
   magia(false, 'Raízes', 'raizes', 'Terra ou Água 3', '4PM', 'Alcance de PdF (pelo Focus)', 'Sustentável',
-    'Cria uma área de 2" de raio (use um marcador). Quem estiver na área ao ser lançada, ou entrar nela, faz um teste de H: se falhar, fica preso e não pode Mover nem Correr. No início de cada ativação, um herói preso pode repetir o teste para se soltar.'),
+    'Cria uma área de 2" de raio (use um marcador). Quem estiver na área ao ser lançada, ou entrar nela, faz um teste de H: se falhar, fica preso e não pode Mover nem Correr. No início de cada turno, um herói preso pode repetir o teste para se soltar.'),
   magia(false, 'Terremoto', 'terremoto', 'Terra 4', '6PM', 'Alcance de PdF (pelo Focus)', 'Instantânea, mas a área continua',
     'Todos os heróis a até 3" do ponto escolhido fazem um teste de H: quem falhar perde seu próximo Mover e fica Indefeso até o fim da rodada. A área vira terreno Difícil até o fim da partida.'),
   magia(false, 'Cegueira', 'cegueira', 'Luz ou Trevas 2', '3PM', 'Alcance de PdF (pelo Focus)', '1 rodada',
@@ -66,7 +66,7 @@ const MAGIAS: IMagia[] = [
   magia(false, 'Sono', 'sono', 'Luz, Terra ou Trevas 2', '3PM', 'Alcance de PdF (pelo Focus)', 'Até o fim da próxima rodada',
     'O alvo faz um teste de R. Se falhar, adormece: fica Indefeso e não pode ser ativado. Qualquer dano o acorda. Não afeta Construtos nem Mortos-Vivos.'),
   magia(false, 'Pânico', 'panico', 'Trevas 2', '3PM', 'Alcance de PdF (pelo Focus)', 'Instantânea',
-    'O alvo faz um teste de R. Se falhar, em sua próxima ativação deve usar Correr para se afastar o máximo possível do conjurador. Heróis em Fúria são imunes.'),
+    'O alvo faz um teste de R. Se falhar, em seu próximo turno deve usar Correr para se afastar o máximo possível do conjurador. Heróis em Fúria são imunes. Não afeta Construtos nem Mortos-Vivos.'),
   magia(false, 'Silêncio', 'silencio', 'Ar 2', '3PM', 'Alcance de PdF (pelo Focus)', 'Sustentável',
     'Cria uma área de 3" de raio (use um marcador). Nenhum herói dentro dela pode lançar magias, nem mesmo o conjurador.'),
   magia(false, 'Imagem Turva', 'imagem_turva', 'Luz 2', '2PM', 'Toque', 'Sustentável',
@@ -82,7 +82,7 @@ const MAGIAS: IMagia[] = [
   magia(false, 'Bênção de Batalha', 'bencao_de_batalha', 'Luz 2', '3PM', 'Aliados a até 6" do conjurador', 'Até o fim da rodada',
     'Todos os aliados na área (incluindo o conjurador) recebem H+1 em ataques e Esquivas. Não é cumulativa com outra Bênção de Batalha.'),
   magia(false, 'Esconjuro de Mortos-Vivos', 'esconjuro_de_mortos_vivos', 'Luz 2 e Clericato', '3PM', 'Mortos-Vivos a até 6" do conjurador', 'Instantânea',
-    'Cada Morto-Vivo inimigo na área faz um teste de R. Quem falhar sofre 1D6 de dano e deve usar sua próxima ativação para se afastar do conjurador.'),
+    'Cada Morto-Vivo inimigo na área faz um teste de R. Quem falhar sofre 1D6 de dano e deve usar seu próximo turno para se afastar do conjurador.'),
   magia(false, 'Erguer Mortos', 'erguer_mortos', 'Trevas 3', '5PM', 'Alcance de PdF (pelo Focus)', 'Sustentável',
     'Uma vez por partida, escolha um herói derrotado (de qualquer jogador) dentro do alcance: coloque um marcador no local. Ele volta como um Morto-Vivo sob seu controle com F1, H1, R1, A0, PdF0 e 5 PV, seguindo as regras de Criatura Mágica.'),
   magia(false, 'Invocar Elemental', 'invocar_elemental', 'Qualquer Caminho 4', '6PM', 'Coloca a criatura em contato com a base do conjurador', 'Sustentável',

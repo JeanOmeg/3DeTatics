@@ -120,18 +120,22 @@ function quantidade (ctx: IContexto, item: IVantagemDesvantagem): number {
 
 // Custo de uma vantagem/desvantagem escolhida pelo jogador.
 function custoDoItem (ctx: IContexto, item: IVantagemDesvantagem): number {
-  if (ctx.gratis.has(item.value) || ctx.desvantagensForaDaConta.has(item.value)) {
+  const gratis = ctx.gratis.has(item.value)
+  // Item repetível recebido de graça: só a primeira unidade é gratuita (ex.: Armadura Extra do Elementalista x2).
+  if ((gratis && !item.repetivel) || ctx.desvantagensForaDaConta.has(item.value)) {
     return 0
   }
 
-  const base = ctx.kit?.descontos?.[item.value] ?? item.pontos
+  const descontos = [ctx.kit?.descontos?.[item.value], ctx.raca?.descontos?.[item.value]]
+    .filter((valor): valor is number => typeof valor === 'number')
+  const base = descontos.length ? Math.min(...descontos) : item.pontos
 
   if (item.opcoes) {
     const escolhido = ctx.heroi.ajustes[item.value]
     return typeof escolhido === 'number' && item.opcoes.includes(escolhido) ? escolhido : base
   }
 
-  return base * quantidade(ctx, item)
+  return base * (quantidade(ctx, item) - (gratis ? 1 : 0))
 }
 
 function bonusCaracteristica (ctx: IContexto, key: TCaracteristicaKey): number {
@@ -223,15 +227,21 @@ export function calcularPvPm (heroi: IHeroi): { pv: number | null, pm: number | 
 // -----------------------------------------------------------------------------
 
 function rotuloDoItem (ctx: IContexto, item: IVantagemDesvantagem): string {
+  let rotulo = item.nome
+  const detalhes: string[] = []
+
   if (item.repetivel && quantidade(ctx, item) > 1) {
-    return `${item.nome} x${quantidade(ctx, item)}`
+    rotulo = `${item.nome} x${quantidade(ctx, item)}`
   }
-
   if (item.opcoes && typeof ctx.heroi.ajustes[item.value] === 'number') {
-    return `${item.nome} (${Math.abs(ctx.heroi.ajustes[item.value] ?? 0)})`
+    detalhes.push(String(Math.abs(ctx.heroi.ajustes[item.value] ?? 0)))
+  }
+  // Espaço para o jogador completar na carta o que escolheu.
+  if (item.escolha) {
+    detalhes.push(`${item.escolha}: ___`)
   }
 
-  return item.nome
+  return detalhes.length ? `${rotulo} (${detalhes.join(', ')})` : rotulo
 }
 
 export function gerarTextos (heroi: IHeroi): { vantagem: string, desvantagem: string, magia: string } {
@@ -334,6 +344,9 @@ export function calcularHeroi (heroi: IHeroi): ICalculoHeroi {
     }
     if (ctx.raca?.focusMaximo !== undefined && final > ctx.raca.focusMaximo) {
       erro(`${ctx.raca.nome} tem Focus máximo ${ctx.raca.focusMaximo}.`)
+    }
+    if (final > 0 && ctx.raca?.caminhosProibidos?.includes(caminho.key)) {
+      erro(`${ctx.raca.nome} não pode ter Focus em ${caminho.label}.`)
     }
   }
   if (temVantagem(ctx, 'clericato') && pontosFocus > 0) {
@@ -601,6 +614,12 @@ export function validarGrupo (herois: IHeroi[], tamanho: TTamanhoGrupo): IProble
   const contextos = herois.map(montarContexto)
   if (contextos.some(ctx => temVantagem(ctx, 'boa_fama')) && contextos.some(ctx => temDesvantagem(ctx, 'ma_fama'))) {
     problemas.push({ nivel: 'erro', mensagem: 'Um herói tem Boa Fama e outro tem Má Fama no mesmo grupo.' })
+  }
+
+  // Genialidade: apenas um herói por grupo
+  const comGenialidade = contextos.filter(ctx => temVantagem(ctx, 'genialidade')).length
+  if (comGenialidade > 1) {
+    problemas.push({ nivel: 'erro', mensagem: `Apenas um herói por grupo pode ter Genialidade (${comGenialidade} têm).` })
   }
 
   return problemas

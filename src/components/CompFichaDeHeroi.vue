@@ -249,7 +249,29 @@
             :options="lista_magias"
             :option-disable="opcaoMagiaDesabilitada"
             @update:model-value="atualizarComboMagias"
-          />
+          >
+            <template #option="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.label }}</q-item-label>
+                  <q-item-label caption>
+                    Requer {{ requisitoMagia(scope.opt.value) }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+
+          <div
+            v-if="calculo.focusTotal > 0 && nenhumaMagiaDisponivel"
+            class="seletor__dica"
+          >
+            <q-icon
+              name="info"
+              size="16px"
+            />
+            Toda Magia Avançada exige Focus 2 ou mais em um Caminho específico. Aumente o Focus no Caminho da magia desejada para liberá-la.
+          </div>
 
           <q-toggle
             v-model="heroi.pv_pm_manual"
@@ -617,6 +639,12 @@ function alternarSeletor (ativo: boolean) {
   seletor_desvantagem.value = buscarOpcoes(lista_desvantagem, heroi.value.desvantagens_valores)
   seletor_magias.value = buscarOpcoes(lista_magias, heroi.value.magias_valores)
 }
+
+function requisitoMagia (value: string | number) {
+  return MagiasLib.obter(String(value))?.requisito ?? ''
+}
+
+const nenhumaMagiaDisponivel = computed(() => lista_magias.every(opcao => !magiaDisponivel(heroi.value, String(opcao.value))))
 
 function opcaoMagiaDesabilitada (opcao: IComboBox) {
   const valor = String(opcao.value)

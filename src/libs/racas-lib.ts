@@ -8,11 +8,13 @@ import { IRaca } from 'src/interfaces/raca-interface'
 // Os campos estruturados (bonus, vantagensGratis, desvantagensRaciais...)
 // alimentam a calculadora de pontos; os textos são o que aparece nas páginas.
 
+const DESCONTO_PERICIAS = { pericia_crime: 1, pericia_esporte: 1, pericia_sobrevivencia: 1 }
+
 const RACAS: IRaca[] = [
   {
     nome: 'Anão',
     custo: 2,
-    vantagens: ['Infravisão', 'Resistência à Magia', 'R+1 em testes', 'H+1 contra orcs, goblinoides e trolls'],
+    vantagens: ['Infravisão', 'Resistência à Magia', 'R+1 em testes', 'H+1 contra Goblins, Meio-Orcs e Ogres'],
     desvantagens: ['-2" de movimento'],
     value: RacaEnum.anao,
     categoria: 'vivo',
@@ -21,7 +23,7 @@ const RACAS: IRaca[] = [
   {
     nome: 'Anfíbio',
     custo: 0,
-    vantagens: ['Move-se por terreno de água normalmente', 'Radar (apenas dentro de terreno com água)'],
+    vantagens: ['Move-se por terreno de água normalmente', '+2" de movimento dentro de terreno com água'],
     desvantagens: ['Ambiente Especial (água)', 'Vulnerabilidade (calor/fogo)'],
     value: RacaEnum.anfibio,
     categoria: 'vivo',
@@ -30,7 +32,7 @@ const RACAS: IRaca[] = [
   {
     nome: 'Centauro',
     custo: 2,
-    vantagens: ['F+1 em testes de empurrar e carregar', '+2" de movimento', 'Pode trocar seu ataque por 2 ataques com os cascos (FA = F+1d, sem H, sem bônus de Vantagens)'],
+    vantagens: ['+2" de movimento', 'Pode trocar seu ataque por 2 ataques com os cascos (FA = F+1d, sem H, sem bônus de Vantagens)'],
     desvantagens: ['Modelo Especial'],
     value: RacaEnum.centauro,
     categoria: 'vivo',
@@ -39,8 +41,8 @@ const RACAS: IRaca[] = [
   {
     nome: 'Construto',
     custo: 0,
-    vantagens: ['Imune a venenos, doenças, magias mentais (com Telepatia) e qualquer efeito que funcione apenas em seres vivos'],
-    desvantagens: ['Não recupera PV por cura, magia ou itens', 'Não pode usar magia'],
+    vantagens: ['Imune às magias Sono e Pânico e a efeitos que só funcionam em seres vivos (cura, Toque Vampírico...)'],
+    desvantagens: ['Não recupera PV por cura ou magia', 'Não pode usar magia'],
     value: RacaEnum.construto,
     categoria: 'construto',
     semMagia: true
@@ -58,7 +60,7 @@ const RACAS: IRaca[] = [
     nome: 'Elfo Negro',
     custo: 3,
     vantagens: ['H+1 (máx. 5)', 'Infravisão', 'Resistência à Magia', 'Focus+1 em Luz e Trevas'],
-    desvantagens: ['R-1 em testes', '-1 em todas as Características em cenários diurnos', 'Vulnerabilidade (luz)'],
+    desvantagens: ['R-1 em testes', 'De dia (o padrão), sofre H-1', 'Vulnerabilidade (luz)'],
     value: RacaEnum.elfo_negro,
     categoria: 'vivo',
     bonus: { H: 1 },
@@ -69,8 +71,8 @@ const RACAS: IRaca[] = [
   {
     nome: 'Esqueleto',
     custo: -2,
-    vantagens: ['Armadura Extra (corte/perfuração)', 'Invulnerabilidade (frio/gelo)', 'Imune a venenos, doenças, magias mentais (com Telepatia) e qualquer efeito que funcione apenas em seres vivos'],
-    desvantagens: ['Não recupera PV', 'Não pode ser ressuscitado', 'Não pode usar magia ou gastar PM', 'Monstruoso'],
+    vantagens: ['Armadura Extra (corte e perfuração)', 'Invulnerabilidade (frio/gelo)', 'Imune às magias Sono e Pânico e a efeitos que só funcionam em seres vivos (cura, Toque Vampírico...)'],
+    desvantagens: ['Não recupera PV', 'Não pode usar magia ou gastar PM', 'Monstruoso'],
     value: RacaEnum.esqueleto,
     categoria: 'morto_vivo',
     semMagia: true,
@@ -79,7 +81,7 @@ const RACAS: IRaca[] = [
   {
     nome: 'Gnomo',
     custo: 2,
-    vantagens: ['H+1 (máx. 5)', 'Genialidade', 'Focus+1 em Luz', 'Magias de ilusão e Invisibilidade custam 1PM a menos'],
+    vantagens: ['H+1 (máx. 5)', 'Genialidade', 'Focus+1 em Luz', 'As magias Ilusão, Imagem Turva e Invisibilidade custam 1PM a menos'],
     desvantagens: ['Modelo Especial'],
     value: RacaEnum.gnomo,
     categoria: 'vivo',
@@ -91,49 +93,54 @@ const RACAS: IRaca[] = [
   {
     nome: 'Goblin',
     custo: -2,
-    vantagens: ['Pode comprar Crime por 1 ponto', 'Infravisão'],
-    desvantagens: ['Má Fama', 'Não pode ser mago', 'Focus máximo 2 com Clericato', 'Não pode ter Focus em Luz'],
+    vantagens: ['Pode comprar a Perícia Crime por 1 ponto', 'Infravisão'],
+    desvantagens: ['Má Fama', 'Não pode ter o kit Mago', 'Só usa magia com Clericato, com Focus máximo 2 e nunca em Luz'],
     value: RacaEnum.goblin,
     categoria: 'vivo',
     desvantagensRaciais: ['ma_fama'],
     focusMaximo: 2,
-    magiaExigeClericato: true
+    magiaExigeClericato: true,
+    caminhosProibidos: ['luz'],
+    descontos: { pericia_crime: 1 }
   },
   {
     nome: 'Halfling',
     custo: 2,
-    vantagens: ['H+1 (máx. 5)', 'PdF+1 (máx. 5)', 'Resistência à Magia', 'Pode comprar Crime por 1 ponto'],
+    vantagens: ['H+1 (máx. 5)', 'PdF+1 (máx. 5)', 'Resistência à Magia', 'Pode comprar a Perícia Crime por 1 ponto'],
     desvantagens: ['Modelo Especial'],
     value: RacaEnum.halfling,
     categoria: 'vivo',
     bonus: { H: 1, PdF: 1 },
     vantagensGratis: ['resistencia_a_magia'],
+    descontos: { pericia_crime: 1 },
     desvantagensRaciais: ['modelo_especial']
   },
   {
     nome: 'Humano',
     custo: 0,
-    vantagens: ['Pode comprar qualquer Perícia por 1 ponto'],
+    vantagens: ['Pode comprar Perícias por 1 ponto cada'],
     desvantagens: [],
     value: RacaEnum.humano,
-    categoria: 'vivo'
+    categoria: 'vivo',
+    descontos: DESCONTO_PERICIAS
   },
   {
     nome: 'Licantropo',
     custo: 0,
-    vantagens: ['F+1 transformado', 'A+1 transformado'],
-    desvantagens: ['Fúria (ao entrar em Fúria se transforma)', 'Monstruoso (transformado)', 'Vulnerabilidade (magia, armas mágicas e prata)'],
+    vantagens: ['Ao entrar em Fúria se transforma: F+1 e A+1 até a Fúria acabar'],
+    desvantagens: ['Fúria', 'Monstruoso enquanto transformado', 'Vulnerabilidade (magia e armas mágicas)'],
     value: RacaEnum.licantropo,
     categoria: 'vivo',
-    desvantagensRaciais: ['furia', 'monstruoso', 'vulnerabilidade']
+    desvantagensRaciais: ['furia', 'vulnerabilidade']
   },
   {
     nome: 'Meio-Elfo',
     custo: 1,
-    vantagens: ['Pode comprar qualquer Perícia por 1 ponto', 'Infravisão'],
+    vantagens: ['Pode comprar Perícias por 1 ponto cada', 'Infravisão'],
     desvantagens: [],
     value: RacaEnum.meio_elfo,
-    categoria: 'vivo'
+    categoria: 'vivo',
+    descontos: DESCONTO_PERICIAS
   },
   {
     nome: 'Meio-Orc',

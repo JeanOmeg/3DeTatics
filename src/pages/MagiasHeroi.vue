@@ -49,12 +49,24 @@
       <ul class="lista-regras">
         <li><span class="termo">Ação:</span> lançar uma magia usa a Ação do turno. O herói pode Mover antes ou depois de lançar.</li>
         <li><span class="termo">Requisito:</span> o herói precisa ter, no Caminho indicado, um Focus igual ou maior que o requisito da magia. Quando a magia lista vários Caminhos separados por "ou", basta um deles.</li>
-        <li><span class="termo">Magias conhecidas:</span> todo herói com pelo menos 1 ponto de Focus conhece todas as Magias Iniciais. Além delas, ele conhece um número de Magias Avançadas igual à soma dos seus Focus, escolhidas na criação e anotadas na ficha.</li>
+        <li><span class="termo">Magias conhecidas:</span> todo herói com pelo menos 1 ponto de Focus conhece todas as Magias Iniciais. Além delas, ele conhece Magias Avançadas, escolhidas na criação e anotadas na ficha.</li>
         <li><span class="termo">Custo:</span> os PM são gastos quando a magia é lançada, mesmo que o alvo resista.</li>
         <li><span class="termo">Alvo:</span> salvo quando indicado, o alvo precisa estar em linha de visão. "Toque" significa contato de base, e o conjurador pode ser o próprio alvo.</li>
-        <li><span class="termo">Testes de resistência:</span> role 1D6. Se o resultado for igual ou menor que a Característica pedida (normalmente R), o alvo resiste. Um 6 é sempre falha. Resistência à Magia dá +3 nesses testes.</li>
-        <li><span class="termo">Sustentável:</span> a magia continua ativa enquanto o conjurador pagar 1PM no início de cada uma de suas ativações. Cada herói só mantém uma magia sustentável por vez (duas com Arcano). Se o conjurador for derrotado ou deixar de pagar, a magia termina.</li>
+        <li><span class="termo">Testes de resistência:</span> é um teste de Característica (normalmente R; veja Conceitos básicos nas Regras): se passar, o alvo resiste. Resistência à Magia dá +3 nesses testes.</li>
+        <li><span class="termo">Sustentável:</span> a magia continua ativa enquanto o conjurador pagar 1PM no início de cada um de seus turnos. Cada herói só mantém uma magia sustentável por vez (duas com Arcano). Se o conjurador for derrotado ou deixar de pagar, a magia termina.</li>
       </ul>
+
+      <CaixaDestaque
+        tipo="importante"
+        titulo="Quantas e quais Magias Avançadas"
+      >
+        <p>São duas contas diferentes:</p>
+        <ul>
+          <li><b>Quantas:</b> a soma de todos os seus Focus diz quantas Magias Avançadas o herói pode escolher.</li>
+          <li><b>Quais:</b> o Focus em cada Caminho diz quais magias ele pode escolher. Toda Magia Avançada exige <b>Focus 2 ou mais</b> num Caminho específico (Bola de Fogo, por exemplo, pede Fogo 3).</li>
+        </ul>
+        <p><span class="termo">Exemplo:</span> um herói só com Arcano x1 tem Focus 1 nos seis Caminhos. Ele conhece todas as Magias Iniciais e pode escolher até 6 Avançadas, mas ainda não cumpre o requisito de nenhuma. Comprando Trevas 2 (+1 ponto), ele passa a poder escolher Toque Vampírico, Flecha Ácida, Cegueira, Sono e Pânico.</p>
+      </CaixaDestaque>
 
       <TituloSecao
         titulo="Alcance de PdF (pelo Focus)"
@@ -192,6 +204,7 @@ import TituloSecao from 'components/TituloSecao.vue'
 import IndiceSecoes from 'components/IndiceSecoes.vue'
 import ItemRegra from 'components/ItemRegra.vue'
 import EstadoVazio from 'components/EstadoVazio.vue'
+import CaixaDestaque from 'components/CaixaDestaque.vue'
 import { MagiasLib } from 'src/libs/magias-lib'
 import { correspondeBusca, normalizarTexto } from 'src/libs/busca-lib'
 
